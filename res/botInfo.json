@@ -1,0 +1,20 @@
+{
+  "botInfo": [
+    {
+      "name": "About",
+      "value": "DevsApp is currenlty in beta testing so it is very limited on available commands. However, we are updating, upgrading and fixing as often as possible. We hope you understand that all our developers are giving up their own time, volunteering and providing their expertise for free!"
+    },
+    {
+      "name": "Version",
+      "value": "v1.0.0"
+    },
+    {
+      "name": "Author",
+      "value": "The Founder of Devs and the Devs Server Owner"
+    },
+    {
+      "name": "Support Server",
+      "value": "[Official DevsApp Server](https://discord.gg/aymBcRP)"
+    }
+  ]
+}

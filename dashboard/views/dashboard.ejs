@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/style.css">
+
+<h1><%= name %>'s Dashboard!</h1>
+
+<h3><%= msg %></h3>
+
+<form action="/savesettings" method="POST">
+    <label for="prefix">Prefix</label>
+    <input type="text" name="prefix" value="<%= dbguild.prefix %>" />
+
+    <label for="regenerateDashId">Regenerate Dashboard ID</label>
+    <input type="checkbox" name="regenerateDashId" />
+
+    <button onclick="topFunction()" id="myBtn" title="Save the settings" type="submit">Save</button>
+</form>
