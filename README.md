@@ -1,3 +1,30 @@
+<div align="center">
+  <br />
+  <p>
+    <a href=""><img src="project img" width="546" alt="DevsApp Logo" /></a>
+  </p>
+  <br />
+  <p>
+    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/GUILD_ID/embed.png" alt="Discord server" /></a>
+  </p>
+</div>
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/313bb7e106b84a9aad93d464808903fb)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LordFarquhar/DevsApp&amp;utm_campaign=Badge_Grade)
+
+## Table of contents
+
+- [About](#about)
+- [Installation](#installation)
+- [Example Usage](#example-usage)
+- [Links](#links)
+  - [Extensions](#extensions)
+- [Contributing](#contributing)
+- [Help](#help)
+
+## Links
+
+- [GitHub](https://github.com/)
+
 # DevsApp
 
 A nice project with a nice description
