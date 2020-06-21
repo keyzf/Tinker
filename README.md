@@ -1,7 +1,7 @@
 <div style="display: flex;justify-content: center;">
   <br />
   <p>
-    <a href=""><img src="res/img/DevsApp.png" width="546" alt="DevsApp Logo" /></a>
+    <a href=""><img src="res/devsbot.png" width="250" height="250" alt="DevsApp Logo" /></a>
   </p>
   <br />
   <p>
