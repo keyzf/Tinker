@@ -1,8 +1,8 @@
 const saveEval = require("notevil");
 
 module.exports.run = async (bot, message, args) => {
-    
-    safeEval(args.join(" "))
+    const data = safeEval(args.join(" "))
+    return message.channel.send(`${message.author} your code finised:\n\`${data}\``);
 
 };
 
