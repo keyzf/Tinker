@@ -1,7 +1,7 @@
 <div style="display: flex;justify-content: center;">
   <br />
   <p>
-    <a href=""><img src="/res/devsbot.png" width="250" height="250" alt="DevsApp Logo" /></a>
+    ![D](https://github.com/LordFarquhar/DevsApp/blob/master/res/devsbot500x500.png?raw=true)
   </p>
   <br />
   <p>
