@@ -1,7 +1,7 @@
 <div style="display: flex;justify-content: center;">
   <br />
   <p>
-    ![D](https://github.com/LordFarquhar/DevsApp/blob/master/res/devsbot500x500.png?raw=true)
+    <img src="https://github.com/LordFarquhar/DevsApp/blob/master/res/devsbot500x500.png?raw=true" />
   </p>
   <br />
   <p>
