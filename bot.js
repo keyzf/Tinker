@@ -33,7 +33,7 @@ async function start() {
     // await require("./dashboard/server").start();
 
 
-    logger.log("info", "logging in bot for token ${bot}")
+    logger.log("info", `logging in bot for token ${bot}`)
     await bot.login(process.env.BOT_TOKEN_PRE);
 
     // setup error case logging for client
