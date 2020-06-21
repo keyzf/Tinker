@@ -2,6 +2,7 @@ const { bot } = require('../index');
 // const logger = require("../lib/logger");
 const stringSimilarity = require("string-similarity");
 
+
 bot.on("messageSpamCheck", async (message, dbGuild) => {
 
     // checks this isn't similar to a recently sent message (returns after warn message)
@@ -11,13 +12,17 @@ bot.on("messageSpamCheck", async (message, dbGuild) => {
         if (stringSimilarity.compareTwoStrings(message.content, elt.content) > 0.8) {
             stop = true
             message.reply("Hey this is kinda similar to a recent message. Please avoid repeating yourself often or spamming")
-                .then((m) => m.delete( {timeout: 5000 }));
+                .then((m) => m.delete({ timeout: 5000 }));
             message.delete({ timeout: 0 });
             return;
         }
     });
     if (stop) return
 
-    bot.recentMessages.push({ content: message.content, authorId: message.author.id });
-    setTimeout(() => bot.recentMessages = bot.recentMessages.filter((elt) => elt.authorId == message.author.id && elt.content == message.content), 10000);
+    var id = Date.now()
+    bot.recentMessages.push({ id: id, content: message.content, authorId: message.author.id });
+    setTimeout(() => {
+        removeIndex = apps.map(function (item) { return item.id; }).indexOf(id);
+        bot.recentMessages.splice(removeIndex, 1)
+    }, 5000);
 });
