@@ -16,7 +16,7 @@
 - [About](#about)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Configuring](#configure app)
+- [Configuring](#configure-app)
 - [Contributing](#contributing)
 - [Help](#help)
 
