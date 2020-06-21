@@ -114,7 +114,7 @@ Then open `./config/config.json` then edit it with your settings. You will need:
 
     $ npm start
  
-# Contributing
+## Contributing
 
 At the moment we are not allowing contributions to this project however, we are hoping to change that soon
 
