@@ -44,7 +44,7 @@ async function start() {
 
 
     logger.log("info", `logging in bot for token ${bot}`)
-    await bot.login(process.env.BOT_TOKEN_PRE);
+    await bot.login(process.env.BOT_TOKEN);
 
     // setup error case logging for client
     logger.log("info", "setting up error cases for the bot")
