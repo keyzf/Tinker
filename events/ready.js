@@ -1,4 +1,4 @@
-const { bot } = require('../index');
+const { bot } = require('../bot');
 const config = require("../config/config.json");
 // const main = require('../lib/db').main;
 const logger = require("../lib/logger")

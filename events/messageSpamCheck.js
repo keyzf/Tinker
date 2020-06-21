@@ -1,5 +1,5 @@
-const { bot } = require('../index');
-const logger = require("../lib/logger");
+const { bot } = require('../bot');
+// const logger = require("../lib/logger");
 const stringSimilarity = require("string-similarity");
 
 bot.on("messageSpamCheck", async (message, dbGuild) => {

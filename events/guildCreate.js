@@ -1,4 +1,4 @@
-const { bot } = require('../index');
+const { bot } = require('../bot');
 const { Guild } = require('../lib/db.js');
 const { create_UUID } = require("../lib/utilFunctions.js");
 const logger = require("../lib/logger");
