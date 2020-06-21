@@ -22,7 +22,7 @@ bot.on("messageSpamCheck", async (message, dbGuild) => {
     var id = Date.now()
     bot.recentMessages.push({ id: id, content: message.content, authorId: message.author.id });
     setTimeout(() => {
-        removeIndex = apps.map(function (item) { return item.id; }).indexOf(id);
+        removeIndex = bot.recentMessages.map(function (item) { return item.id; }).indexOf(id);
         bot.recentMessages.splice(removeIndex, 1)
     }, 5000);
 });
