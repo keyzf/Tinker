@@ -1,11 +1,11 @@
-<div align="center">
+<div style="display: flex;justify-content: center;">
   <br />
   <p>
     <a href=""><img src="res/img/DevsApp.png" width="546" alt="DevsApp Logo" /></a>
   </p>
   <br />
   <p>
-    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/711189052371501107/embed.png" alt="Discord server" /></a>
+    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3" alt="Discord server" /></a>
   </p>
 </div>
 
@@ -14,10 +14,9 @@
 ## Table of contents
 
 - [About](#about)
+- [Requirements](#requirements)
 - [Installation](#installation)
-- [Example Usage](#example-usage)
-- [Links](#links)
-  - [Extensions](#extensions)
+- [Configuring](#configure app)
 - [Contributing](#contributing)
 - [Help](#help)
 
@@ -26,6 +25,8 @@
 - [GitHub](https://github.com/LordFarquhar/DevsApp/)
 
 # DevsApp
+
+## About
 
 A nice project with a nice description
 
@@ -87,7 +88,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? Just run t
       $ sudo npm install -g pm2
       $ pm2 update
 
-## Install
+## Installation
 
     $ git clone https://github.com/LordFarquhar/DevsApp
     $ cd DevsApp
@@ -112,4 +113,11 @@ Then open `./config/config.json` then edit it with your settings. You will need:
 ## Running the project during production (for this you will need pm2)
 
     $ npm start
+ 
+# Contributing
 
+At the moment we are not allowing contributions to this project however, we are hoping to change that soon
+
+## Help
+
+If your stuck feel free to contact us in our (Official Support server)[https://discord.com/aymBcRP]
