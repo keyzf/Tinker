@@ -1,4 +1,4 @@
-const { bot } = require('../bot');
+const { bot } = require('../index');
 // const logger = require("../lib/logger");
 const stringSimilarity = require("string-similarity");
 
