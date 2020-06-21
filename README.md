@@ -1,11 +1,11 @@
 <div align="center">
   <br />
   <p>
-    <a href=""><img src="project img" width="546" alt="DevsApp Logo" /></a>
+    <a href=""><img src="res/img/DevsApp.png" width="546" alt="DevsApp Logo" /></a>
   </p>
   <br />
   <p>
-    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/GUILD_ID/embed.png" alt="Discord server" /></a>
+    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/711189052371501107/embed.png" alt="Discord server" /></a>
   </p>
 </div>
 
@@ -23,7 +23,7 @@
 
 ## Links
 
-- [GitHub](https://github.com/)
+- [GitHub](https://github.com/LordFarquhar/DevsApp/)
 
 # DevsApp
 
@@ -33,6 +33,7 @@ A nice project with a nice description
 ## Requirements
 
 For development, you will only need Node.js installed in your environement.
+For production you will also need pm2 installed globally
 
 ### Node
 - #### Node installation on Windows
@@ -53,15 +54,38 @@ Also, be sure to have `git` available in your PATH, `npm` might need it (You can
 If the installation was successful, you should be able to run the following command.
 
     $ node --version
-    v13
-
+    v12.18
+    
     $ npm --version
-    6.1.0
+    6.14.5
+    (but its probably better to have the latest version)
 
-If you need to update `npm`, you can make it using `npm`! Cool right? After running the following command, just open again the command line and be happy.
+If you need to update `npm`, you can make it using `npm`! Cool right? Just run the following command
 
     $ npm install npm -g
 
+### pm2
+- #### pm2 installation on windows with npm installed
+
+  You can install pm2 easily with npm install, just run the following commands:
+
+      npm install -g pm2
+      
+  To update pm2 do:
+  
+      npm install -g pm2
+      pm2 update
+
+- #### pm2 installation on linux with npm installed
+
+  You can install pm2 easily with npm install, just run the following commands:
+    
+      $ sudo npm install -g pm2
+      
+  To update pm2 do:
+  
+      $ sudo npm install -g pm2
+      $ pm2 update
 
 ## Install
 
@@ -71,11 +95,15 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Configure app
 
-Open `./config/config.json` then edit it with your settings. You will need:
+Create a file in the root directy (in the same folder as index.js) named .env
+ - add `BOT_TOKEN=your_token_here`
+ - add `MONGO_RUL=your_mongodb_access_url_here`
+ - optionally add `PORT=dashboard_server_port`
 
-- A setting;
-- Another setting;
-- One more setting;
+Then open `./config/config.json` then edit it with your settings. You will need:
+
+- your userId
+- optionally the bug reports and feature requests channel of your Bot server
 
 ## Running the project during developmnet
 
