@@ -8,8 +8,7 @@ module.exports.run = async (bot, message, args) => {
         .setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL())
         .setTitle("Pong!")
         .setDescription(`Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ws.ping)}ms`)
-    m.delete({timeout: 1})
-    message.channel.send(embed);
+    m.edit(embed);
 }
 
 module.exports.help = {

@@ -14,10 +14,10 @@ bot.on("message", async message => {
     if (message.channel.type === "dm") return message.channel.send("Yo dude. I'm hanging out in the server");
 
     // find the guild from the database using its id (obtained from the sent message)
-    const docs = await Guild.find({ id: message.guild.id });
+    const doc = await Guild.findOne({ id: message.guild.id });
 
-    if (!docs.length) return message.reply(setResponses.noDbGuildFound(""));
-    dbGuild = docs[0]
+    if (!doc) return message.reply(setResponses.noDbGuildFound(""));
+    dbGuild = doc
     
     // profanity check
     if (dbGuild.preferences.profanityFilter && swears.some(v => message.content.toLowerCase().replace(/\s/g,'').includes(v))) {
