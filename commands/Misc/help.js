@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args, dbGuild) => {
         e.setDescription(command.help.description || "No description set")
         e.addFields(
                 { name: "Aliases", value: `${command.help.aliases.join(", ") || "No aliases set"}`, inline: true },
-                { name: "Usage", value: `${(command.help.usage) ? dbGuild.prefix + command.help.usage : "No usage advice"}`, inline: true },
+                { name: "Usage", value: `${(command.help.usage) ? dbGuild.prefix + command.help.name + " " + command.help.usage : "No usage advice"}`, inline: true },
                 { name: "Cooldown", value: `${command.help.cooldown || 0}s`, inline: true }
             )
         return message.channel.send(e)
