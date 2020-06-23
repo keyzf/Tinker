@@ -2,10 +2,17 @@ const safeEval = require("notevil");
 
 module.exports.run = async (bot, message, args) => {
     try {
-        const data = safeEval(args.join(" "));
-        return message.channel.send(`${message.author} your code finised:\n\`${data}\``);
+        var output = [];
+        const data = await safeEval(args.join(" "), 
+        {
+            console: {
+                log: function(input){output.push(input)}
+            }
+        });
+        message.channel.send(`logs ${output.join(", ")}`)
+        return message.channel.send(`${message.author} your code finished:\n\`${data}\``);
     } catch (err) {
-        return message.channel.send(`${message.author} your code finised with error:\n\`${err}\``);
+        return message.channel.send(`${message.author} your code finished with error:\n\`${err}\``);
     }
 
 };
