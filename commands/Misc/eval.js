@@ -1,18 +1,21 @@
 const safeEval = require("notevil");
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, dbGuild) => {
+    var code = message.content.slice(dbGuild.prefix.length + this.help.name.length).trim().replace(/```/g, "").replace("js", "")
     try {
         var output = [];
-        const data = await safeEval(args.join(" "), 
+        const data = await safeEval(code, 
         {
             console: {
                 log: function(input){output.push(input)}
-            }
+            },
+            JSON: JSON,
+            Array: Array,
+            Object: Object
         });
-        message.channel.send(`logs ${output.join(", ")}`)
-        return message.channel.send(`${message.author} your code finished:\n\`${data}\``);
+        return message.channel.send(`${message.author} your code finished:\nend return data: \`${data}\`\nOutput logs \`${output.join(", ") || "None"}\``);
     } catch (err) {
-        return message.channel.send(`${message.author} your code finished with error:\n\`${err}\``);
+        return message.channel.send(`${message.author} your code finished with error:\n\`${err}\`\nOutput logs \`${output.join(", ") || "None"}\``);
     }
 
 };
