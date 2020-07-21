@@ -11,5 +11,6 @@ module.exports.help = {
     aliases: [],
     description: "Sends information about the error",
     usage: "[error code]",
-    cooldown: 5
+    cooldown: 5,
+    generated: true
 };

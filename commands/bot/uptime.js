@@ -15,5 +15,6 @@ module.exports.help = {
     name: "uptime",
     aliases: ["awake"],
     description: "Returns the amount of time the bot has been active for",
-    cooldown: 10
+    cooldown: 10,
+    generated: true
 }

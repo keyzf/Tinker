@@ -1,7 +1,7 @@
 const safeEval = require("notevil");
 
-module.exports.run = async (bot, message, args, dbGuild) => {
-    var code = message.content.slice(dbGuild.prefix.length + this.help.name.length).trim().replace(/```/g, "").replace("js", "")
+module.exports.run = async (bot, message, args, dbGuild, cmd) => {
+    var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim().replace(/```/g, "").replace("js", "");
     try {
         var output = [];
         const data = await safeEval(code, 
@@ -21,8 +21,8 @@ module.exports.run = async (bot, message, args, dbGuild) => {
 };
 
 module.exports.help = {
-    name: 'eval',
-    aliases: ["evaluate"],
+    name: 'safeeval',
+    aliases: ["safeevaluate", "seval"],
     description: "Evaluate using javascript",
     usage: "[js code]",
     cooldown: 5

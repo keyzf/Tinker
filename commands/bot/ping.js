@@ -16,5 +16,6 @@ module.exports.help = {
     aliases: ["pong"],
     description: "Returns the latency of the bot and the api",
     usage: "",
-    cooldown: 5
+    cooldown: 5,
+    generated: true
 }

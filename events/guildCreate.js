@@ -1,26 +1,12 @@
 const { bot } = require('../index');
-const { Guild } = require('../lib/db.js');
-const { create_UUID } = require("../lib/utilFunctions.js");
+const { db, Fields } = require("../lib/db")
 const logger = require("../lib/logger");
 const config = require("../config/config.json")
 
-bot.on("guildCreate", async guild => {
-    const docs = await Guild.find({
-        id: guild.id
-    });
-    if (!docs.length) {
-        const doc = new Guild({
-            name: guild.name,
-            id: guild.id,
-            dashId: `${create_UUID()}`,
-            preferences: {
-                description: "None set",
-                profanityFilter: true
-            }
-        })
-        await doc.save()
-        logger.log("info", `Added to ${guild.name}:${guild.id}`)
-        bot.user.setActivity(`around on ${bot.guilds.cache.size} servers - [${config.prefix}]`);
-    }
-
+bot.on("guildCreate", async (guild) => {
+    db.prepare(`
+        INSERT INTO guilds(${Fields.GuildFields.guildID}, ${Fields.GuildFields.prefix}, ${Fields.GuildFields.name})
+        VALUES('${guild.id}', '${config.prefix}', '${guild.name}');
+    `).run()
+    bot.emit("updateActivity")
 });

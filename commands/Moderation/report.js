@@ -3,8 +3,8 @@ const config = require('../../config/config.json');
 
 module.exports.run = async (bot, message, args) => {
 
-    let target = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
-    let reason = args.slice(1).join(' ');
+    let target = message.guild.member(message.mentions.users.first()) || message.guild.members.cache.get(args[0]);
+    let reason = args[1];
     let reports = message.guild.channels.cache.find(channel => channel.name == config.reportsChannel)
 
     if (!target) return message.reply('please specify a member to report!');
@@ -26,13 +26,12 @@ module.exports.run = async (bot, message, args) => {
         message.delete({timeout: 5000});
     });
     reports.send(embed);
-
 };
 
 module.exports.help = {
     name: 'report',
     aliases: [],
     description: "Allows users to report other users in the server",
-    usage: "[reason]",
+    usage: "[@ user] \"[reason]\"",
     cooldown: 2
 };

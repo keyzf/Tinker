@@ -4,10 +4,9 @@ const stringSimilarity = require("string-similarity");
 
 bot.on("messageSpamCheck", async (message, dbGuild) => {
 
-    // var prefixes = dbGuild.preferences.spamSettings.ignoredPrefixes;
-    // if (prefixes.some(v => message.content.startsWith(v))) // return;
-    var channels = dbGuild.preferences.spamSettings.ignoredChannels;
-    if (channels.some(v => message.channel.id == v)) return;
+    
+    var channels = dbGuild.ignoredSpamChannels;
+    if (channels) if (channels.some(v => message.channel.id == v)) return;
 
     // checks this isn't similar to a recently sent message (returns after warn message)
     let messages = bot.recentMessages.filter(elt => elt.authorId == message.author.id);
@@ -21,7 +20,7 @@ bot.on("messageSpamCheck", async (message, dbGuild) => {
             return;
         }
     });
-    if (stop) return
+    if (stop) return;
 
     var id = Date.now()
     bot.recentMessages.push({ id: id, content: message.content, authorId: message.author.id });

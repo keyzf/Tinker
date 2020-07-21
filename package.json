@@ -13,8 +13,13 @@
   "dependencies": {
     "@pm2/io": "^4.3.5",
     "bcrypt": "^3.0.6",
+    "better-sqlite3": "^7.1.0",
     "body-parser": "^1.19.0",
     "canvas": "^2.6.1",
+    "chalk": "^4.1.0",
+    "child-process": "^1.0.2",
+    "child_process": "^1.0.2",
+    "clear": "^0.1.0",
     "cors": "^2.8.5",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
@@ -23,6 +28,7 @@
     "express-ejs-layouts": "^2.5.0",
     "express-flash": "0.0.2",
     "express-session": "^1.16.2",
+    "figlet": "^1.5.0",
     "fs": "0.0.1-security",
     "method-override": "^3.0.0",
     "moment": "^2.26.0",
@@ -38,6 +44,7 @@
     "random-puppy": "^1.1.0",
     "socket.io": "^2.2.0",
     "string-similarity": "^4.0.1",
+    "uuid": "^8.2.0",
     "wikijs": "^6.0.1",
     "winston": "^3.2.1"
   }

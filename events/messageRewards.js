@@ -1,12 +1,18 @@
 const { bot } = require('../index');
 const logger = require("../lib/logger");
+const { db, Fields } = require("../lib/db");
 
-bot.on("messageReward", async (message, dbGuild) => {
+bot.on("messageReward", async(message, dbGuild) => {
     var val = Math.round(message.content.length / 5);
-    const user = dbGuild.users.find(user => user.id == message.author.id);
-    if (!user) return bot.emit("addUser", message, dbGuild)
+    const user = db.prepare(`Select * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${message.author.id}`).get();
+    if (!user) return bot.emit("addUser", message.author.id, dbGuild)
     user.messagesSent += 1;
     user.devPoints += val;
-    dbGuild.markModified("users");
-    await dbGuild.save();
+
+    db.prepare(`
+        UPDATE users
+        SET ${Fields.UserFields.messagesSent}='${user.messagesSent}', ${Fields.UserFields.devPoints}='${user.devPoints}'
+        WHERE ${Fields.GuildFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}='${user.userID}';
+    `).run()
+
 });

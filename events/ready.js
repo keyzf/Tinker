@@ -1,15 +1,15 @@
 const { bot } = require('../index');
 const config = require("../config/config.json");
-// const main = require('../lib/db').main;
 const logger = require("../lib/logger")
 
 bot.on("ready", async () => {
+
     logger.log("info", `${bot.user.username} is ready for action!`);
-    bot.user.setActivity(`around on ${bot.guilds.cache.size} servers - [${config.prefix}]`);
+    bot.emit("updateActivity")
 
     // This creates a basic db entry of all the current servers the bot is added to
     // can be used in the event of a db wipe
-    // !! uses nedb - the bot is now using mongodb !!
+    // !! uses nedb - the bot is now using sql !!
     //
     // await bot.guilds.cache.array().forEach(id => {
     //     main.find({

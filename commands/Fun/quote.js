@@ -46,5 +46,6 @@ module.exports.run = async (bot, message, args) => {
 module.exports.help = {
     name: 'quote',
     aliases: ['quotes'],
-    description: "Sends you a random quote from my DnD campaigns!"
+    description: "Sends you a random quote from my DnD campaigns!",
+    generated: true
 }

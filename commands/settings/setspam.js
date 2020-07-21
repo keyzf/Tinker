@@ -1,31 +1,28 @@
 const { MessageEmbed } = require("discord.js");
 // const logger = require("../../lib/logger");
-const { Guild } = require('../../lib/db.js');
+const { db, Fields } = require('../../lib/db');
 const setResponses = require("../../res/setResponse")
 
-module.exports.run = async (bot, message, args, dbguild) => {
+module.exports.run = async (bot, message, args, dbGuild) => {
 
     if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('you do not have permissions to use this command!');
 
-    var save;
+    let input;
+    let save;
 
-    if (args.length) {
-        var val = args[0].toLowerCase();
-        if (val == "true" || val == "on") save = true
-        else if (val == "false" || val == "off") save = false
-        else return message.reply("please use either `true` / `on` or `false` / `off` to set the filter or leave blank to toggle it")
-    } else {
-        save = !dbguild.preferences.preventSpam
-    }
+    if (args.length) input = args[0].toLowerCase();
+    else input = !dbGuild.preventSpam;
 
-    await Guild.updateOne(
-        { id: dbguild.id },
-        {
-            $set: {
-                "preferences.preventSpam": save
-            }
-        }
-    );
+    if (input == "true" || input == "on" || input == "1") save = 1
+    else if (input == "false" || input == "off" || input == "0") save = 0
+    else return message.reply("please use either `true` / `on` or `false` / `off` to set the filter or leave blank to toggle it")
+
+    db.prepare(`
+        UPDATE guilds
+        SET ${Fields.GuildFields.preventSpam}='${save}'
+        WHERE guildID='${dbGuild.guildID}';
+    `).run()
+
 
     const e = new MessageEmbed();
     e.setTitle("Spam Filter Set")

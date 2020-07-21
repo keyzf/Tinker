@@ -1,11 +1,15 @@
-const Discord = require("discord.js")
-const moment = require("moment")
+const Discord = require("discord.js");
+const moment = require("moment");
+const { db, Fields } = require("../../lib/db")
 
-module.exports.run = async (bot, message, args, dbGuild) => {
+module.exports.run = async(bot, message, args, dbGuild) => {
 
-    let target = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.get(message.author.id));
-    let dbTarget = dbGuild.users.find((user) => user.id == target.id)
+    let target = message.guild.member(message.mentions.users.first()) || message.guild.members.cache.get(args[0]) || message.guild.members.cache.get(message.author.id);
+    // message.channel.send(`target user is ${target.user.username}`);
     if (!target) return message.reply('please specify a user!');
+    let dbTarget = db.prepare(`SELECT * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${target.id}`).get();
+    // message.channel.send(`target userID is ${dbTarget.userID} from guild ${dbGuild.guildID}`);
+    if (!dbTarget) return message.reply('could not find user!');
 
     let embed = new Discord.MessageEmbed()
         .setAuthor(`Requested by ${message.author.username}`)
@@ -33,5 +37,8 @@ module.exports.help = {
     aliases: ["user", "who", "userinfo"],
     description: "See stats about yourself or other users",
     usage: "[@ user]",
-    cooldown: 5
+    cooldown: 5,
+    generated: true
 };
+
+// TODO look into npm module sequelize

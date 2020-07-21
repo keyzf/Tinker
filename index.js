@@ -1,62 +1,96 @@
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
+
 async function start() {
+    let hrstart = process.hrtime();
+    clear();
+
+    console.log(
+        chalk.magenta(
+            figlet.textSync('DevsApp', { horizontalLayout: 'full' })
+        )
+    );
+
+    require("dotenv").config();
+
     const logger = require("./lib/logger.js");
-    process.send = process.send || function (msg) { logger.log("debug", msg) };
+    process.send = process.send || function(msg) { logger.log("debug", msg) };
+
+    logger.info("Starting")
 
     process.on('uncaughtException', error => logger.log('error', error.stack));
 
-    logger.log("info", "setting up environment variables")
-    await require("dotenv").config();
-
-    logger.log("info", "connecting to MongoDB")
+    logger.debug("connecting to SQLite database")
     await require("./lib/db").setup();
-
 
     // Get discord.js
     const Discord = require('discord.js');
 
-    logger.log("info", "creating new client")
+    logger.debug("creating new client")
     const bot = new Discord.Client({
-        disableEveryone: true
+        autoReconnect: true,
+        retryLimit: Infinity,
+        presence: {
+            status: "idle",
+        },
+        fetchAllMembers: false // should be turned off when in multiple guilds (it automatically caches all members from all guilds in startup)
     });
+    module.exports.bot = bot;
+    /* ws: {
+        intents: [
+            "GUILDS",
+            "GUILD_MEMBERS",
+            "GUILD_BANS",
+            "GUILD_EMOJIS",
+            "GUILD_INTEGRATIONS",
+            "GUILD_WEBHOOKS",
+            "GUILD_INVITES",
+            "GUILD_VOICE_STATES",
+            "GUILD_PRESENCES",
+            "GUILD_MESSAGES",
+            "GUILD_MESSAGE_REACTIONS",
+            "GUILD_MESSAGE_TYPING",
+            "DIRECT_MESSAGES",
+            "DIRECT_MESSAGE_REACTIONS",
+            "DIRECT_MESSAGE_TYPING"
+        ]
+    },
+    */ // for verified bots only (apparantly), sets api requests for these only to reduce strain on the bot
 
-
-    logger.log("info", "creating bot variables")
-    logger.log("info", "1: commands")
-    bot.commands = new Discord.Collection();
-    logger.log("info", "2: aliases")
-    bot.aliases = new Discord.Collection();
-    logger.log("info", "3: cooldowns")
-    bot.cooldowns = new Discord.Collection();
-    logger.log("info", "4: afk")
-    bot.afk = new Map();
-    logger.log("info", "5: recentMessages")
-    bot.recentMessages = [];
-
-    logger.log("info", "setting up bot")
+    logger.debug("setting up bot")
     await require("./lib/botSetup").setup(bot);
 
-    module.exports.bot = bot;
-
-    // logger.log("info", "setting up dashboard hhtp server")
+    // logger.debug("setting up dashboard hhtp server")
     // await require("./dashboard/server").setup(bot);
-    // logger.log("info", "starting dashboard http server")
+    // logger.debug("starting dashboard http server")
     // await require("./dashboard/server").start();
 
-
-    logger.log("info", `logging in bot for token ${bot}`)
+    logger.debug(`logging in bot with token`)
     await bot.login(process.env.BOT_TOKEN);
 
     // setup error case logging for client
-    logger.log("info", "setting up error cases for the bot")
-    bot.on('debug', m => logger.log('debug', m));
-    bot.on('warn', m => logger.log('warn', m));
-    bot.on('error', m => logger.log('error', m));
+    logger.debug("setting up error cases for the bot")
+    bot.on('debug', m => logger.debug(m));
+    bot.on('warn', m => logger.warn(m));
+    bot.on('error', m => logger.error(m));
 
-    logger.log("info", "setting up clean exit")
-    process.on('SIGINT', async () => {
-        await bot.destroy()
+    logger.debug("setting up clean exit")
+    process.on('SIGINT', async() => {
+        // TODO update the total uptime figure in the bot table in sql db
+        bot.destroy()
         process.exit();
     });
-    logger.log("info", "setting up clean exit finished")
+    logger.debug("setting up clean exit finished");
+
+    // setup the cli
+    require("./lib/cli").setup();
+
+    let hrend = process.hrtime(hrstart)
+    logger.info(`Startup took ${hrend[0]}s ${hrend[1] / 1000000}ms to complete`);
+
 }
 start();
+
+
+// TODO OAuth2 https://youtu.be/r_tXkzBgmFc?list=PL_cUvD4qzbkwRMmqlviY0FXL54dEYRNbz

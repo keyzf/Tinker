@@ -60,8 +60,9 @@ module.exports.noDbGuildFound = (code) => {
         .setColor("#a700bd")
         .setDescription("I did a quick search in the database and it came up with nothing... There is a very simple explanation, I was offline when you added me, you haven't finished the setup, or I have done goofed")
         .addFields(
-            { name: "Try first:", value: "You could try kicking me and then re-inviting me (as long as I am online) that should fix any issues" },
-            { name: "Something wrong?", value: "If you've tried kicking and re-inviting me and the error still persists you should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" },
+            { name: "Try first:", value: "Nothing, try nothing. I should be able to fix this myself by adding you now. I suggest you wait a few seconds and then try again!" },
+            { name: "Kick me", value: "If you've tried nothing first, now try kicking and re-inviting me (make sure i'm online though otherwise we are going to have the same issue!)" },
+            { name: "Still wrong?", value: "If you've tried all of the above and the error still persists you should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" },
             { name: "Error code", value: code || "no code" }
         )
         .setFooter("See you around!")
@@ -76,7 +77,7 @@ module.exports.httpGetError = (code) => {
         .setDescription("I promise you it wasn't me. Something went wrong with an external site / api")
         .addFields(
             { name: "Keeps happening?", value: "Well maybe it was me then... you should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" },
-            { name: "Error code", value: code }
+            { name: "Error code", value: code || "no code" }
         )
         .setFooter("See you around!")
         .setTimestamp();
