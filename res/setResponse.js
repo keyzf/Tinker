@@ -91,7 +91,7 @@ module.exports.couldNotSend = (code) => {
         .setDescription("Make sure I have read write permissions on all channels (If your unsure give me the admin permission)")
         .addFields(
             { name: "Keeps happening?", value: "Well maybe it was my fault... you should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" },
-            { name: "Error code", value: code }
+            { name: "Error code", value: code || "No Code" }
         )
         .setFooter("See you around!")
         .setTimestamp();
@@ -102,6 +102,20 @@ module.exports.sendSuccessful = () => {
         .setTitle("Send Successful")
         .setColor("#a700bd")
         .setDescription("Its gone!")
+        .setFooter("See you around!")
+        .setTimestamp();
+}
+
+module.exports.fileIOError = (code) => {
+    return new Discord.MessageEmbed()
+        .setAuthor("FileIO Error")
+        .setTitle("I couldn't complete a file operation")
+        .setColor("#a700bd")
+        .setDescription("I have definitely messed up. I failed to complete a server side file operation which means whatever you just did probably had no effect.\nThat doesn't mean do it again!! It means contact my devs to get it sorted")
+        .addFields(
+            { name: "Contact the devs", value: "You should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP), come armed with screenshots!" },
+            { name: "Error code", value: code || "No Code"}
+        )
         .setFooter("See you around!")
         .setTimestamp();
 }

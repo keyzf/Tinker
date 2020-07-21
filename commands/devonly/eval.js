@@ -1,5 +1,3 @@
-const safeEval = require("notevil");
-
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim().replace(/```/g, "").replace("js", "");
     try {
