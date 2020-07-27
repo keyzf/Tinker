@@ -119,3 +119,16 @@ module.exports.fileIOError = (code) => {
         .setFooter("See you around!")
         .setTimestamp();
 }
+
+module.exports.mustBeInVoiceChannel = () => {
+    return new Discord.MessageEmbed()
+        .setAuthor("Your not in a voice chanel")
+        .setTitle("join a voice channel then try again")
+        .setColor("#a700bd")
+        .setDescription("This command needs you to be in a voice channel, try joining one before using the command")
+        .addFields(
+            { name: "Joined but still errors?", value: "This means something is wrong. You should get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
+        )
+        .setFooter("See you around!")
+        .setTimestamp();
+}

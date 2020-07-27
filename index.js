@@ -86,6 +86,8 @@ async function start() {
     // setup the cli
     require("./lib/cli").setup();
 
+    require("./lib/updateLoop").start()
+
     let hrend = process.hrtime(hrstart)
     logger.info(`Startup took ${hrend[0]}s ${hrend[1] / 1000000}ms to complete`);
 

@@ -17,8 +17,6 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     target.roles.add(muteRole);
 
-    //return message.channel.send(setResponses.inDev());
-
     await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
     message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);
 

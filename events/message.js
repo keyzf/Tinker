@@ -33,10 +33,8 @@ bot.on("message", async(message) => {
         const m = await message.reply("your message contained a word that is in our profanity list. Please be more careful with your language")
         await message.delete({ timeout: 0 });
         await m.delete({ timeout: 5000 });
-
         return
     }
-
 
     // check if a user was mentioned and get the first one
     if (message.mentions.users.first()) {
@@ -92,10 +90,10 @@ bot.on("message", async(message) => {
     // if the command was found (or any of its aliases)
     if (command) {
 
-        // check perms
-        if (command.help.limit && !devs.includes(message.author.id)) {
-            return message.channel.send(setResponses.noAccessDevCmd());
-        }
+        // check if dev only command
+        if (command.help.limit && !devs.includes(message.author.id)) return message.channel.send(setResponses.noAccessDevCmd());
+        // check if in dev command
+        if (command.help.inDev && !devs.includes(message.author.id)) return message.channel.send(setResponses.inDev());
 
         // check for cooldown
         // handles cooldown time for commands (set to 0 OR leave blank for no cooldown)

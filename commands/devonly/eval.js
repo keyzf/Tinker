@@ -1,3 +1,10 @@
+const Discord = require("discord.js");
+const { db, Fields } = require("../../lib/db");
+const logger = require("../../lib/logger");
+const config = require("../../config/config.json");
+const { devs } = require("../../config/devs.json");
+const { codes } = require("../../config/errorCodes.json");
+
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim().replace(/```/g, "").replace("js", "");
     try {

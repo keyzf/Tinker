@@ -3,7 +3,6 @@ const setResponses = require("../../res/setResponse")
 
 module.exports.run = async (bot, message, args, dbGuild) => {
     
-    return message.channel.send(setResponses.inDev())
 };
 
 module.exports.help = {
@@ -12,5 +11,6 @@ module.exports.help = {
     description: "Sends information about the error",
     usage: "[error code]",
     cooldown: 5,
-    generated: true
+    generated: true,
+    inDev: true
 };
