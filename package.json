@@ -11,6 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@2toad/profanity": "^1.1.0",
     "@discordjs/opus": "^0.3.2",
     "@pm2/io": "^4.3.5",
     "bcrypt": "^3.0.6",

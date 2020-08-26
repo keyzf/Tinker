@@ -1,2 +1,4 @@
 TODO: roulette command, randomly does something to the user (e.g. gives devPoints, takes DevPoints, kicks them, reports them, etc)
 TODO: quizbot using the voice for correct and incorrect responses
+TODO: check bot has perms before running a command to reduce the number of errors that go through the try-catch using https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermission and https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS and the client member message.guild.member(client).hasPermission(permission)
+TODO: replace newline break with | in sql logging statements to prevent large files and log flooding

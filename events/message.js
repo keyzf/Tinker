@@ -27,28 +27,21 @@ bot.on("message", async(message) => {
     // get the desired prefix for this guild
     let prefix = dbGuild.prefix;
 
-    // profanity check
-    if (dbGuild.profanityFilter && swears.some(v => message.content.toLowerCase().replace(/\s/g, '').includes(v))) {
-
-        const m = await message.reply("your message contained a word that is in our profanity list. Please be more careful with your language")
-        await message.delete({ timeout: 0 });
-        await m.delete({ timeout: 5000 });
-        return
-    }
-
     // check if a user was mentioned and get the first one
-    if (message.mentions.users.first()) {
-        // check the mentioned user is afk
-        let mentioned = bot.afk.get(message.mentions.users.first().id);
-        // if they are then tell the channel that the user is afk and for the reason the user set
-        if (mentioned) message.channel.send(`**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`);
+    if (message.mentions.users) {
+        // for every mentioned user
+        message.mentions.users.array().forEach((user) => {
+            // check the mentioned user is afk
+            let mentioned = bot.afk.get(user.id);
+            // if they are then tell the channel that the user is afk and for the reason the user set
+            if (mentioned) message.channel.send(`**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`).then((m) => m.delete({timeout: 5000}));
+        });
     }
 
     // check if the user that sent a message is afk
     let afkcheck = bot.afk.get(message.author.id);
     // if so remove them from the afk list as they have sent a message and are no longer afk
     if (afkcheck)[bot.afk.delete(message.author.id), message.reply(`you have been removed from the afk list!`).then(msg => msg.delete({ timeout: 5000 }))];
-
 
     // if the message isnt a command then skip the rest of this code
     if (!message.content.startsWith(prefix)) {
@@ -59,6 +52,13 @@ bot.on("message", async(message) => {
             // message.reply("are you talking about me!?");
         }
 
+        if (dbGuild.preventSpam) {
+            const prof = await bot.event.messageProfanityCheck(message, dbGuild)
+            if (prof) {
+                await message.delete({ timeout: 0 })
+                message.channel.send(`${message.author} said: "${prof}"`)
+            }
+        }
         if (dbGuild.preventSpam) bot.emit("messageSpamCheck", message, dbGuild)
         if (dbGuild.messageRewards) bot.emit("messageReward", message, dbGuild)
 

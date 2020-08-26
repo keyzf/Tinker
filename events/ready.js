@@ -1,31 +1,22 @@
 const { bot } = require('../index');
-const config = require("../config/config.json");
-const logger = require("../lib/logger")
+const logger = require("../lib/logger");
+const { db, Fields } = require("../lib/db");
 
 bot.on("ready", async () => {
 
-    logger.log("info", `${bot.user.username} is ready for action!`);
-    bot.emit("updateActivity")
+    logger.log("info", `${bot.user.username} is online! Setup still running`);
+    bot.emit("updateActivity");
 
-    // This creates a basic db entry of all the current servers the bot is added to
-    // can be used in the event of a db wipe
-    // !! uses nedb - the bot is now using sql !!
-    //
-    // await bot.guilds.cache.array().forEach(id => {
-    //     main.find({
-    //         guildID: id
-    //     }, (err, docs) => {
-    //         if (err) console.error(err);
-    //         if (!docs.length) return
-    //         guild = docs[0];
-
-    //         main.insert({
-    //             guildID: id,
-    //             prefix: config.prefix
-    //         });
-    //     });
-    // });
+    logger.debug("Checking for invalid guilds");
+    const guilds = db.prepare(`SELECT ${Fields.GuildFields.guildID} FROM guilds`).all();
+    guilds.forEach((guild) => {
+        if (!bot.guilds.cache.has(guild.guildID)) {
+            db.prepare(`DELETE FROM guilds WHERE ${Fields.GuildFields.guildID}='${guild.guildID}'`);
+            logger.warn(`Invalid guildID '${guild.guildID}' found in the database - Removed`);
+        }
+    });
 
     // tell pm2 or another connected sevice that the bot is online and ready
     process.send('ready');
+    logger.info(`${bot.user.username} setup complete and functional`);
 });
