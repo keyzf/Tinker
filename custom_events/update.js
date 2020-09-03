@@ -5,8 +5,8 @@ const Discord = require("discord.js")
 
 module.exports.run = async() => {
     logger.debug("update");
-    await bot.event.checkEvents();
-    await bot.event.checkAnnouncements();
+    await bot.cevents.get("checkEvents").run();
+    await bot.cevents.get("checkAnnouncements").run();
 }
 
 module.exports.help = {

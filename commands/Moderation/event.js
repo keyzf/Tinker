@@ -13,6 +13,8 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     let channel;
     if (args[4]) { channel = bot.channels.cache.get(args[4].match(/\<\#(?<channelId>[0-9]+)\>/).groups.channelId); } else { channel = message.channel; }
+    // does not work
+    // if (!message.member.permissionIn(channel.id).hasPermission('SEND_MESSAGES')) { return message.channel.send("You are not allowed to send messages in this channel"); }
     let hooks = await channel.fetchWebhooks();
     let hook = hooks.find((hook) => { return (hook.name == "DevsApp Announcer" && hook.owner.id == bot.user.id) });
 

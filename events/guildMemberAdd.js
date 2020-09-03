@@ -15,9 +15,10 @@ registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
 registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
 registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
 
-bot.on("guildMemberAdd", async(member) => {
-    const dbGuild = db.prepare(`SELECT * FROM guilds WHERE ${Fields.GuildFields.guildID}='${member.guild.id}'`).get()
-    bot.event.addUser(member.id, dbGuild);
+module.exports.run = async(member) => {
+    const dbGuild = db.prepare(`SELECT * FROM guilds WHERE ${Fields.GuildFields.guildID}='${member.guild.id}'`).get();
+    bot.cevents.get("addUser").run(member.id, dbGuild);
+    bot.cevents.get("updateActivity").run();
     if (!dbGuild.welcomeChannel) { return; }
 
     const canvas = Canvas.createCanvas(400, 660);
@@ -44,5 +45,8 @@ bot.on("guildMemberAdd", async(member) => {
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome-image.png");
 
     bot.channels.cache.get(dbGuild.welcomeChannel).send(`Welcome to the server, ${member}!`, attachment);
+}
 
-});
+module.exports.help = {
+    name: "guildMemberAdd"
+}

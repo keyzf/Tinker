@@ -8,8 +8,8 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     const e = new Discord.MessageEmbed();
     // e.setFooter("The content of this command is completely generated. If anything looks off please contact us to get it fixed");
     e.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL());
-    e.setColor("#a700bd")
-    e.setTimestamp()
+    e.setColor("#a700bd");
+    e.setTimestamp();
 
     if (!args.length) {
         e.setTitle("Here to help!")

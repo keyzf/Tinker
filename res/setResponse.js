@@ -132,3 +132,12 @@ module.exports.mustBeInVoiceChannel = () => {
         .setFooter("See you around!")
         .setTimestamp();
 }
+
+module.exports.waitGetting = () => {
+    return new Discord.MessageEmbed()
+        .setTitle("Please wait")
+        .setColor("#a700bd")
+        .setDescription("Getting this may take some time")
+        .setFooter("Almost done...")
+        .setTimestamp();
+}

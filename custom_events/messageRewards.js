@@ -5,7 +5,7 @@ const { db, Fields } = require("../lib/db");
 module.exports.run = async(message, dbGuild) => {
     var val = Math.round(message.content.length / 5);
     const user = db.prepare(`Select * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${message.author.id}`).get();
-    if (!user) return bot.event.addUser(message.author.id, dbGuild)
+    if (!user) return bot.cevents.get("addUser").run(message.author.id, dbGuild)
     user.messagesSent += 1;
     user.woodChippings += val;
 

@@ -18,7 +18,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     target.roles.add(muteRole);
 
-    bot.event.generateInfraction(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
+    bot.cevents.get("generateInfraction").run(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
 
     await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
     message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);

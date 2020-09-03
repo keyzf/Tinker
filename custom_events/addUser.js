@@ -7,7 +7,7 @@ module.exports.run = async(userID, dbGuild) => {
         INSERT INTO users(${Fields.UserFields.userID}, ${Fields.UserFields.guildID})
         VALUES('${userID}', '${dbGuild.guildID}');
     `).run()
-    bot.emit("updateActivity")
+    bot.cevents.get("updateActivity").run()
 }
 
 

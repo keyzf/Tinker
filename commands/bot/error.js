@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const setResponses = require("../../res/setResponse")
 
 module.exports.run = async (bot, message, args, dbGuild) => {
-    
+    message.channel.send("after");
 };
 
 module.exports.help = {

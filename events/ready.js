@@ -2,10 +2,10 @@ const { bot } = require('../index');
 const logger = require("../lib/logger");
 const { db, Fields } = require("../lib/db");
 
-bot.on("ready", async () => {
+module.exports.run = async() => {
 
     logger.log("info", `${bot.user.username} is online! Setup still running`);
-    bot.event.updateActivity();
+    bot.cevents.get("updateActivity").run();
 
     logger.debug("Checking for invalid guilds");
     const guilds = db.prepare(`SELECT ${Fields.GuildFields.guildID} FROM guilds`).all();
@@ -19,4 +19,8 @@ bot.on("ready", async () => {
     // tell pm2 or another connected sevice that the bot is online and ready
     process.send('ready');
     logger.info(`${bot.user.username} setup complete and functional`);
-});
+}
+
+module.exports.help = {
+    name: "ready"
+}

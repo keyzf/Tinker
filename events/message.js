@@ -5,9 +5,9 @@ const Discord = require("discord.js");
 const swears = require("../res/swearlist.json").swears;
 const { devs } = require("../config/devs.json");
 const setResponses = require("../res/setResponse");
-    // error codes https://www.voucherify.io/generator
+// error codes https://www.voucherify.io/generator
 
-bot.on("message", async(message) => {
+module.exports.run = async(message) => {
     // if the message sent was from a bot then completely ignore it (return)
     if (message.author.bot) { return; }
     // if the message was sent to the bot through a dm (direct message) send a response to head to the server
@@ -34,7 +34,7 @@ bot.on("message", async(message) => {
             // check the mentioned user is afk
             let mentioned = bot.afk.get(user.id);
             // if they are then tell the channel that the user is afk and for the reason the user set
-            if (mentioned) message.channel.send(`**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`).then((m) => m.delete({timeout: 5000}));
+            if (mentioned) message.channel.send(`**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`).then((m) => m.delete({ timeout: 5000 }));
         });
     }
 
@@ -53,14 +53,14 @@ bot.on("message", async(message) => {
         }
 
         if (dbGuild.profanityFilter) {
-            const prof = await bot.event.messageProfanityCheck(message, dbGuild)
+            const prof = await bot.cevents.get("messageProfanityCheck").run(message, dbGuild);
             if (prof) {
                 await message.delete({ timeout: 0 })
                 message.channel.send(`${message.author} said: "${prof}"`)
             }
         }
-        if (dbGuild.preventSpam) await bot.event.messageSpamCheck(message, dbGuild)
-        if (dbGuild.messageRewards) await bot.event.messageReward(message, dbGuild)
+        if (dbGuild.preventSpam) { await bot.cevents.get("messageSpamCheck").run(message, dbGuild); }
+        if (dbGuild.messageRewards) { await bot.cevents.get("messageReward").run(message, dbGuild); }
 
         return
     }
@@ -134,5 +134,8 @@ bot.on("message", async(message) => {
                 msg.delete({ timeout: 5000 });
             });
     }
+}
 
-});
+module.exports.help = {
+    name: "message"
+}

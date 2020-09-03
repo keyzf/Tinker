@@ -1,7 +1,15 @@
 const { bot } = require('../index');
-const { Guild } = require('../lib/db.js');
+const { db, Fields } = require('../lib/db.js');
 const logger = require("../lib/logger");
 
-bot.on("guildDelete", async guild => {
-    logger.critical(`Bot was removed from guild: ${guild.name}, ${guild.id}`)
-});
+module.exports.run = async(guild) => {
+    db.prepare(`
+        DELETE FROM guilds
+        WHERE ${Fields.GuildFields.guildID} = '${guild.id}');
+    `).run();
+    bot.cevents.get("updateActivity").run();
+}
+
+module.exports.help = {
+    name: "guildDelete"
+}
