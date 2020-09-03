@@ -17,17 +17,17 @@ async function start() {
     const logger = require("./lib/logger.js");
     process.send = process.send || function(msg) { logger.log("debug", msg) };
 
-    logger.info("Starting")
+    logger.info("Starting");
 
     process.on('uncaughtException', error => logger.log('error', error.stack));
 
-    logger.debug("connecting to SQLite database")
+    logger.debug("connecting to SQLite database");
     await require("./lib/db").setup();
 
     // Get discord.js
     const Discord = require('discord.js');
 
-    logger.debug("creating new client")
+    logger.debug("creating new client");
     const bot = new Discord.Client({
         autoReconnect: true,
         retryLimit: Infinity,
@@ -58,7 +58,7 @@ async function start() {
     },
     */ // for verified bots only (apparantly), sets api requests for these only to reduce strain on the bot
 
-    logger.debug("setting up bot")
+    logger.debug("setting up bot");
     await require("./lib/botSetup").setup(bot);
 
     // logger.debug("setting up dashboard hhtp server")
@@ -66,11 +66,11 @@ async function start() {
     // logger.debug("starting dashboard http server")
     // await require("./dashboard/server").start();
 
-    logger.debug(`logging in bot with token`)
+    logger.debug(`logging in bot with token`);
     await bot.login(process.env.BOT_TOKEN);
 
     // setup error case logging for client
-    logger.debug("setting up error cases for the bot")
+    logger.debug("setting up error cases for the bot");
     bot.on('debug', m => logger.debug(m));
     bot.on('warn', m => logger.warn(m));
     bot.on('error', m => logger.error(m));
@@ -81,9 +81,9 @@ async function start() {
     // setup the cli
     require("./lib/cli").setup();
 
-    require("./lib/updateLoop").start()
+    require("./lib/updateLoop").start();
 
-    let hrend = process.hrtime(hrstart)
+    let hrend = process.hrtime(hrstart);
     logger.info(`Startup took ${hrend[0]}s ${hrend[1] / 1000000}ms to complete`);
 
 }

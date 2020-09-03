@@ -8,8 +8,7 @@ module.exports.run = async (bot, message, args, dbGuild) => {
     embed.setColor('#a700bd')
     embed.setTitle('Bot Information')
     embed.setDescription("I'm going to tell you all about myself")
-    // .setThumbnail('../res/dev-icon.png')
-    // .setImage('https://i.imgur.com/wSTFkRM.png')
+    embed.setThumbnail('../res/icon.png');
     for (var i = 0; i < botInfo.length; i++) {
         embed.addFields({ "name": `${botInfo[i].name}`, "value": `${botInfo[i].value}` })
     }
