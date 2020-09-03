@@ -1,5 +1,6 @@
-const { bot } = require("../index")
-const { db, Fields } = require("../lib/db")
+const { bot } = require("../index");
+const { db, Fields } = require("../lib/db");
+const Discord = require("discord.js")
 
 module.exports.run = (dbGuild, id) => {
     return new Promise(async(resolve, reject) => {

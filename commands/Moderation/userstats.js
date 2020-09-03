@@ -23,7 +23,10 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         .addField('Messages Sent:', dbTarget.messagesSent, true)
         .addField('Dev Points:', dbTarget.devPoints, true)
         .addField('Level:', dbTarget.level, true)
-        .addField('Infractions:', dbTarget.infractions)
+        .addField('Infractions:', (function() {
+            if (!dbTarget.infractions) return 0
+            else return dbTarget.infractions.split(",").length
+        }()))
         .addField('Roles:', target.roles.cache.map(r => `${r}`).join(' | '))
         .setFooter(`ID: ${target.id}`)
         .setTimestamp();

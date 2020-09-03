@@ -3,6 +3,5 @@ const { Guild } = require('../lib/db.js');
 const logger = require("../lib/logger");
 
 bot.on("guildDelete", async guild => {
-    // TODO delete guild from db when leave
-    bot.emit("updateActivity")
+    logger.critical(`Bot was removed from guild: ${guild.name}, ${guild.id}`)
 });

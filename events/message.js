@@ -1,23 +1,23 @@
-const { bot } = require('../index');
-const { db, Fields } = require('../lib/db.js');
+const { bot } = require("../index");
+const { db, Fields } = require("../lib/db.js");
 const logger = require("../lib/logger");
 const Discord = require("discord.js");
 const swears = require("../res/swearlist.json").swears;
 const { devs } = require("../config/devs.json");
-const setResponses = require("../res/setResponse")
+const setResponses = require("../res/setResponse");
     // error codes https://www.voucherify.io/generator
 
 bot.on("message", async(message) => {
     // if the message sent was from a bot then completely ignore it (return)
-    if (message.author.bot) return;
+    if (message.author.bot) { return; }
     // if the message was sent to the bot through a dm (direct message) send a response to head to the server
-    if (message.channel.type === "dm") return message.channel.send("Yo dude. I'm hanging out in the server");
+    if (message.channel.type === "dm") { return message.channel.send("Yo dude. I'm hanging out in the server"); }
 
     // find the guild from the database using its id (obtained from the sent message)
     const dbGuild = db.prepare(`Select * FROM guilds WHERE ${Fields.GuildFields.guildID}='${message.guild.id}'`).get();
     if (!dbGuild) {
         message.channel.send(setResponses.noDbGuildFound(""));
-        return bot.emit("guildCreate", message.guild)
+        return bot.emit("guildCreate", message.guild);
     }
 
     // get desired settings for this guild
@@ -43,7 +43,7 @@ bot.on("message", async(message) => {
     // if so remove them from the afk list as they have sent a message and are no longer afk
     if (afkcheck)[bot.afk.delete(message.author.id), message.reply(`you have been removed from the afk list!`).then(msg => msg.delete({ timeout: 5000 }))];
 
-    // if the message isnt a command then skip the rest of this code
+    // if the message isnt a command then:
     if (!message.content.startsWith(prefix)) {
 
         if (message.mentions.has(bot.user)) {
@@ -52,18 +52,18 @@ bot.on("message", async(message) => {
             // message.reply("are you talking about me!?");
         }
 
-        if (dbGuild.preventSpam) {
+        if (dbGuild.profanityFilter) {
             const prof = await bot.event.messageProfanityCheck(message, dbGuild)
             if (prof) {
                 await message.delete({ timeout: 0 })
                 message.channel.send(`${message.author} said: "${prof}"`)
             }
         }
-        if (dbGuild.preventSpam) bot.emit("messageSpamCheck", message, dbGuild)
-        if (dbGuild.messageRewards) bot.emit("messageReward", message, dbGuild)
+        if (dbGuild.preventSpam) await bot.event.messageSpamCheck(message, dbGuild)
+        if (dbGuild.messageRewards) await bot.event.messageReward(message, dbGuild)
 
         return
-    };
+    }
 
     // split the rest of the sentence by each word (SPACE) or "many worded args"
     const input = message.content.slice(prefix.length).trim();

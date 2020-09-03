@@ -3,6 +3,7 @@ const config = require('../../config/config.json');
 const setResponses = require("../../res/setResponse");
 const { db, Fields } = require("../../lib/db");
 const { updateMuteRole } = require("../../lib/utilFunctions");
+const { arrEndJoin } = require("../../lib/utilFunctions");
 
 module.exports.run = async(bot, message, args, dbGuild) => {
 
@@ -10,17 +11,19 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     let target = message.guild.member(message.mentions.users.first()) || message.guild.members.cache.get(args[0]);
     if (!target) return message.reply('please specify a member to mute!');
-    let reason = args[1] || "No reason specified";
-    let logs = message.guild.channels.cache.find(channel => channel.name == config.logsChannel)
+    let reason = arrEndJoin(args, " ", 1) || "No reason specified";
+    let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
     let muteRole = await bot.event.updateMuteRole(dbGuild)
 
     target.roles.add(muteRole);
 
+    bot.event.generateInfraction(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
+
     await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
     message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);
 
-    if (!logs) return message.reply(`please create a channel called ${config.logsChannel} to log the mutes!`);
+    if (!logs) return message.reply(`please set a logging channel to log the mutes`);
     let embed = new Discord.MessageEmbed()
         .setColor('RANDOM')
         .setThumbnail(target.user.avatarURL)
@@ -41,6 +44,3 @@ module.exports.help = {
     cooldown: 2
 };
 
-// TODO: unban command
-// TODO: tempban command
-// TODO: temp mute command

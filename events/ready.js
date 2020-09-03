@@ -5,7 +5,7 @@ const { db, Fields } = require("../lib/db");
 bot.on("ready", async () => {
 
     logger.log("info", `${bot.user.username} is online! Setup still running`);
-    bot.emit("updateActivity");
+    bot.event.updateActivity();
 
     logger.debug("Checking for invalid guilds");
     const guilds = db.prepare(`SELECT ${Fields.GuildFields.guildID} FROM guilds`).all();

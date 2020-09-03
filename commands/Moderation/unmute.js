@@ -8,7 +8,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     let target = message.guild.member(message.mentions.users.first()) || message.guild.members.cache.get(args[0]);
     if (!target) return message.reply('please specify a member to mute!');
-    let logs = message.guild.channels.cache.find(channel => channel.name == config.logsChannel)
+    let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
     const guild = bot.guilds.cache.get(dbGuild.guildID);
     let id = db.prepare(`SELECT ${Fields.GuildFields.muteRoleID} from guilds WHERE ${Fields.GuildFields.guildID}=${dbGuild.guildID}`).get().muteRoleID
@@ -23,7 +23,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     await target.send(`You have been unmuted in ${message.guild.name} by ${message.author.tag}`);
     message.channel.send(`${target.user.username} was unmuted by ${message.author}`);
 
-    if (!logs) return message.reply(`please create a channel called ${config.logsChannel} to log the mutes!`);
+    if (!logs) return message.reply(`please set a logging channel to log the unmutes`);
 
     let embed = new Discord.MessageEmbed()
         .setColor('RANDOM')

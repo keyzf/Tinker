@@ -1,15 +1,16 @@
 const discord = require('discord.js');
 const config = require('../../config/config.json');
+const { arrEndJoin } = require("../../lib/utilFunctions");
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, dbGuild) => {
 
     let target = message.guild.member(message.mentions.users.first()) || message.guild.members.cache.get(args[0]);
-    let reason = args[1];
-    let reports = message.guild.channels.cache.find(channel => channel.name == config.reportsChannel)
+    let reason = arrEndJoin(args, " ", 1) || "No reason specified";
+    let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
     if (!target) return message.reply('please specify a member to report!');
     if (!reason) return message.reply('please specify a reason for this report!');
-    if (!reports) return message.reply(`please create a channel called ${config.reportsChannel} to log the reports!`);
+    if (!logs) return message.reply(`please set a logging channel to log the reports`);
 
     let embed = new discord.MessageEmbed()
         .setColor('RANDOM')
@@ -25,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
         msg.delete({timeout: 5000} );
         message.delete({timeout: 5000});
     });
-    reports.send(embed);
+    logs.send(embed);
 };
 
 module.exports.help = {

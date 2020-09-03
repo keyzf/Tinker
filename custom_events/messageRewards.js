@@ -2,12 +2,12 @@ const { bot } = require('../index');
 const logger = require("../lib/logger");
 const { db, Fields } = require("../lib/db");
 
-bot.on("messageReward", async(message, dbGuild) => {
+module.exports.run = async(message, dbGuild) => {
     var val = Math.round(message.content.length / 5);
     const user = db.prepare(`Select * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${message.author.id}`).get();
-    if (!user) return bot.emit("addUser", message.author.id, dbGuild)
+    if (!user) return bot.event.addUser(message.author.id, dbGuild)
     user.messagesSent += 1;
-    user.devPoints += val;
+    user.woodChippings += val;
 
     db.prepare(`
         UPDATE users
@@ -15,4 +15,8 @@ bot.on("messageReward", async(message, dbGuild) => {
         WHERE ${Fields.GuildFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}='${user.userID}';
     `).run()
 
-});
+}
+
+module.exports.help = {
+    name: "messageReward"
+}

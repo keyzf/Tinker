@@ -8,6 +8,6 @@ bot.on("presenceUpdate", function(oldMember, newMember) {
     if (newMember.userID == botOverlord) {
         let text;
         if (newMember.activities.length) text = newMember.activities[0].state
-        bot.emit("updateActivity", text)
+        bot.event.updateActivity(text);
     }
 });

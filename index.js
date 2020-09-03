@@ -75,14 +75,9 @@ async function start() {
     bot.on('warn', m => logger.warn(m));
     bot.on('error', m => logger.error(m));
 
-    logger.debug("setting up clean exit")
-    process.on('SIGINT', async() => {
-        // TODO update the total uptime figure in the bot table in sql db
-        bot.destroy()
-        process.exit();
-    });
-    logger.debug("setting up clean exit finished");
-
+    logger.debug("setting up clean exit");
+    require("./lib/cleanExit").setup();
+    
     // setup the cli
     require("./lib/cli").setup();
 

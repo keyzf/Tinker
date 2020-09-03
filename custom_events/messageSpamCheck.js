@@ -1,10 +1,8 @@
 const { bot } = require('../index');
-// const logger = require("../lib/logger");
+const logger = require("../lib/logger");
 const stringSimilarity = require("string-similarity");
 
-bot.on("messageSpamCheck", async (message, dbGuild) => {
-
-    
+module.exports.run = async (message, dbGuild) => {
     var channels = dbGuild.ignoredSpamChannels;
     if (channels) if (channels.some(v => message.channel.id == v)) return;
 
@@ -28,4 +26,8 @@ bot.on("messageSpamCheck", async (message, dbGuild) => {
         removeIndex = bot.recentMessages.map(function (item) { return item.id; }).indexOf(id);
         bot.recentMessages.splice(removeIndex, 1)
     }, 5000);
-});
+}
+
+module.exports.help = {
+    name: "messageSpamCheck"
+}
