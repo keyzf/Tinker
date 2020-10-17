@@ -34,7 +34,8 @@ async function start() {
         presence: {
             status: "idle",
         },
-        fetchAllMembers: false // should be turned off when in multiple guilds (it automatically caches all members from all guilds in startup)
+        fetchAllMembers: false, // should be turned off when in multiple guilds (it automatically caches all members from all guilds in startup)
+        intents: Discord.Intents.NON_PRIVILEGED
     });
     module.exports.bot = bot;
     /* ws: {

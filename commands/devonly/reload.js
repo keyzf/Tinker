@@ -17,10 +17,10 @@ module.exports.run = async(bot, message, args) => {
         try {
             await botSetup.removeEvent(bot, scriptName);
             await botSetup.addEvent(bot, scriptName);
-            message.channel.send("Reloaded")
+            message.channel.send(`Reloaded event ${eventName}`)
         } catch (err) {
             logger.error(err);
-            message.channel.send("Something broke")
+            message.channel.send(`${eventName} event has broken`)
         }
     } else if (type == "cevent") {
         const ceventName = args[1];
@@ -34,10 +34,10 @@ module.exports.run = async(bot, message, args) => {
         try {
             await botSetup.removeCEvent(bot, scriptName);
             await botSetup.addCEvent(bot, scriptName);
-            message.channel.send("Reloaded")
+            message.channel.send(`Reloaded Cevent ${ceventName}`)
         } catch (err) {
             logger.error(err);
-            message.channel.send("Something broke")
+            message.channel.send(`${ceventName} Cevent has broken`)
         }
     } else if (type == "command") {
         const commandName = args[1];
@@ -51,12 +51,12 @@ module.exports.run = async(bot, message, args) => {
         try {
             await botSetup.removeCommand(bot, scriptName);
             await botSetup.addCommand(bot, scriptName);
-            message.channel.send("Reloaded")
+            message.channel.send(`Reloaded command ${commandName}`)
         } catch (err) {
             logger.error(err);
-            message.channel.send("Something broke")
+            message.channel.send(`${commandName} command has broken`)
         }
-    } else { return message.channel.send("Type should equal \"command\" or \"event\"") }
+    } else { return message.channel.send("Type should equal \"command\", \"event\" or \"cevent\"") }
 };
 
 module.exports.help = {

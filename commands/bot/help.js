@@ -80,7 +80,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
 module.exports.help = {
     name: 'help',
-    aliases: ["what", "how", "why"],
+    aliases: ["what", "how", "why", "h"],
     description: "Gives you all the help you could possibly need...\n if your still stuck, head to our [Official Support Server](https://discord.gg/aymBcRP)",
     cooldown: 0,
     generated: true

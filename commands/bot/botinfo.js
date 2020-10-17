@@ -8,7 +8,11 @@ module.exports.run = async (bot, message, args, dbGuild) => {
     embed.setColor('#a700bd')
     embed.setTitle('Bot Information')
     embed.setDescription("I'm going to tell you all about myself")
-    embed.setThumbnail('../res/icon.png');
+
+    const attachment = new Discord.MessageAttachment("./res/icon.png", 'icon.png');
+    embed.attachFiles(attachment)
+    embed.setThumbnail('attachment://icon.png');
+    
     for (var i = 0; i < botInfo.length; i++) {
         embed.addFields({ "name": `${botInfo[i].name}`, "value": `${botInfo[i].value}` })
     }
