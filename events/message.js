@@ -16,7 +16,7 @@ module.exports.run = async(message) => {
     // find the guild from the database using its id (obtained from the sent message)
     const dbGuild = db.prepare(`Select * FROM guilds WHERE ${Fields.GuildFields.guildID}='${message.guild.id}'`).get();
     if (!dbGuild) {
-        message.channel.send(setResponses.noDbGuildFound(""));
+        message.channel.send(setResponses.noDbGuildFound("db-Fs8-6Ps-Jyp"));
         return bot.emit("guildCreate", message.guild);
     }
 
