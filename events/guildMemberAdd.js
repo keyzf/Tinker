@@ -5,7 +5,7 @@ const { db, Fields } = require("../lib/db");
 const Discord = require("discord.js")
 
 const { wrapText } = require("../lib/utilFunctions");
-// require canvas
+// require canvas, add to package.json "canvas": "^2.6.1",
 // const Canvas = require('canvas');
 // // get the register font method
 // const registerFont = Canvas.registerFont;
