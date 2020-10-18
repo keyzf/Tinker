@@ -4,7 +4,7 @@ const figlet = require('figlet');
 
 async function start() {
     let hrstart = process.hrtime();
-    clear();
+    // clear();
 
     console.log(
         chalk.magenta(
@@ -78,9 +78,12 @@ async function start() {
 
     logger.debug("setting up clean exit");
     require("./lib/cleanExit").setup();
+
+    logger.debug("setting up child process manager");
+    require("./lib/child").setup();
     
-    // setup the cli
-    require("./lib/cli").setup();
+    // setup the cli, old removed
+    // require("./lib/cli").setup();
 
     require("./lib/updateLoop").start();
 

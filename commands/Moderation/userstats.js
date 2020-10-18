@@ -44,4 +44,3 @@ module.exports.help = {
     generated: true
 };
 
-// TODO look into npm module sequelize

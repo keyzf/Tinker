@@ -1,11 +1,12 @@
 {
-  "name": "devsappprerelease",
+  "name": "devsapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install && pm2 reload ecosystem.config.js --env production && pm2 monit",
+    "start-pm2": "npm install && pm2 reload ecosystem.config.js --env production && pm2 monit",
+    "start-custom": "npm install && node manager.js",
     "dev": "node index.js"
   },
   "author": "",
