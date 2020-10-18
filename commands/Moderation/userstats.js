@@ -17,7 +17,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         .setColor(`RANDOM`)
         .setThumbnail(`${target.user.displayAvatarURL()}`)
         .addField('Joined at:', `${moment.utc(target.joinedAt).format('dddd, MMMM Do YYYY, HH:mm:ss')}`, true)
-        .addField('Created at:', `${moment.utc(target.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss')}`, true)
+        .addField('Created at:', `${moment.utc(target.user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss')}`, true)
         .addField('Status:', target.presence.status, true)
         // sets up to three fields in one line so there would be a break here
         .addField('Messages Sent:', dbTarget.messagesSent, true)
