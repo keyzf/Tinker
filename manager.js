@@ -46,7 +46,7 @@ rl.on('line', async(line) => {
             default:
                 try { // if there is no built-in command in the interface then just evaluate the entire line
                     console.log("command not found, evaluating...")
-                    let eresult = eval(msg.command);
+                    let eresult = eval(line);
                     console.log(eresult);
                 } catch (err) { console.error(err) }
         }
