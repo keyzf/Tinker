@@ -31,5 +31,4 @@ module.exports.help = {
     description: "Set the logging channel for moderation events",
     usage: "[channel mention]",
     cooldown: 5,
-    inDev: true
 }

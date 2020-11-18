@@ -36,7 +36,9 @@ module.exports.run = async(bot, message, args) => {
         WHERE ${Fields.InfractionFields.userID}='${target.id}' AND ${Fields.InfractionFields.guildID}='${message.guild.id}'
     `).all();
 
-    console.log(allInfractions)
+    if(allInfractions.length < 1) {
+        return m.edit(`${target.user.username} has no infractions`)
+    }
 
     // send the embed with the first noPerPage worlds
     m.edit(generateEmbed(0, allInfractions)).then((msg) => {
@@ -76,5 +78,4 @@ module.exports.help = {
     usage: "[@ user] OR [infraction ID]",
     generated: true,
     cooldown: 2,
-    inDev: true
 }
