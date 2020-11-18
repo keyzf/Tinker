@@ -9,18 +9,19 @@ module.exports.run = async(bot, message, args) => {
     const generateEmbed = (start, all) => {
         const current = all.slice(start, start + noPerPage);
         const embed = new Discord.MessageEmbed();
-        embed.setThumbnail(bot.user.displayAvatarURL());
+        embed.setThumbnail(target.user.displayAvatarURL());
         embed.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL());
-        embed.setDescription(`All of ${target.user.username} current infractions`);
         embed.setTimestamp();
-        embed.setTitle(`Showing infractions ${start + 1}-${start + current.length} out of ${all.length}`);
+        if (all.length < 1) {
+            embed.setTitle(`There are no infractions marked against ${target.user.username}`);
+        } else {
+            embed.setTitle(`Showing infractions ${start + 1}-${start + current.length} out of ${all.length}`);
+            embed.setDescription(`All of ${target.user.username} current infractions`);
+        }
         current.forEach((infraction) => {
-            embed.addFields(
-                { name: `Infraction`, value: `${infraction.infractionType}` },
-                { name: `Info`, value: `Reason: ${infraction.infractionReason}
+            embed.addFields({ name: `Infraction`, value: `${infraction.infractionType}` }, { name: `Info`, value: `Reason: ${infraction.infractionReason}
                 By: <@${infraction.infractorUserID}>
-                `}
-            );
+                ` });
         });
         return embed;
     };
@@ -35,10 +36,6 @@ module.exports.run = async(bot, message, args) => {
         SELECT * FROM Infractions
         WHERE ${Fields.InfractionFields.userID}='${target.id}' AND ${Fields.InfractionFields.guildID}='${message.guild.id}'
     `).all();
-
-    if(allInfractions.length < 1) {
-        return m.edit(`${target.user.username} has no infractions`)
-    }
 
     // send the embed with the first noPerPage worlds
     m.edit(generateEmbed(0, allInfractions)).then((msg) => {
