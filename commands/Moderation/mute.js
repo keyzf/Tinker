@@ -14,7 +14,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     let reason = arrEndJoin(args, " ", 1) || "No reason specified";
     let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
-    let muteRole = await bot.event.updateMuteRole(dbGuild)
+    let muteRole = await bot.cevents.get("updateMuteRole").run(dbGuild)
 
     target.roles.add(muteRole);
 
