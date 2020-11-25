@@ -1,7 +1,7 @@
 const { bot } = require('../index');
 const logger = require("../lib/logger");
 const { db, Fields } = require("../lib/db");
-const Discord = require("discord.js")
+const Discord = require("discord.js");
 
 module.exports.run = async() => {
     let events = db.prepare(`SELECT * FROM events`).all();

@@ -10,9 +10,13 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     var type = args[1].toLowerCase();
     var subject = args[2].toLowerCase();
 
+    console.log(dbGuild)
+
+
     if (action == "add" || action == "push") {
         if (type == "channel") {
             dbGuild.ignoredSpamChannels.push(subject);
+            console.log(dbGuild.ignoredSpamChannels)
             db.prepare(`
                 UPDATE guilds
                 SET ignoredSpamChannels='${dbGuild.ignoredSpamChannels.join(",")}'

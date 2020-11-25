@@ -12,7 +12,6 @@ module.exports.run = async() => {
             if (a.releaseTime < Date.now()) {
                 // send the announcement
                 const webhook = await bot.fetchWebhook(a.webhookID);
-                const deadline = new Date(a.announcementDeadline);
                 const embed = new Discord.MessageEmbed();
                 embed.setColor("#ff00ff");
                 embed.setTitle(a.announcementName);

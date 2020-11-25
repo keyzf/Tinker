@@ -23,6 +23,7 @@ module.exports.run = async(message) => {
     // get desired settings for this guild
     // convert from sql TEXT to json array
     if (dbGuild.ignoredSpamChannels) dbGuild.ignoredSpamChannels = dbGuild.ignoredSpamChannels.split(",");
+    else dbGuild.ignoredSpamChannels = []
 
     // get the desired prefix for this guild
     let prefix = dbGuild.prefix;
