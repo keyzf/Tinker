@@ -7,9 +7,9 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
     if (!args[2]) { return message.channel.send(`Not enough arguments provided: ${this.help.usage}`); }
 
-    const by = args[0]
+    const by = args[0].toLowerCase()
     const quote = args[1]
-    const pg = args[2] ==  "t" ? true : false
+    const pg = args[2].toLowerCase() ==  "t" ? true : false
 
     quotesdb.insert({
        quote,
