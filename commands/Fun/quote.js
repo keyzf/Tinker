@@ -1,51 +1,45 @@
 const fetch = require("node-fetch");
 const logger = require("../../lib/logger")
 const Discord = require("discord.js");
+const { quotesdb } = require("../../lib/db")
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async(bot, message, args) => {
+
+    // quotesdb.findOne({ email: passed_email }).then((elt) => found(elt))
 
     message.channel.startTyping();
 
-    fetch('https://raw.githubusercontent.com/LordFarquhar/DnDGang/master/quotes.json')
-        .then(async (response) => {
-            let content = await response.json()
-            const quotes = content.quotes;
+    let all;
+    if (args[0]) {
+        if (args[0].toLowerCase() == "nsfw") {
+            all = await quotesdb.find({ pg: false });
+        } else if (args[0].toLowerCase() == "sfw") {
+            all = await quotesdb.find({ pg: true });
+        } else {
+            all = await quotesdb.find({ by: args[0].toLowerCase() });
+        }
+    } else {
+        all = await quotesdb.find({});
+    }
 
-            var item;
-            var num;
-            if (args[0]){
-                var items = quotes.filter((elt) => {
-                    return elt.by.toLowerCase()== args[0].toLowerCase();
-                })
-                if(!items.length) return message.channel.send("Could not get quote with that name");
-                num = Math.floor(Math.random() * items.length)
-                item = items[num];
-            } else {
-                num = Math.floor(Math.random() * quotes.length);
-                var item = quotes[num];
-            }
+    const item = all[Math.floor(Math.random() * all.length)];
 
-            const embed = new Discord.MessageEmbed();
-            embed.setTitle(`${(item.pg) ? "SFW" : "NSFW"} DnD Quote`)
-            embed.addFields(
-                { name: `${item.by.charAt(0).toUpperCase() + item.by.slice(1)}`, value: `${item.quote}` },
-                { name: `Date`, value: `${item.date}` }
-                )
-            embed.setFooter(`Quote no. ${num+1}`)
-            message.channel.send(embed)
-        })
-        .catch((err) => {
-            logger.log("warn", `error on meme fetch: ${err.stack}`)
-            message.channel.send("Could not get quote");
-        });
+    if (item) {
 
+        const embed = new Discord.MessageEmbed();
+        embed.setTitle(`${(item.pg) ? "SFW" : "NSFW"} DnD Quote`)
+        embed.addFields({ name: `${item.by.charAt(0).toUpperCase() + item.by.slice(1)}`, value: `${item.quote}` }, { name: `Date`, value: `${item.date}` })
+        embed.setFooter(`Quote id. ${item._id}`)
+        message.channel.send(embed)
+    } else {
+        message.channel.send("Quote could not be found");
+    }
     message.channel.stopTyping();
-
 };
 
 module.exports.help = {
     name: 'quote',
     aliases: ['quotes'],
-    description: "Sends you a random quote from my DnD campaigns!",
+    description: "Sends you a quote from my friends (usually my DnD campagin)!",
     generated: true
 }
