@@ -98,7 +98,6 @@ If you need to update `npm`, you can make it using `npm`! Cool right? Just run t
 
 Create a file in the root directy (in the same folder as index.js) named .env
  - add `BOT_TOKEN=your_token_here`
- - add `MONGO_RUL=your_mongodb_access_url_here`
  - optionally add `PORT=dashboard_server_port`
 
 Then open `./config/config.json` then edit it with your settings. You will need:

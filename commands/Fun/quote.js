@@ -5,8 +5,6 @@ const { quotesdb } = require("../../lib/db")
 
 module.exports.run = async(bot, message, args) => {
 
-    // quotesdb.findOne({ email: passed_email }).then((elt) => found(elt))
-
     message.channel.startTyping();
 
     let all;

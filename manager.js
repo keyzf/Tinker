@@ -7,7 +7,7 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
     terminal: false
-})
+});
 
 let client = fork('index.js');
 
@@ -25,7 +25,7 @@ rl.on('line', async(line) => {
         if (!element) return null;
         return args.push(element.replace(/"/g, ''));
     });
-    let cmd = args.shift() // .toLowerCase();
+    let cmd = args.shift(); // .toLowerCase();
     try {
         switch (cmd) {
             case ("cls"):
@@ -41,14 +41,14 @@ rl.on('line', async(line) => {
                 client = fork("index.js");
                 break;
             case ("execute"):
-                client.send({ action: "command", command: line.slice(cmd.length, line.length) })
-                break
+                client.send({ action: "command", command: line.slice(cmd.length, line.length) });
+                break;
             default:
                 try { // if there is no built-in command in the interface then just evaluate the entire line
-                    console.log("command not found, evaluating...")
+                    console.log("command not found, evaluating...");
                     let eresult = eval(line);
                     console.log(eresult);
-                } catch (err) { console.error(err) }
+                } catch (err) { console.error(err); }
         }
-    } catch (err) { console.error(err) }
+    } catch (err) { console.error(err); }
 });
