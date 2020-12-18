@@ -1,24 +1,15 @@
 const Discord = require("discord.js");
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 
 module.exports.run = async (bot, message, args, dbGuild) => {
-    delete require.cache[require.resolve('../../res/botInfo.json')]
-    var { botInfo } = require("../../res/botInfo.json");
+    delete require.cache[require.resolve('../../data/botInfo.json')]
+    var { botInfo } = require("../../data/botInfo.json");
 
-    const embed = new Discord.MessageEmbed();
-    embed.setColor('#a700bd')
-    embed.setTitle('Bot Information')
-    embed.setDescription("I'm going to tell you all about myself")
-
-    const attachment = new Discord.MessageAttachment("./res/icon.png", 'icon.png');
-    embed.attachFiles(attachment)
-    embed.setThumbnail('attachment://icon.png');
-    
-    for (var i = 0; i < botInfo.length; i++) {
-        embed.addFields({ "name": `${botInfo[i].name}`, "value": `${botInfo[i].value}` })
-    }
-    embed.setTimestamp()
-    embed.setFooter('See you around!');
-    message.channel.send(embed);
+    message.channel.send(generateDefaultEmbed({
+        title: "Bot Information",
+        description: "I'm going to tell you all about myself",
+        fields: botInfo
+    }));
 };
 
 module.exports.help = {

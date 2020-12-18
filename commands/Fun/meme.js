@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const setResponses = require("../../res/setResponse");
+const setResponses = require("../../data/setResponse");
 const logger = require("../../lib/logger");
 const reddit = [
     "meme",

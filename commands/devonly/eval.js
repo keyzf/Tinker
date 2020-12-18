@@ -4,7 +4,6 @@ const logger = require("../../lib/logger");
 const config = require("../../config/config.json");
 const { devs } = require("../../config/devs.json");
 const { codes } = require("../../config/errorCodes.json");
-const swears = require("../../res/swearlist.json").swears;
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 

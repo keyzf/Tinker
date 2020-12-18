@@ -19,7 +19,7 @@ module.exports.setup = async() => {
 }
 
 module.exports.run = async(message, dbGuild) => {
-    if (profanity.exists(message.content)) return profanity.censor(message.content)
+    // if (profanity.exists(message.content)) return profanity.censor(message.content)
     return null
 }
 

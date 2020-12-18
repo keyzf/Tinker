@@ -2,9 +2,10 @@ const { bot } = require("../index");
 const { db, Fields } = require("../lib/db.js");
 const logger = require("../lib/logger");
 const Discord = require("discord.js");
-const swears = require("../res/swearlist.json").swears;
 const { devs } = require("../config/devs.json");
-const setResponses = require("../res/setResponse");
+const setResponses = require("../data/setResponse");
+const generateDefaultEmbed = require("../util/generateDefaultEmbed");
+const deleteCatch = require("../util/deleteCatch");
 // error codes https://www.voucherify.io/generator
 
 module.exports.run = async(message) => {
@@ -92,9 +93,31 @@ module.exports.run = async(message) => {
     if (command) {
 
         // check if dev only command
-        if (command.help.limit && !devs.includes(message.author.id)) return message.channel.send(setResponses.noAccessDevCmd());
+        if (command.help.limit && !devs.includes(message.author.id)) {
+            if (command.help.limitMessage) {
+                return message.channel.send(generateDefaultEmbed(command.help.limitMessage))
+            }
+            return message.channel.send(generateDefaultEmbed({
+                title: "Sorry, not for you",
+                description: "This is a developer only command \nOur dev team leave commands in the bot to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
+                fields: [
+                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"}
+                ]
+            }))
+        }
         // check if in dev command
-        if (command.help.inDev && !devs.includes(message.author.id)) return message.channel.send(setResponses.inDev());
+        if (command.help.inDev && !devs.includes(message.author.id)) {
+            if (command.help.inDevMessage) {
+                return message.channel.send(generateDefaultEmbed(command.help.inDevMessage))
+            }
+            return message.channel.send(generateDefaultEmbed({
+                title: "This is in development",
+                description: "This command is in development and cannot currently be used in this server\nWe are constantly adding features and improving current ones. But the way we work is that the bot should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the bot is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
+                fields: [
+                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"}
+                ]
+            }))
+        }
 
         // check for cooldown
         // handles cooldown time for commands (set to 0 OR leave blank for no cooldown)
@@ -132,7 +155,7 @@ module.exports.run = async(message) => {
         message.react("🤦‍♂️")
         message.channel.send(`Need a hand? Type \`${dbGuild.prefix}help\``)
             .then((msg) => {
-                msg.delete({ timeout: 5000 });
+                deleteCatch(msg, 5000);
             });
     }
 }

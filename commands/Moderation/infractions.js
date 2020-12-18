@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const setResponses = require("../../res/setResponse");
+const setResponses = require("../../data/setResponse");
 const { db, Fields } = require("../../lib/db");
 
 module.exports.run = async(bot, message, args) => {

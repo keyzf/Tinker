@@ -1,30 +1,30 @@
 const Discord = require("discord.js");
 
-module.exports.noAccessDevCmd = () => {
-    return new Discord.MessageEmbed()
-        .setTitle("That's A Dev Command!")
-        .setAuthor("Our Dev Team")
-        .setColor("#a700bd")
-        .setDescription("Our dev team leave commands in the bot to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them")
-        .addFields(
-            { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
-        )
-        .setFooter("See you around!")
-        .setTimestamp();
-};
+// module.exports.noAccessDevCmd = () => {
+//     return new Discord.MessageEmbed()
+//         .setTitle("That's A Dev Command!")
+//         .setAuthor("Our Dev Team")
+//         .setColor("#a700bd")
+//         .setDescription("Our dev team leave commands in the bot to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them")
+//         .addFields(
+//             { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
+//         )
+//         .setFooter("See you around!")
+//         .setTimestamp();
+// };
 
-module.exports.inDev = () => {
-    return new Discord.MessageEmbed()
-        .setTitle("This feature is in development")
-        .setAuthor("Our Dev Team")
-        .setColor("#a700bd")
-        .setDescription("We are constantly adding features and improving current ones. But the way we work is that the bot should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the bot is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!")
-        .addFields(
-            { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
-        )
-        .setFooter("See you around!")
-        .setTimestamp();
-};
+// module.exports.inDev = () => {
+//     return new Discord.MessageEmbed()
+//         .setTitle("This feature is in development")
+//         .setAuthor("Our Dev Team")
+//         .setColor("#a700bd")
+//         .setDescription("We are constantly adding features and improving current ones. But the way we work is that the bot should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the bot is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!")
+//         .addFields(
+//             { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
+//         )
+//         .setFooter("See you around!")
+//         .setTimestamp();
+// };
 
 module.exports.fatalErrorToUser = () => {
     return new Discord.MessageEmbed()

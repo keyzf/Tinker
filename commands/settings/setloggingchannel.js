@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 // const logger = require("../../lib/logger");
 const { db, Fields } = require('../../lib/db');
-const setResponses = require("../../res/setResponse")
+const setResponses = require("../../data/setResponse")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
 

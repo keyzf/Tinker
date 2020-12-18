@@ -8,12 +8,13 @@ const logger = require("../lib/logger")
  * 
  * @returns {Boolean} true if the message was deleted successfully, false if not
  */
-module.exports = function(msg, timeout) {
+async function deleteCatch(msg, timeout) {
     try {
-        msg.delete({timeout: timeout | 0});
+        await msg.delete({timeout: timeout || 0});
         return true;
     } catch (e) {
-        logger.error(e);
+        logger.debug(e);
         return false;
     }
 }
+module.exports = deleteCatch;

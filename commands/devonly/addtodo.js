@@ -1,7 +1,7 @@
 const fs = require("fs");
 const logger = require("../../lib/logger");
 const stream = fs.createWriteStream("./data/todo.txt", {flags:'a'});
-const setResponse = require("../../res/setResponse");
+const setResponse = require("../../data/setResponse");
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     try {

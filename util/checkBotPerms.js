@@ -9,10 +9,14 @@ const generateDefaultEmbed = require("./generateDefaultEmbed");
  */
 module.exports.manageMessages = (guild, message) => {
     const pass = guild.me.hasPermission("MANAGE_MESSAGES");
-    if (!message) { return pass }
-    return generateDefaultEmbed("Perms check failed", "I failed my permissions check for Managing Messages! I really need that one!", [
-        {name:"Solutions", value:"Make sure I have permissions to manage messages in all channels. If you are unsure, give me the administrator permission, it allows me to do everything I need"}
-    ]);
+
+    return generateDefaultEmbed({
+        title: "Perms check failed",
+        description: "I failed my permissions check for Managing Messages! I really need that one!",
+        fields: [
+            {name:"Solutions", value:"Make sure I have permissions to manage messages in all channels. If you are unsure, give me the administrator permission, it allows me to do everything I need" }
+        ]
+    });
 }
 
 /**

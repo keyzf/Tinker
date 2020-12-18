@@ -1,6 +1,6 @@
 const fs = require("fs");
 const logger = require("../../lib/logger");
-const setResponse = require("../../res/setResponse");
+const setResponse = require("../../data/setResponse");
 const { quotesdb } = require("../../lib/db");
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {

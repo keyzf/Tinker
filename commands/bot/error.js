@@ -1,30 +1,28 @@
 const Discord = require("discord.js");
-const setResponses = require("../../res/setResponse");
 const errorCodes = require("../../config/errorCodes.json").codes;
 
 module.exports.run = async(bot, message, args, dbGuild) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
 
-    const e = new Discord.MessageEmbed()
-    .setTitle(`Error Code ${args[0]}`)
-    .setColor("#a700bd")
-    
-    .setTimestamp();
+
+    let e = {
+        title: `Error Code ${args[0]}`,
+    }
 
     const found = errorCodes.filter((elt) => {
         return elt.code == args[0]
     });
-    if (found.length > 1) { e.setDescription("There is and issue with the error code lookup file. Please contact a developer immeditately") }
-    else if (!found.length) { e.setDescription("Could not find error with that code") }
-    else if (!found[0].userMsg) { e.setDescription("No error message is associated with that code") }
+    if (found.length > 1) { e.description = "There is and issue with the error code lookup file. Please contact a developer immeditately" }
+    else if (!found.length) { e.description = "Could not find error with that code" }
+    else if (!found[0].userMsg) { e.description = "No error message is associated with that code" }
     else { 
-        e.setDescription(found[0].name)
-        e.addFields(
+        e.description = found[0].name
+        e.fields = [
             { name: "User Message", value: `${found[0].userMsg}` },
             { name: "Dev Message", value: `${found[0].devMsg}` }
-        );
+        ]
     }
-    message.channel.send(e);
+    message.channel.send(generateDefaultEmbed(e));
 
 
 };

@@ -23,8 +23,8 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     let releaseDate = Date.now() + (args[2] * 1000 * 60);
     db.prepare(`
         INSERT INTO announcements(${Fields.AnnouncementFields.guildID}, ${Fields.AnnouncementFields.announcementName}, ${Fields.AnnouncementFields.announcementDescription}, ${Fields.AnnouncementFields.releaseTime}, ${Fields.AnnouncementFields.announcementID}, ${Fields.AnnouncementFields.webhookID})
-        VALUES('${dbGuild.guildID}', '${args[0]}', '${args[1]}', '${releaseDate}','${announcementID}', '${hook.id}');
-    `).run();
+        VALUES(?, ?, ?, ?, ?, ?);
+    `).run(dbGuild.guildID, args[0], args[1], releaseDate, announcementID, hook.id);
     const m = await message.channel.send("Announcement Created");
     message.delete({ timeout: 0 });
     m.delete({ timeout: 5000 });

@@ -2,27 +2,39 @@ const { MessageEmbed, MessageAttachment } = require("discord.js")
 
 /**
  * 
- * @param {String} title 
- * @param {String} description 
- * @param {{name: String, value: String}[]} fields 
+ * @param {{title: String, description: String, fields: {name: String, value: String}[]}} embedInfo 
  */
-module.exports = (title, description, fields) => {
+module.exports = (embedInfo) => {
     const embed = new MessageEmbed();
-       
-    const attachment = new MessageAttachment("./res/icon.png", 'icon.png');
-    embed.attachFiles(attachment)
-    embed.setThumbnail('attachment://icon.png');
+
+    embed.attachFiles(new MessageAttachment("./res/icon.png", 'icon.png'));
+    embed.setAuthor("DevsApp", "attachment://icon.png", 'https://discord.com/invite/aymBcRP')
     embed.setColor('#a700bd')
-    embed.setAuthor("DevsApp", "attachment://icon.png", 'https://discord.com/invite/')
-    embed.setFooter('See you around!', "attachment://icon.png");
     embed.setTimestamp()
 
-    embed.setTitle(title)
-    embed.setDescription(description)
-    
-    for (var i = 0; i < fields.length; i++) {
-        embed.addFields({ "name": `${fields[i].name}`, "value": `${fields[i].value}` })
+    if (embedInfo.title) { embed.setTitle(embedInfo.title) }
+    if (embedInfo.description) { embed.setDescription(embedInfo.description) }
+
+    if (embedInfo.fields) {
+        for (var i = 0; i < embedInfo.fields.length; i++) {
+            embed.addFields({ "name": `${embedInfo.fields[i].name}`, "value": `${embedInfo.fields[i].value}` })
+        }
     }
-    
+
+    if (embedInfo.thumbnailUrl) {
+        embed.attachFiles(embedInfo.thumbnailUrl, "thumbnail.png")
+        embed.setThumbnail('attachment://thumbnail.png');
+    }
+    if (embedInfo.imageUrl) {
+        embed.attachFiles(embedInfo.imageUrl, "image.png")
+        embed.setImage('attachment://image.png');
+    }
+    if (embedInfo.footerUrl) {
+        embed.attachFiles(embedInfo.footerUrl, "footer.png")
+        embed.setFooter(embedInfo.footerText || "See you around!", "attachment://footer.png");
+    } else {
+        embed.setFooter(embedInfo.footerText || "See you around!");
+    }
+
     return embed;
 }

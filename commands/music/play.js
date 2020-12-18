@@ -1,4 +1,4 @@
-const setResponses = require("../../res/setResponse");
+const setResponses = require("../../data/setResponse");
 const ytdl = require('ytdl-core');
 
 

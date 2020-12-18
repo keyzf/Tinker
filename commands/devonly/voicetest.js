@@ -1,9 +1,8 @@
-const setResponses = require("../../res/setResponse");
+const setResponses = require("../../data/setResponse");
 const ytdl = require('ytdl-core');
 
 
 module.exports.run = async(bot, message, args) => {
-    // message.channel.send(setResponses.inDev());
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.channel.send(setResponses.mustBeInVoiceChannel());
 
