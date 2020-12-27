@@ -1,4 +1,3 @@
-const { MessageEmbed } = require("discord.js");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 
 module.exports.run = async (bot, message, args) => {

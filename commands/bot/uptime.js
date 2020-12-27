@@ -1,5 +1,4 @@
 const ms = require("pretty-ms");
-const { MessageEmbed } = require("discord.js");
 const { db, Fields } = require("../../lib/db");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 

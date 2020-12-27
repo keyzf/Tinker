@@ -8,7 +8,7 @@ module.exports = (embedInfo) => {
     const embed = new MessageEmbed();
 
     embed.attachFiles(new MessageAttachment("./res/icon.png", 'icon.png'));
-    embed.setAuthor("DevsApp", "attachment://icon.png", 'https://discord.com/invite/aymBcRP')
+    embed.setAuthor("Tinker", "attachment://icon.png", 'https://discord.com/invite/aymBcRP')
     embed.setColor('#a700bd')
     embed.setTimestamp()
 

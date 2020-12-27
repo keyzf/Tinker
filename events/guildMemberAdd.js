@@ -5,23 +5,20 @@ const { db, Fields } = require("../lib/db");
 const Discord = require("discord.js")
 
 const { wrapText } = require("../lib/utilFunctions");
-// require canvas, add to package.json "canvas": "^2.6.1",
-// const Canvas = require('canvas');
-// // get the register font method
-// const registerFont = Canvas.registerFont;
-// // register all the necessary fonts (DO NOT CHANGE THE family ATTRIBUTE, ONLY THE FILEPATH)
-// registerFont('./res/join-card/Montserrat-Bold.ttf', { family: 'mont-bold' })
-// registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
-// registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
-// registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
+const Canvas = require('canvas');
+// get the register font method
+const registerFont = Canvas.registerFont;
+// register all the necessary fonts (DO NOT CHANGE THE family ATTRIBUTE, ONLY THE FILEPATH)
+registerFont('./res/join-card/Montserrat-Bold.ttf', { family: 'mont-bold' })
+registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
+registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
+registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
 
 module.exports.run = async(member) => {
     const dbGuild = db.prepare(`SELECT * FROM guilds WHERE ${Fields.GuildFields.guildID}='${member.guild.id}'`).get();
     bot.cevents.get("addUser").run(member.id, dbGuild);
     bot.cevents.get("updateActivity").run();
     if (!dbGuild.welcomeChannel) { return; }
-
-    return;
 
     const canvas = Canvas.createCanvas(400, 660);
     const ctx = canvas.getContext('2d');

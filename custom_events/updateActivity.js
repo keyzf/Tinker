@@ -9,7 +9,10 @@ module.exports.run = async(text) => {
         });
     }
     bot.user.setStatus('online')
-    bot.user.setActivity(`with ${bot.users.cache.size} users over ${bot.guilds.cache.size} guilds - [${config.prefix}]`, {
+    // bot.user.setActivity(`with ${bot.users.cache.size} users over ${bot.guilds.cache.size} guilds - [${config.prefix}]`, {
+    //     type: "PLAYING"
+    // });
+    bot.user.setActivity("with your guid", {
         type: "PLAYING"
     });
 }

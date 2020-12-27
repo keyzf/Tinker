@@ -1,5 +1,4 @@
 const Discord = require("discord.js")
-const { botChannel, logsChannel, reportsChannel } = require("../../config/config.json");
 const { devs } = require("../../config/devs.json")
 
 module.exports.run = async(bot, message, args, dbGuild) => {

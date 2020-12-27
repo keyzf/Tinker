@@ -1,8 +1,5 @@
 {
-  "prefix": "da!",
-  "botChannel": "devsapp",
-  "logsChannel": "logs",
-  "reportsChannel": "reports",
+  "prefix": "t!",
 
   "officialServerId": "711189052371501107",
 

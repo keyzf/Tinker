@@ -4,6 +4,7 @@ const logger = require("../../lib/logger");
 const config = require("../../config/config.json");
 const { devs } = require("../../config/devs.json");
 const { codes } = require("../../config/errorCodes.json");
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 

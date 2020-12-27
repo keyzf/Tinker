@@ -2,11 +2,11 @@
   "botInfo": [
     {
       "name": "About",
-      "value": "DevsApp is currenlty in beta testing so it is very limited on available commands. However, we are updating, upgrading and fixing as often as possible. We hope you understand that all our developers are giving up their own time, volunteering and providing their expertise for free!"
+      "value": "Tinker is currenlty in its first stages of release so there are still a few kinks we are working out. However, we are updating, upgrading and fixing as often as possible. We hope you understand that all our developers are giving up their own time, volunteering and providing their expertise for free!"
     },
     {
       "name": "Version",
-      "value": "b1.4.2"
+      "value": "1.4.1"
     },
     {
       "name": "Author",
@@ -14,7 +14,7 @@
     },
     {
       "name": "Support Server",
-      "value": "[Official DevsApp Server](https://discord.gg/aymBcRP)"
+      "value": "[Official Tinker Server](https://discord.gg/aymBcRP)"
     }
   ]
 }

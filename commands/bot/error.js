@@ -1,4 +1,3 @@
-const Discord = require("discord.js");
 const errorCodes = require("../../config/errorCodes.json").codes;
 
 module.exports.run = async(bot, message, args, dbGuild) => {

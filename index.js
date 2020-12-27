@@ -8,7 +8,7 @@ async function start() {
 
     console.log(
         chalk.magenta(
-            figlet.textSync('DevsApp', { horizontalLayout: 'full' })
+            figlet.textSync("Tinker", { horizontalLayout: 'full' })
         )
     );
 
