@@ -11,7 +11,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     const found = errorCodes.filter((elt) => {
         return elt.code == args[0]
     });
-    if (found.length > 1) { e.description = "There is and issue with the error code lookup file. Please contact a developer immeditately" }
+    if (found.length > 1) { e.description = "There is and issue with the error code lookup file. Please contact a developer immediately" }
     else if (!found.length) { e.description = "Could not find error with that code" }
     else if (!found[0].userMsg) { e.description = "No error message is associated with that code" }
     else { 

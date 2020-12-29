@@ -1,6 +1,4 @@
 const { bot } = require('../index');
-const config = require("../config/config.json");
-const logger = require("../lib/logger")
 
 module.exports.run = async(text) => {
     if (text) {
@@ -12,7 +10,7 @@ module.exports.run = async(text) => {
     // bot.user.setActivity(`with ${bot.users.cache.size} users over ${bot.guilds.cache.size} guilds - [${config.prefix}]`, {
     //     type: "PLAYING"
     // });
-    bot.user.setActivity("with your guid", {
+    bot.user.setActivity("with your guild", {
         type: "PLAYING"
     });
 }

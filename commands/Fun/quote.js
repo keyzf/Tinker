@@ -38,6 +38,6 @@ module.exports.run = async(bot, message, args) => {
 module.exports.help = {
     name: 'quote',
     aliases: ['quotes'],
-    description: "Sends you a quote from my friends (usually my DnD campagin)!",
+    description: "Sends you a quote from my friends (usually my DnD campaign)!",
     generated: true
 }

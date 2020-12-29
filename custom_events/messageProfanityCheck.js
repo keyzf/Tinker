@@ -13,7 +13,7 @@ module.exports.setup = async() => {
     profanity.removeWords(whitelist);
 
     // words that are always ignored
-    // useful for when wholeword is false so arsenic doesn't get flagged for arse
+    // useful for when whole word is false so arsenic doesn't get flagged for arse
    profanity.whitelist.addWords(whitelist);
 
 }

@@ -20,7 +20,7 @@ module.exports.run = (dbGuild, id) => {
             });
             db.prepare(`UPDATE guilds SET ${Fields.GuildFields.muteRoleID}=${muteRole.id} WHERE ${Fields.GuildFields.guildID}=${dbGuild.guildID}`).run();
         }
-        guild.channels.cache.forEach(async(channel, cahnnelID) => {
+        guild.channels.cache.forEach(async(channel, channelID) => {
             await channel.createOverwrite(muteRole, {
                 SEND_MESSAGES: false,
                 // MANAGE_MESSAGES: false,

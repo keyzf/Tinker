@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, dbGuild) => {
         .addField('Reported Time', message.createdAt)
         .addField('Reported In', message.channel)
         .addField('Reported Reason', reason)
-        .setFooter('Reported user imformation', target.user.displayAvatarURL);
+        .setFooter('Reported user information', target.user.displayAvatarURL);
 
     message.channel.send(`${target} was reported by ${message.author} for ${reason}`).then((msg) => {
         msg.delete({timeout: 5000} );

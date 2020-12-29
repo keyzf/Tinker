@@ -27,7 +27,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         return message.channel.send(setResponses.haveIGotCorrectPerms("pdDc-lG9-YlZ"))
     }
 
-    await target.send(`You have been ubanned from ${message.guild.name} by ${message.author.tag}`);
+    await target.send(`You have been unbanned from ${message.guild.name} by ${message.author.tag}`);
     message.channel.send(`${target.username} was unbanned by ${message.author}`);
 
     if (!logs) return message.reply(`please set a logging channel to log the unbans`);

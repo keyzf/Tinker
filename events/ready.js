@@ -16,7 +16,7 @@ module.exports.run = async() => {
         }
     });
 
-    // tell pm2 or another connected sevice that the bot is online and ready
+    // tell pm2 or another connected service that the bot is online and ready
     process.send('ready');
     logger.info(`${bot.user.username} setup complete and functional`);
 }
