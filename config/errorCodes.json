@@ -14,7 +14,7 @@
         },
         {
             "name": "database error - get guild for preferences",
-            "devMsg": "This error originates from the no docs if statement in an attempt to recieve the preferences in the message.js event",
+            "devMsg": "This error originates from the no docs if statement in an attempt to receive the preferences in the message.js event",
             "userMsg": "The guild could not be found in the database",
             "code": "db-Fs8-6Ps-Jyp"
         },
