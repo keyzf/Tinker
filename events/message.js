@@ -70,7 +70,11 @@ module.exports.run = async(message) => {
     // split the rest of the sentence by each word (SPACE) or "many worded args"
     const input = message.content.slice(prefix.length).trim();
     const args = [];
-    input.match(/"[^"]+"|[\S]+/g).forEach((element) => {
+    const preArgs = input.match(/"[^"]+"|[\S]+/g)
+    if (!preArgs) {
+        return message.react("👋")
+    }
+    preArgs.forEach((element) => {
         if (!element) return null;
         return args.push(element.replace(/"/g, ''));
     });
