@@ -1,7 +1,6 @@
 
 module.exports.run = async (bot, message, args) => {
-    // TODO: Bad Suggestions #1: some kind of!roulette function where you get different functions that change randomly. !russianroulette gives you a one in six chance of being kicked from the sever
-    
+    // TODO: roulette command, randomly does something to the user (e.g. gives devPoints, takes DevPoints, reports them, etc)    
 }
 module.exports.help = {
     name: "roulette",
