@@ -11,5 +11,6 @@ module.exports.help = {
     description: "Get the currently playing song info",
     usage: "",
     cooldown: 1,
-    inDev: false
+    inDev: false,
+    generated: true
 };

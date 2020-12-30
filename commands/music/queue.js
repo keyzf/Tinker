@@ -16,5 +16,7 @@ module.exports.help = {
     description: "Get the queue of songs",
     usage: "",
     cooldown: 1,
-    inDev: true
+    inDev: false,
+    generated: true
+
 };

@@ -12,5 +12,7 @@ module.exports.help = {
     description: "clear queue and stop all music",
     usage: "",
     cooldown: 2,
-    inDev: false
+    inDev: false,
+    generated: true
+
 };

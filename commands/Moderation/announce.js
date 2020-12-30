@@ -36,5 +36,7 @@ module.exports.help = {
     aliases: [],
     description: "Create an announcement",
     usage: "\"[Announcement Name]\" \"[Announcement Description]\" \"[Release Time (m)]\"",
-    cooldown: 5
+    cooldown: 3,
+    generated: true
+
 };

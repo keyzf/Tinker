@@ -10,5 +10,7 @@ module.exports.help = {
     description: "skip this song and play the next",
     usage: "",
     cooldown: 2,
-    inDev: false
+    inDev: false,
+    generated: true
+
 };

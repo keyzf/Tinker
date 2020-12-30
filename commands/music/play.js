@@ -57,5 +57,7 @@ module.exports.help = {
     description: "plays music from YouTube given a link",
     usage: "\"[Full Link]\"",
     cooldown: 2,
-    inDev: false
+    inDev: false,
+    generated: true
+
 };
