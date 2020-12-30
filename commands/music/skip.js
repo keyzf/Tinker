@@ -6,9 +6,9 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 }
 module.exports.help = {
     name: 'skip',
-    aliases: [],
+    aliases: ["next"],
     description: "skip this song and play the next",
     usage: "",
     cooldown: 2,
-    inDev: true
+    inDev: false
 };

@@ -7,9 +7,9 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
 module.exports.help = {
     name: 'nowplaying',
-    aliases: [],
+    aliases: ["songinfo"],
     description: "Get the currently playing song info",
     usage: "",
     cooldown: 1,
-    inDev: true
+    inDev: false
 };
