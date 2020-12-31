@@ -68,7 +68,7 @@ async function start() {
     // await require("./dashboard/server").start();
 
     logger.debug(`logging in bot with token`);
-    await bot.login(process.env.BOT_TOKEN_PRE);
+    await bot.login(process.env.BOT_TOKEN);
 
     // setup error case logging for client
     logger.debug("setting up error cases for the bot");
