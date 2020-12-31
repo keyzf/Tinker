@@ -8,7 +8,6 @@
 // });
 
 const Discord = require("discord.js");
-const config = require('../../config/config.json');
 const setResponses = require("../../data/setResponse");
 const logger = require("../../lib/logger")
 

@@ -5,8 +5,8 @@ const { db, Fields } = require("../lib/db")
 module.exports.run = async(userID, dbGuild) => {
     db.prepare(`
         INSERT INTO users(${Fields.UserFields.userID}, ${Fields.UserFields.guildID})
-        VALUES('${userID}', '${dbGuild.guildID}');
-    `).run()
+        VALUES(?, ?);
+    `).run(userID, dbGuild.guildID)
     bot.cevents.get("updateActivity").run()
 }
 

@@ -1,8 +1,4 @@
 const Discord = require("discord.js");
-const config = require('../../config/config.json');
-const setResponses = require("../../data/setResponse");
-const { db, Fields } = require("../../lib/db");
-const { updateMuteRole } = require("../../lib/utilFunctions");
 const { arrEndJoin } = require("../../lib/utilFunctions");
 
 module.exports.run = async(bot, message, args, dbGuild) => {

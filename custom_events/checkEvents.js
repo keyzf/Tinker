@@ -40,7 +40,6 @@ module.exports.run = async() => {
             // if passed deadline time
             if (e.eventDeadline < Date.now()) {
                 // end the event
-                // send the event
                 const webhook = await bot.fetchWebhook(e.webhookID);
                 const deadline = new Date(e.eventDeadline);
                 const embed = new Discord.MessageEmbed();

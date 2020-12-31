@@ -25,5 +25,6 @@ module.exports.help = {
     aliases: ["safeevaluate", "seval"],
     description: "Evaluate using javascript",
     usage: "[js code]",
-    cooldown: 5
+    cooldown: 5,
+    limit: true
 };

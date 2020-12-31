@@ -25,8 +25,8 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     let eventDeadline = Date.now() + (args[3] * 1000 * 60 * 60)
     db.prepare(`
         INSERT INTO events(${Fields.EventFields.guildID}, ${Fields.EventFields.eventName}, ${Fields.EventFields.eventDescription}, ${Fields.EventFields.releaseTime}, ${Fields.EventFields.eventDeadline}, ${Fields.EventFields.eventID}, ${Fields.EventFields.webhookID})
-        VALUES('${dbGuild.guildID}', '${args[0]}', '${args[1]}', '${releaseDate}', '${eventDeadline}', '${eventID}', '${hook.id}');
-    `).run();
+        VALUES(?, ?, ?, ?, ?, ?, ?);
+    `).run(dbGuild.guildID, args[0], args[1], releaseDate, eventDeadline, eventID, hook.id);
     const m = await message.channel.send("Event Created");
     message.delete({ timeout: 0 });
     m.delete({ timeout: 5000 });

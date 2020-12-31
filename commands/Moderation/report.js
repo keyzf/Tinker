@@ -1,5 +1,4 @@
 const discord = require('discord.js');
-const config = require('../../config/config.json');
 const { arrEndJoin } = require("../../lib/utilFunctions");
 
 module.exports.run = async (bot, message, args, dbGuild) => {

@@ -8,8 +8,8 @@ module.exports.run = async(userID, guildID, infractionType, infractionReason, in
     const infractionID = uuidv4();
     db.prepare(`
         INSERT INTO infractions(${Fields.InfractionFields.userID}, ${Fields.InfractionFields.id}, ${Fields.InfractionFields.guildID}, ${Fields.InfractionFields.type}, ${Fields.InfractionFields.reason}, ${Fields.InfractionFields.infractorUserId}, ${Fields.InfractionFields.channelID})
-        VALUES('${userID}', '${infractionID}', '${guildID}', '${infractionType}', '${infractionReason}', '${infractorID}', '${channelID}');
-    `).run();
+        VALUES(?, ?, ?, ?, ?, ?, ?);
+    `).run(userID, infractionID, guildID, infractionType, infractionReason, infractorID, channelID);
 
     const infractedUser = db.prepare(`SELECT * FROM users WHERE ${Fields.GuildFields.guildID}='${guildID}' AND ${Fields.UserFields.userID}='${userID}'`).get();
     

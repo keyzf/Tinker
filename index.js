@@ -57,12 +57,12 @@ async function start() {
             "DIRECT_MESSAGE_TYPING"
         ]
     },
-    */ // for verified bots only (apparantly), sets api requests for these only to reduce strain on the bot
+    */ // for verified bots only (apparently), sets api requests for these only to reduce strain on the bot
 
     logger.debug("setting up bot");
     await require("./lib/botSetup").setup(bot);
 
-    // logger.debug("setting up dashboard hhtp server")
+    // logger.debug("setting up dashboard http server")
     // await require("./dashboard/server").setup(bot);
     // logger.debug("starting dashboard http server")
     // await require("./dashboard/server").start();

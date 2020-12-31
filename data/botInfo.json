@@ -2,19 +2,27 @@
   "botInfo": [
     {
       "name": "About",
-      "value": "Tinker is currenlty in its first stages of release so there are still a few kinks we are working out. However, we are updating, upgrading and fixing as often as possible. We hope you understand that all our developers are giving up their own time, volunteering and providing their expertise for free!"
+      "value": "Tinker is a simple all-round helper for any server! From announcements to moderation, memes to dad jokes, music to afk, Tinker provides you with anything and everything necessary to keep your server running smoothly\nThis little dude has his own personality which never fails to put a smile on everyone's face!"
+    },
+    {
+      "name": "Updates and Information",
+      "value": "Tinker gets updates all the time: bug fixes, new features and prettifying to give you the best experience, and we'd love to hear how we are doing. Head to out Support Server :arrow_down: and give us some feedback. We listen to each and every request, bug report, cry for help and small annoyance because we want the best for you\n"
     },
     {
       "name": "Version",
-      "value": "1.4.1"
+      "value": "1.5.2"
     },
     {
-      "name": "Author",
-      "value": "<@!383656791684284427> The Founder of Devs and the Devs Server Owner"
+      "name": "Developers",
+      "value": "Author & Lead Dev: Inanis#2432, Devs: TechnoBiscuit#3540, Dukemz#7766"
     },
     {
       "name": "Support Server",
       "value": "[Official Tinker Server](https://discord.gg/aymBcRP)"
+    },
+    {
+      "name": "Just one click away",
+      "value": "[Get Tinker for yourself!](https://discord.com/api/oauth2/authorize?client_id=710141775808954389&permissions=8&scope=bot)"
     }
   ]
 }

@@ -12,7 +12,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     if (!args.length) {
         e.setTitle("Here to help!")
-        e.setDescription(`We have loads of commands (\`${dbGuild.prefix}help all\`) that do so many different things!\nI also have loads of background functionality (\`${dbGuild.prefix}help function\`) that is keeping your server running smooth, safe and fun!\n(don't forget our little legal disclaimer with \`${dbGuild.prefix}help disclaimer\`)`)
+        e.setDescription(`We have loads of commands (\`${dbGuild.prefix}help all\`) that do so many different things!\nI also have loads of background functionality (\`${dbGuild.prefix}help function\`) that is keeping your server running smooth, safe and fun!\n(don't forget our little disclaimer with \`${dbGuild.prefix}help disclaimer\`)\nMeet our developers by typing \`${dbGuild.prefix}help devs\` cause they deserve credit for everything that I am`)
         return message.channel.send(e)
     }
 
@@ -53,7 +53,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     }
 
     if (args[0].toLowerCase() == "external" || args[0].toLowerCase() == "api" || args[0].toLowerCase() == "disclaimer") {
-        e.setTitle("Our small legal disclaimer")
+        e.setTitle("Our small disclaimer")
         e.setDescription(`Not everything I say and do is a result of my developers programming, some things come from external sources or from other users of the bot. Therefore we cannot be held responsible for the content that comes about as a result of an external source, api or other users`)
         e.addFields({ name: `${dbGuild.prefix}dadjoke and ${dbGuild.prefix}meme`, value: `These both come from external sources (icanhazdadjoke.com and reddit.com respectively)` }, { name: "Profanity Filter", value: `We have a profanity filter that attempts to remove messages with rude words, swears and slurs. The bot cannot clear this messages perfectly and catch all cases of these words. We cannot guarantee that all messages will be properly cleared` }, { name: "Moderation commands", value: `Moderators can give any reason for muting, kicking and banning users. We do not have control over the reasons specified, therefore we will not be help responsible for these reason. We also cannot handle disputes to these commands, please take those up with server moderators or admins` }, { name: "AFK reasons", value: `User can set their own reason for being afk, we cannot be held responsible for the messages sent by our bot based on afk reasons` }, { name: "Cookies", value: `We don't use those here silly!` })
         return message.channel.send(e);
