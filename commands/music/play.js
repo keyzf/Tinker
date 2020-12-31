@@ -8,10 +8,13 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     if (!voiceChannel) return message.channel.send(setResponses.mustBeInVoiceChannel());
     if (!args[0]) return message.channel.send(`${dbGuild.prefix}${this.help.name} ${this.help.usage}`)
 
-    let input = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/).input;
-    if (!input) return message.channel.send("Thats not a real YouTube link")
+    let argsMatch = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/);
+    if (!argsMatch) {
+        message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({timeout:5000}))
+        return bot.commands.get("search").run(bot, message, args, dbGuild)
+    }
 
-    const songInfo = await ytdl.getInfo(input);
+    const songInfo = await ytdl.getInfo(argsMatch.input);
     const song = {
         title: songInfo.videoDetails.title,
         author: songInfo.videoDetails.author,

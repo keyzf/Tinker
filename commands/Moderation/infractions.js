@@ -46,7 +46,7 @@ module.exports.run = async(bot, message, args) => {
         const collector = msg.createReactionCollector(
             // only collect left and right arrow reactions from the message author
             (reaction, user) => ['⬅️', '➡️'].includes(reaction.emoji.name) && user.id === message.author.id,
-            // time out after a minute
+            // time out after 30 secs
             { time: 30000 }
         );
 
