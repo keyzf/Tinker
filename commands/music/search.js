@@ -48,6 +48,6 @@ module.exports.help = {
     description: "plays music from YouTube given a search criteria",
     usage: "\"[search criteria]\"",
     cooldown: 2,
-    inDev: true,
+    inDev: false,
     generated: true
 };
