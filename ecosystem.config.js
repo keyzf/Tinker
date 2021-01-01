@@ -7,8 +7,8 @@ module.exports = {
       kill_timeout: 3000,
       env: {
         "NODE_ENV": "production",
-      }
-      // max_memory_restart: '300M',
+      },
+      max_memory_restart: '100M',
      // node_args: "--max_old_space_size=8192"
     }
   ]
