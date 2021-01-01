@@ -6,7 +6,7 @@ const { play } = require("../../util/audioPlay");
 module.exports.run = async(bot, message, args, dbGuild) => {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.channel.send(setResponses.mustBeInVoiceChannel());
-    if (!args[0]) return message.channel.send(`${dbGuild.prefix}${this.help.name} ${this.help.usage}`)
+    if (!args[0]) return bot.commands.get("resume").run(bot, message, args, dbGuild)
 
     let argsMatch = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/);
     if (!argsMatch) {

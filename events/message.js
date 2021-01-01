@@ -149,7 +149,7 @@ module.exports.run = async(message) => {
         try {
             await command.run(bot, message, args, dbGuild, cmd);
         } catch (err) {
-            logger.log("error", err.stack)
+            logger.error(err.stack)
             message.channel.send(setResponses.fatalErrorToUser())
         }
 
