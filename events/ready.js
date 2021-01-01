@@ -16,6 +16,10 @@ module.exports.run = async() => {
     //     }
     // });
 
+
+    // tell updateLoop to start counting
+    require("../lib/updateLoop").updateTask.start()
+
     // tell pm2 or another connected service that the bot is online and ready
     process.send('ready');
     logger.info(`${bot.user.username} setup complete and functional`);
