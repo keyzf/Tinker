@@ -2,15 +2,20 @@ const { MessageEmbed, MessageAttachment } = require("discord.js")
 
 /**
  * 
- * @param {{title: String, description: String, fields: {name: String, value: String}[]}} embedInfo 
+ * @param {{title: String, description: String, fields: {name: String, value: String}[], colour: string, author: String, authorUrl: String, authorLink: String, thumbnailUrl: String, imageUrl: String, footerUrl: String, footerText: String}} embedInfo 
  */
 module.exports = (embedInfo) => {
     const embed = new MessageEmbed();
 
-    embed.attachFiles(new MessageAttachment("./res/icon.png", 'icon.png'));
-    embed.setAuthor("Tinker", "attachment://icon.png", 'https://discord.com/invite/aymBcRP')
-    embed.setColor('#a700bd')
-    embed.setTimestamp()
+    if (embedInfo.authorUrl) {
+        embed.attachFiles(new MessageAttachment(embedInfo.authorUrl, "author.png"))
+    } else {
+        embed.attachFiles(new MessageAttachment("./res/icon.png", 'author.png'));
+    }
+
+    embed.setAuthor(embedInfo.author || "Tinker", "attachment://author.png", embedInfo.authorLink || 'https://discord.com/invite/aymBcRP')
+
+    if (embedInfo.colour) { embed.setColor(embedInfo.colour) } else { embed.setColor('#a700bd') }
 
     if (embedInfo.title) { embed.setTitle(embedInfo.title) }
     if (embedInfo.description) { embed.setDescription(embedInfo.description) }
@@ -22,19 +27,21 @@ module.exports = (embedInfo) => {
     }
 
     if (embedInfo.thumbnailUrl) {
-        embed.attachFiles(embedInfo.thumbnailUrl, "thumbnail.png")
+        embed.attachFiles(new MessageAttachment(embedInfo.thumbnailUrl, "thumbnail.png"))
         embed.setThumbnail('attachment://thumbnail.png');
     }
     if (embedInfo.imageUrl) {
-        embed.attachFiles(embedInfo.imageUrl, "image.png")
+        embed.attachFiles(new MessageAttachment(embedInfo.imageUrl, "image.png"))
         embed.setImage('attachment://image.png');
     }
     if (embedInfo.footerUrl) {
-        embed.attachFiles(embedInfo.footerUrl, "footer.png")
+        embed.attachFiles(new MessageAttachment(embedInfo.footerUrl, "footer.png"))
         embed.setFooter(embedInfo.footerText || "See you around!", "attachment://footer.png");
     } else {
         embed.setFooter(embedInfo.footerText || "See you around!");
     }
+
+    embed.setTimestamp()
 
     return embed;
 }

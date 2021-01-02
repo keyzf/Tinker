@@ -2,6 +2,7 @@ const setResponses = require("../../data/setResponse");
 const ytdl = require('ytdl-core');
 // const logger = require("../../lib/logger");
 const { play } = require("../../util/audioPlay");
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
     const voiceChannel = message.member.voice.channel;
@@ -10,7 +11,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     let argsMatch = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/);
     if (!argsMatch) {
-        message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({timeout:5000}))
+        message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({ timeout: 5000 }))
         return bot.commands.get("search").run(bot, message, args, dbGuild)
     }
 
@@ -30,7 +31,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
             voiceChannel: voiceChannel,
             connection: null,
             songs: [],
-            volume: 5,
+            volume: 50,
             playing: true
         };
 
@@ -49,9 +50,9 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         }
     } else {
         serverQueue.songs.push(song);
-        return message.channel.send(
-            `${song.title} has been added to the queue!`
-        );
+        return message.channel.send(generateDefaultEmbed(
+            { title: "Song added to queue", description: `${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }
+            ))
     }
 }
 module.exports.help = {
