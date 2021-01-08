@@ -1,122 +1,34 @@
-<div style="display: flex;justify-content: center;">
-  <br />
-  <p>
-    <img src="https://github.com/LordFarquhar/DevsApp/blob/master/res/devsbot500x500.png?raw=true" width="125" height="125"/>
-  </p>
-  <br />
-  <p>
-    <a href="https://discord.io/joinDevs"><img src="https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3" alt="Discord server" /></a>
-  </p>
-</div>
+<a href="https://discord.com/invite/aymBcRP"><img src="https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3" alt="Discord server" /></a>
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/313bb7e106b84a9aad93d464808903fb)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LordFarquhar/DevsApp&amp;utm_campaign=Badge_Grade)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/313bb7e106b84a9aad93d464808903fb)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LordFarquhar/Tinker&amp;utm_campaign=Badge_Grade)
 
 ## Table of contents
 
 - [About](#about)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuring](#configure-app)
 - [Contributing](#contributing)
 - [Help](#help)
 
-## Links
-
-- [GitHub](https://github.com/LordFarquhar/DevsApp/)
-
-# DevsApp
-
 ## About
 
-A nice project with a nice description
+Tinker started off being a small coding challenge for me, my first bot in the complex world of Discord. The bot was originally named DevsApp and was developed to be a small personal helper bot for my programming Discord server "Devs". From there it began to grow, turn into a small project that I was really quite enjoying. 
 
----
-## Requirements
+And then it happened, the day I decided to work on this properly and produce a bot that the people of Discord could actually use. First step - Re-brand! I renamed the bot to Tinker and began working on it independently from my programming server.
 
-For development, you will only need Node.js installed in your environement.
-For production you will also need pm2 installed globally
+I wasn't sure where to start, I mean I had the basics of the bot working but what was it going to do, what was its purpose. But there was one thing I was absolutely certain of, I wanted to stay in-keeping with Discord's style, professional yet... slightly sassy.
 
-### Node
-- #### Node installation on Windows
+So the bot progressed with all the standard commands: help and ping, moderation, fun stuff like jokes and memes and then what I called the "messages update". This was the moment I decided Tinker was going to be an all-rounder, a must-have for any server a better MEE6!
 
-  Just go on [official Node.js website](https://nodejs.org/) and download the installer.
-Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
+Yeah... I was pretty ambitious, but it gave me something to do when I was bored (as a student that was surprisingly often!).
 
-- #### Node installation on Ubuntu
+And that almost brings you to present day, to the Tinker you know and love (or at least should know soon!) The coolest helping hand, See you around!
 
-  You can install nodejs and npm easily with apt install, just run the following commands.
-
-      $ sudo apt install nodejs
-      $ sudo apt install npm
-
-- #### Other Operating Systems
-  You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
-
-If the installation was successful, you should be able to run the following command.
-
-    $ node --version
-    v12.18
-    
-    $ npm --version
-    6.14.5
-    (but its probably better to have the latest version)
-
-If you need to update `npm`, you can make it using `npm`! Cool right? Just run the following command
-
-    $ npm install npm -g
-
-### pm2
-- #### pm2 installation on windows with npm installed
-
-  You can install pm2 easily with npm install, just run the following commands:
-
-      npm install -g pm2
-      
-  To update pm2 do:
-  
-      npm install -g pm2
-      pm2 update
-
-- #### pm2 installation on linux with npm installed
-
-  You can install pm2 easily with npm install, just run the following commands:
-    
-      $ sudo npm install -g pm2
-      
-  To update pm2 do:
-  
-      $ sudo npm install -g pm2
-      $ pm2 update
-
-## Installation
-
-    $ git clone https://github.com/LordFarquhar/DevsApp
-    $ cd DevsApp
-    $ npm install
-
-## Configure app
-
-Create a file in the root directy (in the same folder as index.js) named .env
- - add `BOT_TOKEN=your_token_here`
- - optionally add `PORT=dashboard_server_port`
-
-Then open `./config/config.json` then edit it with your settings. You will need:
-
-- your userId
-- optionally the bug reports and feature requests channel of your Bot server
-
-## Running the project during developmnet
-
-    $ npm run dev
-
-## Running the project during production (for this you will need pm2)
-
-    $ npm start
- 
 ## Contributing
 
-At the moment we are not allowing contributions to this project however, we are hoping to change that soon
+Contributions are very welcome!
+
+However they require a lot of work to go through, check for malicious intent, bugs, compatibility issues and even style! And there are very few developers so we thank you in advance for your patience.
 
 ## Help
 
-If your stuck feel free to contact us in our (Official Support server)[https://discord.com/aymBcRP]
+We have a wonderful community that you can talk to in the discussions of this GitHub Repository, and in our [Official Support server](https://discord.com/aymBcRP)

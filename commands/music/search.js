@@ -1,5 +1,6 @@
 const yts = require('yt-search')
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
+const deleteCatch = require("../../util/deleteCatch")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
 
@@ -44,6 +45,12 @@ module.exports.run = async(bot, message, args, dbGuild) => {
             // remove selection embed
             msg.delete({timeout:0});
         });
+    });
+    collector.on('end', (collected) => {
+        msg.reactions.removeAll().then(() => {
+            msg.edit("You took too long to make a decision")
+            deleteCatch(msg, 3000)
+        })
     });
 }
 

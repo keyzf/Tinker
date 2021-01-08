@@ -3,7 +3,6 @@ const errorCodes = require("../../config/errorCodes.json").codes;
 module.exports.run = async(bot, message, args, dbGuild) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
 
-
     let e = {
         title: `Error Code ${args[0]}`,
     }

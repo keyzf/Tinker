@@ -6,11 +6,13 @@ module.exports.play = (queue, guildID, song) => {
     const serverQueue = queue.get(guildID);
 
     if (!song) {
+        logger.debug(`[Audio]: Guild: ${guildID} finished queue`)
         serverQueue.voiceChannel.leave();
         queue.delete(guildID);
         return serverQueue.textChannel.send(generateDefaultEmbed({ title: "Playback Finished", author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }))
     }
 
+    logger.debug(`[Audio]: Guild: ${guildID} playing track ${song.title}`)
     const dispatcher = serverQueue.connection
         .play(ytdl(song.url), { filter: "audioonly" })
         .on("finish", () => {
