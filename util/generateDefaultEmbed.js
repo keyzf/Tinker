@@ -37,6 +37,7 @@ module.exports = (embedInfo) => {
     if (embedInfo.footerUrl) {
         embed.attachFiles(new MessageAttachment(embedInfo.footerUrl, "footer.png"))
         embed.setFooter(embedInfo.footerText || "See you around!", "attachment://footer.png");
+        // embed.setFooter(embedInfo.footerText || "See you around!", embedInfo.footerUrl);
     } else {
         embed.setFooter(embedInfo.footerText || "See you around!");
     }

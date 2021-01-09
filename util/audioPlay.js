@@ -1,6 +1,7 @@
 const logger = require("../lib/logger");
 const ytdl = require("ytdl-core");
 const generateDefaultEmbed = require("./generateDefaultEmbed");
+const ms = require("pretty-ms");
 
 module.exports.play = (queue, guildID, song) => {
     const serverQueue = queue.get(guildID);
@@ -8,8 +9,11 @@ module.exports.play = (queue, guildID, song) => {
     if (!song) {
         logger.debug(`[Audio]: Guild: ${guildID} finished queue`)
         serverQueue.voiceChannel.leave();
-        queue.delete(guildID);
-        return serverQueue.textChannel.send(generateDefaultEmbed({ title: "Playback Finished", author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }))
+        serverQueue.textChannel.send(generateDefaultEmbed({
+            title: "Playback Finished",
+            author: "Tinker's Tunes",
+            authorUrl: "./res/TinkerMusic.png" }));
+        return queue.delete(guildID);
     }
 
     logger.debug(`[Audio]: Guild: ${guildID} playing track ${song.title}`)
@@ -21,5 +25,14 @@ module.exports.play = (queue, guildID, song) => {
         })
         .on("error", error => logger.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-    serverQueue.textChannel.send(generateDefaultEmbed({title:"Playing", description:`${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png"}))
+
+    serverQueue.textChannel.send(generateDefaultEmbed({
+        title: "Now Playing",
+        description: `[${serverQueue.songs[0].title}: ${serverQueue.songs[0].author} (${ms(parseInt(serverQueue.songs[0].lengthSeconds) * 1000)})](${serverQueue.songs[0].url})`,
+        imageUrl: serverQueue.songs[0].thumbnail.url,
+        author: "Tinker's Tunes",
+        authorUrl: "./res/TinkerMusic.png",
+        footerText: `Song requested by ${serverQueue.songs[0].requestedBy.usertag}`,
+        footerUrl: serverQueue.songs[0].requestedBy.avatar
+    }));
 }

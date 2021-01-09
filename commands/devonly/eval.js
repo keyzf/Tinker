@@ -5,11 +5,16 @@ const config = require("../../config/config.json");
 const { devs } = require("../../config/devs.json");
 const { codes } = require("../../config/errorCodes.json");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
+const util = require("util")
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
     function send(data) {
         message.channel.send(data)
+    }
+
+    function showAll(data) {
+        return util.inspect(data, {showHidden: false, depth: null})
     }
 
     var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim()

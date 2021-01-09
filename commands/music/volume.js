@@ -14,7 +14,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     }
     serverQueue.volume = volume
     serverQueue.connection.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-    return message.channel.send(generateDefaultEmbed({ title: "Volume set", description: `${serverQueue.volume}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }))
+    return message.channel.send(generateDefaultEmbed({ title: "Volume set", description: `${serverQueue.volume}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL()  }))
 }
 module.exports.help = {
     name: 'volume',

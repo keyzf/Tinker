@@ -3,7 +3,6 @@ const logger = require("../lib/logger");
 const { db, Fields } = require("../lib/db");
 
 module.exports.run = async() => {
-
     logger.log("info", `${bot.user.username} is online! Setup still running`);
     bot.cevents.get("updateActivity").run();
 

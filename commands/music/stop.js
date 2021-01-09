@@ -5,7 +5,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
     if (!serverQueue) { return message.channel.send("There is nothing to stop playing")}
     message.channel.send(generateDefaultEmbed(
-        { title: "Stopped", description: `${serverQueue.songs[0].title} stopped and queue cleared`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }
+        { title: "Stopped", description: `${serverQueue.songs[0].title} stopped and queue cleared`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL()  }
         ))
     serverQueue.songs = [];
     serverQueue.connection.dispatcher.end();

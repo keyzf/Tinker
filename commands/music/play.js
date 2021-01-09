@@ -18,9 +18,14 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     const songInfo = await ytdl.getInfo(argsMatch.input);
     const song = {
         title: songInfo.videoDetails.title,
-        author: songInfo.videoDetails.author,
+        author: songInfo.videoDetails.author.name,
         url: songInfo.videoDetails.video_url,
-        thumbnail: songInfo.videoDetails.thumbnails[songInfo.videoDetails.thumbnails.length]
+        lengthSeconds: songInfo.videoDetails.lengthSeconds,
+        thumbnail: songInfo.videoDetails.thumbnails[songInfo.videoDetails.thumbnails.length -1],
+        requestedBy: {
+            usertag: message.author.tag,
+            avatar: message.author.displayAvatarURL()
+        }
     };
 
     const serverQueue = bot.audioQueue.get(message.guild.id);
@@ -51,7 +56,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     } else {
         serverQueue.songs.push(song);
         return message.channel.send(generateDefaultEmbed(
-            { title: "Song added to queue", description: `${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }
+            { title: "Song added to queue", description: `${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL()  }
             ))
     }
 }

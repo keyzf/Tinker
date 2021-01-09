@@ -9,7 +9,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     for (let i=0; i<serverQueue.songs.length; i++) {
         queue.push(`${(i + 1).toString()} ${serverQueue.songs[i].title}`);
     }
-    return message.channel.send(generateDefaultEmbed({ title: "Queue", description: queue.reduce((accumulator, current) => { return accumulator + "\n" + current }), author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png" }))
+    return message.channel.send(generateDefaultEmbed({ title: "Queue", description: queue.reduce((accumulator, current) => { return accumulator + "\n" + current }), author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL()  }))
 }
 
 module.exports.help = {
