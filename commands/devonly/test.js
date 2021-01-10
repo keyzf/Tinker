@@ -1,8 +1,5 @@
-const { db } = require("../../lib/db")
-const util = require("util")
-
 module.exports.run = async(bot, message, args, dbGuild) => {
-  message.channel.send(`Hi ${message.author}`)
+  return null
 };
 
 module.exports.help = {

@@ -1,9 +1,9 @@
 const logger = require("../lib/logger");
 const ytdl = require("ytdl-core");
-const generateDefaultEmbed = require("./generateDefaultEmbed");
+const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 const ms = require("pretty-ms");
 
-module.exports.play = (queue, guildID, song) => {
+module.exports.run = (queue, guildID, song) => {
     const serverQueue = queue.get(guildID);
 
     if (!song) {
@@ -21,7 +21,7 @@ module.exports.play = (queue, guildID, song) => {
         .play(ytdl(song.url), { filter: "audioonly" })
         .on("finish", () => {
             serverQueue.songs.shift();
-            this.play(queue, guildID, serverQueue.songs[0]);
+            this.run(queue, guildID, serverQueue.songs[0]);
         })
         .on("error", error => logger.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
@@ -35,4 +35,8 @@ module.exports.play = (queue, guildID, song) => {
         footerText: `Song requested by ${serverQueue.songs[0].requestedBy.usertag}`,
         footerUrl: serverQueue.songs[0].requestedBy.avatar
     }));
+}
+
+module.exports.help = {
+    name: "audioPlay"
 }

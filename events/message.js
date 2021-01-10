@@ -30,27 +30,34 @@ module.exports.run = async(message) => {
     let prefix = dbGuild.prefix;
 
     // check if a user was mentioned and get the first one
-    if (message.mentions.users) {
+    if (message.mentions.users && !message.mentions.everyone) {
         // for every mentioned user
         message.mentions.users.array().forEach((user) => {
             // check the mentioned user is afk
             let mentioned = bot.afk.get(user.id);
             // if they are then tell the channel that the user is afk and for the reason the user set
-            if (mentioned) message.channel.send(`**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`).then((m) => m.delete({ timeout: 5000 }));
+            if (mentioned) {
+                generateDefaultEmbed({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` })
+                    .then((msg) => deleteCatch(msg, 5000));
+            }
         });
     }
 
     // check if the user that sent a message is afk
     let afkcheck = bot.afk.get(message.author.id);
     // if so remove them from the afk list as they have sent a message and are no longer afk
-    if (afkcheck)[bot.afk.delete(message.author.id), message.reply(`you have been removed from the afk list!`).then(msg => msg.delete({ timeout: 5000 }))];
+    if (afkcheck) {
+        bot.afk.delete(message.author.id);
+        message.channel.send(generateDefaultEmbed({ description: `you have been removed from the afk list!` }))
+            .then(msg => deleteCatch(msg, 5000));
+    }
 
     // if the message isnt a command then:
     if (!message.content.startsWith(prefix)) {
 
-        if (message.mentions.has(bot.user)) {
+        if (message.mentions.has(bot.user) && !message.mentions.everyone) {
             message.react('❕')
-                .catch(error => logging.log("error", 'Failed to add reaction on bot mention: ', error));
+                .catch(error => logger.error('Failed to add reaction on bot mention: ', error));
             // message.reply("are you talking about me!?");
         }
 
@@ -105,7 +112,7 @@ module.exports.run = async(message) => {
                 title: "Sorry, not for you",
                 description: "This is a developer only command \nOur dev team leave commands in the bot to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
-                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"}
+                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
                 ]
             }))
         }
@@ -118,7 +125,7 @@ module.exports.run = async(message) => {
                 title: "This is in development",
                 description: "This command is in development and cannot currently be used in this server\nWe are constantly adding features and improving current ones. But the way we work is that the bot should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the bot is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
-                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"}
+                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
                 ]
             }))
         }
@@ -150,7 +157,8 @@ module.exports.run = async(message) => {
             await command.run(bot, message, args, dbGuild, cmd);
         } catch (err) {
             logger.error(err.stack)
-            message.channel.send(setResponses.fatalErrorToUser())
+            const e = await bot.cevents.get("generateError").run(err, "Something has gone so incredibly wrong that it got all the way here...");
+            message.channel.send(e)
         }
 
         // message.delete({ timeout: 8000 });

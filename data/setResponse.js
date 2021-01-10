@@ -26,7 +26,7 @@ const Discord = require("discord.js");
 //         .setTimestamp();
 // };
 
-module.exports.fatalErrorToUser = () => {
+module.exports.fatalErrorToUser = (code) => {
     return new Discord.MessageEmbed()
         .setTitle("Uh Oh...")
         .setAuthor("An automated error message")
@@ -34,7 +34,7 @@ module.exports.fatalErrorToUser = () => {
         .setDescription("Something has gone terribly wrong. I need you to get in contact with my creators and give them this error code. This is a matter of life and death here!")
         .addFields(
             { name: "My Support Server", value: "[Official Support Server](https://discord.gg/aymBcRP)" },
-            { name: "Error code", value: "fO5L-brB-k2B" }
+            { name: "Error code", value: code || "fO5L-brB-k2B" }
         )
         .setFooter("I might not see you for a while :(")
         .setTimestamp();

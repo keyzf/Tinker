@@ -1,27 +1,36 @@
-const errorCodes = require("../../config/errorCodes.json").codes;
+const { errordb } = require("../../lib/db");
+const { devs } = require("../../config/devs.json");
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
 
-    let e = {
-        title: `Error Code ${args[0]}`,
-    }
+    errordb.findOne({ _id: args[0] }).then(function(found) {
+        let e = {
+            title: `Error Code ${args[0]}`
+        }
 
-    const found = errorCodes.filter((elt) => {
-        return elt.code == args[0]
+        if (!found) {
+            e.description = "No error with that code could be found"
+        } else {
+            if (devs.includes(message.author.id)) {
+                e.description = `\`\`\`js\n${found.error} \`\`\``
+                e.fields = [
+                    { name: "Timestamp", value: new Date(found.timestamp) },
+                    { name: "User Message", value: found.userMsg}
+                ]
+            } else if (found.userMsg) {
+                e.description = found.userMsg
+                e.fields = [{ name: "Well?", value: "The error has been logged, please contact us and give us the error code" }]
+            } else {
+                e.description = "The error has been logged, please contact us and give us the error code"
+            }
+        }
+
+
+        message.channel.send(generateDefaultEmbed(e));
+
     });
-    if (found.length > 1) { e.description = "There is and issue with the error code lookup file. Please contact a developer immediately" }
-    else if (!found.length) { e.description = "Could not find error with that code" }
-    else if (!found[0].userMsg) { e.description = "No error message is associated with that code" }
-    else { 
-        e.description = found[0].name
-        e.fields = [
-            { name: "User Message", value: `${found[0].userMsg}` },
-            { name: "Dev Message", value: `${found[0].devMsg}` }
-        ]
-    }
-    message.channel.send(generateDefaultEmbed(e));
-
 
 };
 

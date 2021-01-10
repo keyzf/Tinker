@@ -1,7 +1,6 @@
 const setResponses = require("../../data/setResponse");
 const ytdl = require('ytdl-core');
 // const logger = require("../../lib/logger");
-const { play } = require("../../util/audioPlay");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
@@ -47,7 +46,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
-            play(bot.audioQueue, message.guild.id, queueConstruct.songs[0]);
+            bot.cevents.get("audioPlay").run(bot.audioQueue, message.guild.id, queueConstruct.songs[0]);
         } catch (err) {
             console.log(err);
             bot.audioQueue.delete(message.guild.id);

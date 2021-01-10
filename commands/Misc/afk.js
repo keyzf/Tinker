@@ -1,3 +1,6 @@
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
+const deleteCatch = require("../../util/deleteCatch")
+
 module.exports.run = async (bot, message, args) => {
 
     let reason = args.join(' ') ? args.join(' ') : 'I am currently afk, I will reply as soon possible.';
@@ -11,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
         };
 
         bot.afk.set(message.author.id, construct);
-        message.reply(`you have been set to afk for reason: ${reason}`).then(msg => msg.delete({timeout: 5000}));
+        message.channel.send(generateDefaultEmbed({description: `you have been set to afk for reason: ${reason}`}).then(msg => deleteCatch(msg, 5000)));
     }
 
 };
@@ -21,5 +24,5 @@ module.exports.help = {
     aliases: [],
     description: "Allows you to set yourself into afk. If anyone pings you it tells them the reason you specified why you were afk",
     usage: "[reason]",
-    cooldown: 5
+    cooldown: 3
 };
