@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
         };
 
         bot.afk.set(message.author.id, construct);
-        message.channel.send(generateDefaultEmbed({description: `you have been set to afk for reason: ${reason}`}).then(msg => deleteCatch(msg, 5000)));
+        message.channel.send(generateDefaultEmbed({description: `you have been set to afk for reason: ${reason}`})).then(msg => deleteCatch(msg, 5000));
     }
 
 };

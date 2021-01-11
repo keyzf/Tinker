@@ -39,7 +39,7 @@ module.exports.run = async(message) => {
             let mentioned = bot.afk.get(user.id);
             // if they are then tell the channel that the user is afk and for the reason the user set
             if (mentioned) {
-                generateDefaultEmbed({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` })
+                message.channel.send(generateDefaultEmbed({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` }))
                     .then((msg) => deleteCatch(msg, 5000));
             }
         });

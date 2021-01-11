@@ -23,9 +23,11 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     }
     try {
         const data = await eval(code);
-        return message.channel.send(`${message.author} your code finished:\nReturn data: \`${data}\``);
+        if (data) {
+            message.channel.send(`Return data: \`${data}\``);
+        }
     } catch (err) {
-        return message.channel.send(`${message.author} your code finished with error:\n\`${err}\``);
+        message.channel.send(`Error:\`${err}\``);
     }
 
 };
