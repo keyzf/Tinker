@@ -21,6 +21,8 @@ async function start() {
 
     process.on('uncaughtException', error => logger.log('error', error.stack));
 
+    require("./lib/pm2Metrics").setup();
+
     logger.debug("connecting to SQLite database");
     await require("./lib/db").setup();
 
@@ -69,7 +71,7 @@ async function start() {
 
     logger.debug(`logging in bot with token`);
     try {
-        await bot.login(process.env.BOT_TOKEN);    
+        await bot.login(process.env.BOT_TOKEN);
     } catch {
         try {
             await bot.login(process.env.BOT_TOKEN_PRE);
@@ -90,7 +92,7 @@ async function start() {
 
     logger.debug("setting up child process manager");
     require("./lib/child").setup();
-    
+
     // setup the cli, old removed
     // require("./lib/cli").setup();
 

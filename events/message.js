@@ -6,6 +6,8 @@ const { devs } = require("../config/devs.json");
 const setResponses = require("../data/setResponse");
 const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 const deleteCatch = require("../util/deleteCatch");
+const { noCommandsHandling } = require("../lib/pm2Metrics");
+
 // error codes https://www.voucherify.io/generator
 
 module.exports.run = async(message) => {
@@ -154,7 +156,9 @@ module.exports.run = async(message) => {
 
         // run the command
         try {
+            noCommandsHandling.inc()
             await command.run(bot, message, args, dbGuild, cmd);
+            noCommandsHandling.dec()
         } catch (err) {
             logger.error(err.stack)
             const e = await bot.cevents.get("generateError").run(err, "Something has gone so incredibly wrong that it got all the way here...");
