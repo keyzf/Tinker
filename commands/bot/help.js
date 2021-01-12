@@ -20,9 +20,10 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         e.setTitle("All my Commands!");
         let outCommands = {}
         commands.array().forEach((item) => {
-            if (!item.help.limit) {
-                if (!outCommands[item.help.category]) { outCommands[item.help.category] = []; }
-                outCommands[item.help.category].push(item.help.name);
+            if (!item.help.limit || devs.includes(message.author.id)) {
+                let category = item.help.category.capitalize();
+                if (!outCommands[category]) { outCommands[category] = []; }
+                outCommands[category].push(item.help.name);
             }
         });
         let keys = Object.keys(outCommands);

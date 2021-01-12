@@ -19,6 +19,8 @@ async function start() {
 
     logger.info("Starting");
 
+    await require("./lib/prototypeModification").setup()
+
     require("./lib/pm2Metrics").setup();
 
     logger.debug("connecting to SQLite database");
