@@ -15,11 +15,9 @@ async function start() {
     require("dotenv").config();
 
     const logger = require("./lib/logger.js");
-    process.send = process.send || function(msg) { logger.log("debug", msg) };
+    // process.send = process.send || function(msg) { logger.log("debug", msg) };
 
     logger.info("Starting");
-
-    process.on('uncaughtException', error => logger.log('error', error.stack));
 
     require("./lib/pm2Metrics").setup();
 
