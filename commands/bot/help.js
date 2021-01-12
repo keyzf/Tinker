@@ -74,7 +74,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     e.setTitle("Need a hand?")
     e.setDescription(`Use \`${dbGuild.prefix}help command [command name]\` for help with a specific command\nUse \`${dbGuild.prefix}help all\` for a list of all my commands\nUse just\`${dbGuild.prefix}help\`for all the help you could need`)
-    return message.channel.send(e)
+    return message.channel.send(e);
 };
 
 module.exports.help = {

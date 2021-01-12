@@ -6,21 +6,48 @@ const { devs } = require("../config/devs.json");
 const setResponses = require("../data/setResponse");
 const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 const deleteCatch = require("../util/deleteCatch");
-const { noCommandsHandling } = require("../lib/pm2Metrics");
+const { noMessagesHandling } = require("../lib/pm2Metrics");
 
 // error codes https://www.voucherify.io/generator
 
+
+// function promisify(func, ...pass_args) {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             func(...pass_args, (...returned_args) => {
+//                 resolve(...returned_args)
+//             })
+//         } catch (e) {
+//             reject(e)
+//         }
+//     })
+// }
+
+// function time(ms, cb) {
+//     setTimeout(() => {
+//         cb()
+//     }, ms)
+// }
+
 module.exports.run = async(message) => {
+    noMessagesHandling.inc()
+
     // if the message sent was from a bot then completely ignore it (return)
-    if (message.author.bot) { return; }
+    if (message.author.bot) {
+        return noMessagesHandling.dec();
+    }
     // if the message was sent to the bot through a dm (direct message) send a response to head to the server
-    if (message.channel.type === "dm") { return message.channel.send("Yo dude. I'm hanging out in the server"); }
+    if (message.channel.type === "dm") {
+        message.channel.send("Yo dude. I'm hanging out in the server");
+        return noMessagesHandling.dec();
+    }
 
     // find the guild from the database using its id (obtained from the sent message)
     const dbGuild = db.prepare(`Select * FROM guilds WHERE ${Fields.GuildFields.guildID}='${message.guild.id}'`).get();
     if (!dbGuild) {
         message.channel.send(setResponses.noDbGuildFound("db-Fs8-6Ps-Jyp"));
-        return bot.emit("guildCreate", message.guild);
+        bot.emit("guildCreate", message.guild);
+        return noMessagesHandling.dec()
     }
 
     // get desired settings for this guild
@@ -73,7 +100,7 @@ module.exports.run = async(message) => {
         if (dbGuild.preventSpam) { await bot.cevents.get("messageSpamCheck").run(message, dbGuild); }
         if (dbGuild.messageRewards) { await bot.cevents.get("messageReward").run(message, dbGuild); }
 
-        return
+        return noMessagesHandling.dec();
     }
 
     // split the rest of the sentence by each word (SPACE) or "many worded args"
@@ -81,7 +108,8 @@ module.exports.run = async(message) => {
     const args = [];
     const preArgs = input.match(/"[^"]+"|[\S]+/g)
     if (!preArgs) {
-        return message.react("👋")
+        message.react("👋");
+        return noMessagesHandling.dec();
     }
     preArgs.forEach((element) => {
         if (!element) return null;
@@ -108,28 +136,32 @@ module.exports.run = async(message) => {
         // check if dev only command
         if (command.help.limit && !devs.includes(message.author.id)) {
             if (command.help.limitMessage) {
-                return message.channel.send(generateDefaultEmbed(command.help.limitMessage))
+                message.channel.send(generateDefaultEmbed(command.help.limitMessage));
+                return noMessagesHandling.dec();
             }
-            return message.channel.send(generateDefaultEmbed({
+            message.channel.send(generateDefaultEmbed({
                 title: "Sorry, not for you",
                 description: "This is a developer only command \nOur dev team leave commands in the bot to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
                     { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
                 ]
-            }))
+            }));
+            return noMessagesHandling.dec();
         }
         // check if in dev command
         if (command.help.inDev && !devs.includes(message.author.id)) {
             if (command.help.inDevMessage) {
-                return message.channel.send(generateDefaultEmbed(command.help.inDevMessage))
+                message.channel.send(generateDefaultEmbed(command.help.inDevMessage));
+                return noMessagesHandling.dec();
             }
-            return message.channel.send(generateDefaultEmbed({
+            message.channel.send(generateDefaultEmbed({
                 title: "This is in development",
                 description: "This command is in development and cannot currently be used in this server\nWe are constantly adding features and improving current ones. But the way we work is that the bot should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the bot is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
                     { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
                 ]
-            }))
+            }));
+            return noMessagesHandling.dec();
         }
 
         // check for cooldown
@@ -147,7 +179,8 @@ module.exports.run = async(message) => {
 
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
-                return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.help.name}\` command.`);
+                message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.help.name}\` command.`);
+                return noMessagesHandling.dec();
             }
         }
 
@@ -156,9 +189,7 @@ module.exports.run = async(message) => {
 
         // run the command
         try {
-            noCommandsHandling.inc()
             await command.run(bot, message, args, dbGuild, cmd);
-            noCommandsHandling.dec()
         } catch (err) {
             logger.error(err.stack)
             const e = await bot.cevents.get("generateError").run(err, "Something has gone so incredibly wrong that it got all the way here...");
@@ -174,6 +205,7 @@ module.exports.run = async(message) => {
                 deleteCatch(msg, 5000);
             });
     }
+    return noMessagesHandling.dec();
 }
 
 module.exports.help = {
