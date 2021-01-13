@@ -5,7 +5,8 @@ const config = require("../../config/config.json");
 const { devs } = require("../../config/devs.json");
 const { codes } = require("../../config/errorCodes.json");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
-const util = require("util")
+const util = require("util");
+const { v4: uuidv4 } = require("uuid")
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 

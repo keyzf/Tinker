@@ -1,5 +1,5 @@
 const logger = require("../lib/logger");
-const { Guild } = require('../lib/db.js');
+const { db, Fields } = require('../lib/db.js');
 const { create_UUID } = require("../lib/utilFunctions.js");
 
 const express = require('express');
@@ -59,6 +59,9 @@ module.exports.setup = async function (bot) {
     app.use(express.json({ limit: "1mb" }));
     app.use(express.static(path.join(__dirname, "public")));
 
+    // disable once in prod
+    app.disable('view cache');
+
     // Setup Database
     const database = require("nedb");
     const userdb = new database("./dashboard/data/users.db");
@@ -110,23 +113,21 @@ module.exports.setup = async function (bot) {
     app.get("/dashboard", checkAuthenticated, async (req, res) => {
         await bot.emit("updateRoles", req.user.dashId);
 
-        const docs = await Guild.find({
-            dashId: req.user.dashId
-        });
-        if (!docs.length) return res.render("dashboard.ejs", { name: req.user.name, msg: "We couldn't find a server with that dashboard ID", dashId: "", guild: null })
-        var dbguild = docs[0];
-        
-        res.render("dashboard.ejs", { name: req.user.name, msg: "", dashId: req.user.dashId, dbguild });
+        const dbGuild = db.prepare(`Select * FROM guilds WHERE ${Fields.GuildFields.dashboardID}='${req.user.dashId}'`).get();
+        if (!dbGuild) {
+            return res.render("dashboard.ejs", { name: req.user.name, msg: "We couldn't find a server with that dashboard ID", dashId: "", guild: null });
+        }
+
+        res.render("dashboard.ejs", { name: req.user.name, msg: "", dashId: req.user.dashId, dbGuild });
     });
 
     app.post("/savesettings", checkAuthenticated, async (req, res) => {
-        await Guild.updateOne(
-            { dashId: req.user.dashId },
-            {
-                $set: {
-                    prefix: req.body.prefix
-                }
-            });
+
+        db.prepare(`
+                UPDATE guilds
+                SET ${Fields.GuildFields.prefix}='${req.body.prefix}'
+                WHERE ${Fields.GuildFields.dashboardID}='${req.user.dashId}';
+            `).run()
 
         res.redirect("/dashboard");
     });
