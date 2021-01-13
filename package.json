@@ -29,7 +29,7 @@
     "wikijs": "^6.0.1",
     "winston": "^3.3.3",
     "yt-search": "^2.5.1",
-    "ytdl-core": "^4.4.2",
+    "ytdl-core": "^4.4.3",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

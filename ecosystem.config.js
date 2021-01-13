@@ -16,11 +16,17 @@ module.exports = {
     deploy: {
         // "production" is the environment name
         production: {
-            user: "ubuntu",
-            host: ["127.0.0.1"],
+            user: "pi",
+            host: "192.168.1.128",
+            // key: "./sshkey.txt",
+            ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=yes'],
+            // key: "~/.ssh/id_rsa.pub",
+            // ssh_options: [
+            //   'Port=22',
+            // ],
             ref: "origin/master",
             repo: "git@github.com:DuckBiscuitDevs/Tinker.git",
-            path: "/home/Documents/tinker",
+            path: "/home/pi/Documents/tinker",
             "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production && pm2 save"
         },
     }
