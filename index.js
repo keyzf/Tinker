@@ -72,9 +72,11 @@ async function start() {
     logger.debug(`logging in bot with token`);
     try {
         await bot.login(process.env.BOT_TOKEN);
+        logger.debug(`Live token found under BOT_TOKEN, logging in`);
     } catch {
         try {
             await bot.login(process.env.BOT_TOKEN_PRE);
+            logger.debug(`Pre-Release token found under BOT_TOKEN_PRE, logging in`);
         } catch {
             logger.error("No token could be used")
             process.exit()
@@ -92,9 +94,6 @@ async function start() {
 
     logger.debug("setting up child process manager");
     require("./lib/child").setup();
-
-    // setup the cli, old removed
-    // require("./lib/cli").setup();
 
     require("./lib/updateLoop").start();
 

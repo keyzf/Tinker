@@ -21,7 +21,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         .addField('Status:', target.presence.status, true)
         // sets up to three fields in one line so there would be a break here
         .addField('Messages Sent:', dbTarget.messagesSent, true)
-        .addField('Currency Type (coming soon):', dbTarget.devPoints, true)
+        .addField('Scrap Value:', dbTarget.currencyUnits, true)
         .addField('Level:', dbTarget.level, true)
         .addField('Infractions:', (function() {
             if (!dbTarget.infractions) return 0

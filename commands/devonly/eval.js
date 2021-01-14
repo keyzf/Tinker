@@ -6,7 +6,8 @@ const { devs } = require("../../config/devs.json");
 const { codes } = require("../../config/errorCodes.json");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 const util = require("util");
-const { v4: uuidv4 } = require("uuid")
+const { v4: uuidv4 } = require("uuid");
+const figlet = require('figlet');
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
@@ -16,6 +17,10 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
     function showAll(data) {
         return util.inspect(data, {showHidden: false, depth: null})
+    }
+
+    function asciiImagetext(text) {
+        return "```" + figlet.textSync(text, { horizontalLayout: 'full' }) + "```";
     }
 
     var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim()

@@ -10,7 +10,7 @@ module.exports = {
         env_production: {
           NODE_ENV: "production"
         },
-        max_memory_restart: '300M',
+        max_memory_restart: '300M', // force app restart if memory reaches this limit
         // node_args: "--max_old_space_size=8192"
     }],
     deploy: {
@@ -18,15 +18,10 @@ module.exports = {
         production: {
             user: "pi",
             host: "192.168.1.128",
-            // key: "./sshkey.txt",
             ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=yes'],
-            // key: "~/.ssh/id_rsa.pub",
-            // ssh_options: [
-            //   'Port=22',
-            // ],
             ref: "origin/master",
             repo: "git@github.com:DuckBiscuitDevs/Tinker.git",
-            path: "/home/pi/Documents/tinker",
+            path: "/home/pi/Documents/tinker-deploy",
             "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production && pm2 save"
         },
     }

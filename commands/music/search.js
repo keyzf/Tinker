@@ -1,10 +1,11 @@
 const yts = require('yt-search');
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 const deleteCatch = require("../../util/deleteCatch");
+const emojis = require("../../data/emoji_list.json");
 
 module.exports.run = async(bot, message, args, dbGuild) => {
 
-    const msg = await message.channel.send(generateDefaultEmbed({title:"<a:loading:797530503347044382> Fetching Video Info"}))
+    const msg = await message.channel.send(generateDefaultEmbed({title:`${emojis.custom.loading} Fetching Video Info`}))
 
     const searchCriteria = args.join(" ");
     const r = await yts(searchCriteria);

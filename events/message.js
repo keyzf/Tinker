@@ -10,25 +10,6 @@ const { noMessagesHandling } = require("../lib/pm2Metrics");
 
 // error codes https://www.voucherify.io/generator
 
-
-// function promisify(func, ...pass_args) {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             func(...pass_args, (...returned_args) => {
-//                 resolve(...returned_args)
-//             })
-//         } catch (e) {
-//             reject(e)
-//         }
-//     })
-// }
-
-// function time(ms, cb) {
-//     setTimeout(() => {
-//         cb()
-//     }, ms)
-// }
-
 module.exports.run = async(message) => {
     noMessagesHandling.inc()
 
@@ -84,6 +65,16 @@ module.exports.run = async(message) => {
     // if the message isnt a command then:
     if (!message.content.startsWith(prefix)) {
 
+        const user = db.prepare(`Select * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${message.author.id}`).get();
+        if (!user) return bot.cevents.get("addUser").run(message.author.id, dbGuild)
+        user.messagesSent += 1;
+
+        db.prepare(`
+            UPDATE users
+            SET ${Fields.UserFields.messagesSent}='${user.messagesSent}'
+            WHERE ${Fields.GuildFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}='${user.userID}';
+        `).run();
+
         if (message.mentions.has(bot.user) && !message.mentions.everyone) {
             message.react('❕')
                 .catch(error => logger.error('Failed to add reaction on bot mention: ', error));
@@ -98,7 +89,6 @@ module.exports.run = async(message) => {
             }
         }
         if (dbGuild.preventSpam) { await bot.cevents.get("messageSpamCheck").run(message, dbGuild); }
-        if (dbGuild.messageRewards) { await bot.cevents.get("messageReward").run(message, dbGuild); }
 
         return noMessagesHandling.dec();
     }
