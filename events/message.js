@@ -189,11 +189,7 @@ module.exports.run = async(message) => {
         // message.delete({ timeout: 8000 });
     } else {
         // this code runs if the command was not found (the user used the bot prefix and then an invalid command)
-        message.react("🤦‍♂️")
-        message.channel.send(`Need a hand? Type \`${dbGuild.prefix}help\``)
-            .then((msg) => {
-                deleteCatch(msg, 5000);
-            });
+        bot.cevents.get("guessCommand").run(bot, message, args, dbGuild, cmd);
     }
     return noMessagesHandling.dec();
 }
