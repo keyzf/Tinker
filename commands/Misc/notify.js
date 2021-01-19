@@ -1,5 +1,6 @@
 const { db, Fields } = require("../../lib/db");
 const { milliseconds } = require("../../util/timeConversion");
+const ms = require("pretty-ms")
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     let roleSearchCriteria = args.join(" ");
@@ -20,7 +21,7 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
                 WHERE ${Fields.Notifies.guildID}='${dbGuild.guildID}' and ${Fields.Notifies.roleID}='${role.id}';
             `).run();
         } else {
-            return message.channel.send(`You cannot notify ${role.name} again until ${new Date(notify.timeout).toLocaleString()}`);
+            return message.channel.send(`You cannot notify ${role.name} again for ${ms(notify.timeout - Date.now())}`);
         }
     }
 

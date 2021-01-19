@@ -14,5 +14,5 @@ module.exports.help = {
     description: "Print ASCII art text (max 15 characters)",
     usage: "message",
     cooldown: 1,
-    inDev: true
+    inDev: false
 };
