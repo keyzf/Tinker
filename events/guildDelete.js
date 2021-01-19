@@ -7,7 +7,6 @@ module.exports.run = async(guild) => {
         DELETE FROM guilds
         WHERE ${Fields.GuildFields.guildID} = '${guild.id}';
     `).run();
-    bot.cevents.get("updateActivity").run();
 }
 
 module.exports.help = {

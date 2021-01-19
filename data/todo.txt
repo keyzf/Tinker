@@ -1,2 +1,3 @@
 TODO: check bot has perms before running a command to reduce the number of errors that go through the try-catch using https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermission and https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS and the client member message.guild.member(client).hasPermission(permission)
-TODO: generate an error code and put it into file for personalized errors and messages
+TODO: allow one sticky message per server
+TODO: allow normal users to ping roles through the bot with a cooldown

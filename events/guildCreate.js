@@ -6,8 +6,8 @@ const { v4: uuid } = require("uuid")
 module.exports.run = async(guild) => {
     db.prepare(`
         INSERT INTO guilds(${Fields.GuildFields.guildID}, ${Fields.GuildFields.prefix}, ${Fields.GuildFields.name}, ${Fields.GuildFields.dashboardID})
-        VALUES('${guild.id}', '${config.prefix}', '${guild.name}', '${uuid()}');
-    `).run();
+        VALUES('${guild.id}', '${config.prefix}', '?', '${uuid()}');
+    `).run(guild.name);
     bot.cevents.get("updateActivity").run();
 }
 

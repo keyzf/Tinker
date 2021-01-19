@@ -33,8 +33,10 @@ module.exports.run = async(message) => {
 
     // get desired settings for this guild
     // convert from sql TEXT to json array
-    if (dbGuild.ignoredSpamChannels) dbGuild.ignoredSpamChannels = dbGuild.ignoredSpamChannels.split(",");
-    else dbGuild.ignoredSpamChannels = []
+    if (dbGuild.ignoredSpamChannels) { dbGuild.ignoredSpamChannels = dbGuild.ignoredSpamChannels.split(","); }
+    else { dbGuild.ignoredSpamChannels = []; }
+    if(dbGuild.notifiableRoles) { dbGuild.notifiableRoles = dbGuild.notifiableRoles.split(","); }
+    else { dbGuild.notifiableRoles = [] }
 
     // get the desired prefix for this guild
     let prefix = dbGuild.prefix;

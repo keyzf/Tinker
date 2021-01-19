@@ -1,9 +1,9 @@
-const chalk = require('chalk');
-const clear = require('clear');
-const figlet = require('figlet');
-
 async function start() {
     let hrstart = process.hrtime();
+
+    const chalk = require('chalk');
+    const clear = require('clear');
+    const figlet = require('figlet');
     // clear();
 
     console.log(
@@ -15,7 +15,6 @@ async function start() {
     require("dotenv").config();
 
     const logger = require("./lib/logger.js");
-    // process.send = process.send || function(msg) { logger.log("debug", msg) };
 
     logger.info("Starting");
 
@@ -40,26 +39,6 @@ async function start() {
         intents: Discord.Intents.NON_PRIVILEGED
     });
     module.exports.bot = bot;
-    /* ws: {
-        intents: [
-            "GUILDS",
-            "GUILD_MEMBERS",
-            "GUILD_BANS",
-            "GUILD_EMOJIS",
-            "GUILD_INTEGRATIONS",
-            "GUILD_WEBHOOKS",
-            "GUILD_INVITES",
-            "GUILD_VOICE_STATES",
-            "GUILD_PRESENCES",
-            "GUILD_MESSAGES",
-            "GUILD_MESSAGE_REACTIONS",
-            "GUILD_MESSAGE_TYPING",
-            "DIRECT_MESSAGES",
-            "DIRECT_MESSAGE_REACTIONS",
-            "DIRECT_MESSAGE_TYPING"
-        ]
-    },
-    */ // for verified bots only (apparently), sets api requests for these only to reduce strain on the bot
 
     logger.debug("setting up bot");
     await require("./lib/botSetup").setup(bot);
