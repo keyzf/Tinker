@@ -1,6 +1,6 @@
-const { bot } = require('../index');
-const logger = require("../lib/logger");
-const { db, Fields } = require("../lib/db")
+const { bot } = require('../../index');
+const logger = require("../../lib/logger");
+const { db, Fields } = require("../../lib/db")
 
 module.exports.run = async(userID, dbGuild) => {
     db.prepare(`

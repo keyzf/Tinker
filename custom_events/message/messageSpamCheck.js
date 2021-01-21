@@ -1,6 +1,6 @@
-const { bot } = require('../index');
+const { bot } = require('../../index');
 const stringSimilarity = require("string-similarity");
-const deleteCatch = require("../util/deleteCatch");
+const deleteCatch = require("../../util/deleteCatch");
 
 const spamTimeoutMS = 3000;
 

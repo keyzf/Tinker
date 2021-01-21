@@ -10,7 +10,7 @@ module.exports.run = async(bot, message, args) => {
         let response = responses[Math.floor(Math.random() * responses.length - 1)];
         message.channel.send(generateDefaultEmbed({
             title: "8 Ball",
-            description: `Your asked: ${question}\nMy reply: ${response}`
+            description: `You asked: ${question}\nMy reply: ${response}`
         }));
     }
 

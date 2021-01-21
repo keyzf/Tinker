@@ -1,6 +1,6 @@
-const { bot } = require("../index");
-const logger = require("../lib/logger");
-const { apiLatency } = require("../lib/pm2Metrics")
+const { bot } = require("../../index");
+const logger = require("../../lib/logger");
+const { apiLatency } = require("../../lib/pm2Metrics")
 
 
 module.exports.run = () => {

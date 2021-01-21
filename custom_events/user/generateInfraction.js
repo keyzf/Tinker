@@ -1,6 +1,6 @@
-const { bot } = require("../index");
-const { db, Fields } = require("../lib/db");
-const logger = require("../lib/logger");
+const { bot } = require("../../index");
+const { db, Fields } = require("../../lib/db");
+const logger = require("../../lib/logger");
 const { v4: uuidv4 } = require("uuid")
 
 module.exports.run = async(userID, guildID, infractionType, infractionReason, infractorID, channelID) => {

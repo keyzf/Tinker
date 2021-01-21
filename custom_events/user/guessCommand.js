@@ -1,6 +1,6 @@
 const stringSimilarity = require("string-similarity");
-const emojis = require("../data/emoji_list.json");
-const deleteCatch = require("../util/deleteCatch");
+const emojis = require("../../data/emoji_list.json");
+const deleteCatch = require("../../util/deleteCatch");
 
 module.exports.run = async(bot, message, args, dbGuild, command) => {
     const cmds = bot.commands.map((cmd) => {

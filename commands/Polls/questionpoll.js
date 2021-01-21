@@ -1,6 +1,4 @@
-const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 const deleteCatch = require("../../util/deleteCatch");
-const { characterSet } = require("../../data/emoji_list.json");
 
 module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
@@ -13,18 +11,7 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
     const answers = args.splice(1, args.length)
 
-    const msg = await message.channel.send(generateDefaultEmbed({
-        title: question,
-        description: answers.reduce((accumulator, a) => {
-            return accumulator += `**${String.fromCharCode(answers.indexOf(a) + 65)}** ${a}\n`;
-        }, ""),
-        footerText: `Poll made by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
-    }));
-
-    answers.forEach(async(a) => {
-        await msg.react(characterSet[String.fromCharCode(answers.indexOf(a) + 65)])
-    });
+    bot.cevents.get("generateQuestionPoll").run(message.channel, question, answers, message.author)
 
     deleteCatch(message);
 

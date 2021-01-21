@@ -1,6 +1,6 @@
 const { Profanity, ProfanityOptions } = require("@2toad/profanity");
-const whitelist  = require("../data/swearWhitelist.json");
-const blacklist = require("../data/swearBlacklist.json");
+const whitelist  = require("../../data/swearWhitelist.json");
+const blacklist = require("../../data/swearBlacklist.json");
 let profanity;
 
 module.exports.setup = async() => {
