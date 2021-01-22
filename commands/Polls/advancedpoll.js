@@ -238,6 +238,8 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     }
     deleteCatch(durationMsg);
 
+    // # add to db # \\
+    // TODO: add to db
     message.channel.send(`${channel.id}, ${question}, ${pollType}, ${answers.jon(",")}, ${anonymousResults}, ${releaseTime}, ${durationTime}`);
 
 }

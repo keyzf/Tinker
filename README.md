@@ -1,7 +1,7 @@
 <a href="https://discord.com/invite/aymBcRP"><img src="https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3" alt="Discord server" /></a>
 
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/313bb7e106b84a9aad93d464808903fb)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LordFarquhar/Tinker&amp;utm_campaign=Badge_Grade)
+<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/313bb7e106b84a9aad93d464808903fb)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LordFarquhar/Tinker&amp;utm_campaign=Badge_Grade) -->
 
 ## Table of contents
 

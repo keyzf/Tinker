@@ -1,13 +1,16 @@
 const stringSimilarity = require("string-similarity");
 const emojis = require("../../data/emoji_list.json");
 const deleteCatch = require("../../util/deleteCatch");
+const logger = require("../../lib/logger");
 
 module.exports.run = async(bot, message, args, dbGuild, command) => {
     const cmds = bot.commands.map((cmd) => {
         return (cmd.help.name);
     });
+    const aliases = Array.from(bot.aliases.keys());
+    const all = cmds.concat(aliases)
 
-    const matches = stringSimilarity.findBestMatch(command, cmds);
+    const matches = stringSimilarity.findBestMatch(command, all);
 
     if (matches.bestMatch.rating < 0.3) {
         message.react("🤦‍♂️")
@@ -33,7 +36,20 @@ module.exports.run = async(bot, message, args, dbGuild, command) => {
             // remove the existing reactions
             msg.reactions.removeAll().then(async() => {
                 if (reaction.emoji.name === emojis.symbols.white_check_mark) {
-                    bot.commands.get(bestMatch).run(bot, message, args, dbGuild, command);
+                    let command;
+                    if (bot.commands.has(bestMatch)) {
+                        command = bot.commands.get(bestMatch);
+                    } else {
+                        command = bot.commands.get(bot.aliases.get(bestMatch));
+                    }
+
+                    try {
+                        await command.run(bot, message, args, dbGuild, command);
+                    } catch (err) {
+                        logger.error(err.stack)
+                        const e = await bot.cevents.get("generateError").run(err, "This is what I get for suggesting a command correction. I know nothing!");
+                        message.channel.send(e);
+                    }
                 }
                 deleteCatch(msg, 0);
             });

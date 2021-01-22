@@ -2,7 +2,7 @@
   "botInfo": [
     {
       "name": "About",
-      "value": "Tinker is a simple all-round helper for any server! From announcements to moderation, memes to dad jokes, music to afk, Tinker provides you with anything and everything necessary to keep your server running smoothly\nThis little dude has his own personality which never fails to put a smile on everyone's face!"
+      "value": "Tinker is a simple all-round helper for any server! From announcements to moderation, memes to dad jokes, music to polls, Tinker provides you with anything and everything necessary to keep your server running smoothly\nThis little dude has his own personality which never fails to put a smile on everyone's face!"
     },
     {
       "name": "Updates and Information",
@@ -10,11 +10,11 @@
     },
     {
       "name": "Version",
-      "value": "1.5.4"
+      "value": "1.6.0"
     },
     {
       "name": "Recent Changes",
-      "value": "Our most recent update brings music to you! Play from YouTube Links or search the internet for the song you want.\nQueue up to 10 songs in advance, skip the songs you don't like, and set the volume so its just right"
+      "value": "The Information Age! Our most recent update brings to you polls! Ask yes-no, thumbs up - thumbs down or multiple choice questions.\nWe now also have a better error detection system, now you can bring error codes to our support server instead of trying to describe the error. This makes bug fixes and bot improvements much quicker and easier so we can bring out more updates for you!"
     },
     {
       "name": "Developers",

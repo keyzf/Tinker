@@ -184,7 +184,7 @@ module.exports.run = async(message) => {
             await command.run(bot, message, args, dbGuild, cmd);
         } catch (err) {
             logger.error(err.stack)
-            const e = await bot.cevents.get("generateError").run(err, "Something has gone so incredibly wrong that it got all the way here...");
+            const e = await bot.cevents.get("generateError").run(err, "It was a biiiggg error, cause it got all the way here in the code");
             message.channel.send(e)
         }
 

@@ -1,10 +1,10 @@
 module.exports.run = async(bot, message, args, dbGuild) => {
-  return null
+  throw Error("this error has been caused")
 };
 
 module.exports.help = {
-    name: "test",
-    aliases: [""],
+    name: "causeerror",
+    aliases: [],
     description: "",
     usage: "",
     cooldown: 0,

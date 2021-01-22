@@ -37,11 +37,11 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 
     if (args[0].toLowerCase() == "dev" || args[0].toLowerCase() == "devs" || args[0].toLowerCase() == "developers") {
         e.setTitle("All my developers!");
-        let text = []
-        devs.forEach((dev) => {
-            let user = bot.users.cache.get(dev);
+        let text = [];
+        for (let i=0; i<devs.length; i++) {
+            let user = await bot.users.fetch(devs[i]);
             text.push(`${user.username}#${user.discriminator}`)
-        });
+        }
         e.setDescription(text.join(", "))
         return message.channel.send(e)
     }

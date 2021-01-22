@@ -1,6 +1,6 @@
 {
   "name": "tinker",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "<a href=\"https://discord.com/invite/aymBcRP\"><img src=\"https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3\" alt=\"Discord server\" /></a>",
   "main": "index.js",
   "directories": {},

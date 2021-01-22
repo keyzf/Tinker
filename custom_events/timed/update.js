@@ -10,6 +10,7 @@ module.exports.run = () => {
 
     bot.cevents.get("checkEvents").run();
     bot.cevents.get("checkAnnouncements").run();
+    bot.cevents.get("checkPolls").run();
 }
 
 module.exports.help = {

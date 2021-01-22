@@ -7,11 +7,11 @@ module.exports.run = async (err, userMsg) => {
     const { _id } = await errordb.insert({error: util.inspect(err, {promise: false, depth: null}), timestamp: Date.now(), userMsg});
     const embed = generateDefaultEmbed({
         title: "Whoops, an error occurred",
-        description: "Some sort of error occurred with the bot. It might have been your fault, it was most likely mine\nChances are underneath me is a code, take that to the support server and get some help",
+        description: "Chances are underneath me is a code, take that to the support server and get some help",
         fields: [
-            { name: "Here's what we can tell you now", value: userMsg },
-            { name: "Error Code", value: _id},
-            { name: "Support Server", value: officialServerInvite}
+            { name: "Here's what we know already", value: userMsg },
+            { name: "Error Code", value: _id || "No error code associated with this error"},
+            { name: "Support Server", value: officialServerInvite }
         ]
     })
     return embed;
