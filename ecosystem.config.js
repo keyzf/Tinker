@@ -20,7 +20,7 @@ module.exports = {
             host: "192.168.1.128",
             ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=yes'],
             ref: "origin/master",
-            repo: "git@github.com:DuckBiscuitDevs/Tinker.git",
+            repo: "git@github.com:LordFarquhar/Tinker.git",
             path: "/home/pi/Documents/tinker-deploy",
             "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production && pm2 save"
         },
