@@ -24,7 +24,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
 }
 
 module.exports.help = {
-    name: "setwelcomechanne;",
+    name: "setwelcomechannel",
     aliases: ["welcomechannel"],
     description: "Set the welcome channel for user join events",
     usage: "[channel mention]",
