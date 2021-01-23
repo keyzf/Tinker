@@ -53,6 +53,10 @@
     "pm2-deploy-production": "pm2 deploy ecosystem.config.js production --force",
     "pm2-reload": "pm2 deploy ecosystem.config.js production exec 'pm2 reload tinker'"
   },
+  "engines": {
+    "node": ">=15.5.0",
+    "npm": ">=7.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lordFarquhar/Tinker.git"
