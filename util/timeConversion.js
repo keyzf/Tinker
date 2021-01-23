@@ -9,8 +9,3 @@
 module.exports.milliseconds = (h=0, m=0, s=0) => {
     return ((h * 60 * 60 + m * 60 + s) * 1000);
 }
-
-// module.exports.prettyTime = (millis) => {
-//     const date = today.toLocaleDateString("en-US");
-//     const time = 
-// }

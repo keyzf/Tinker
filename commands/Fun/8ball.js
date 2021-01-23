@@ -1,4 +1,3 @@
-const figlet = require('figlet');
 const responses = require("../../data/8ball.json");
 const generateDefaultEmbed = require('../../util/generateDefaultEmbed');
 

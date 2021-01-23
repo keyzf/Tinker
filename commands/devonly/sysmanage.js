@@ -4,9 +4,11 @@ const { find_nested } = require("../../lib/utilFunctions");
 const path = require("path")
 
 module.exports.run = async(bot, message, args) => {
-    const type = args[0];
+    const func = args[0];
+
+    const type = args[1];
     if (type == "event") {
-        const eventName = args[1];
+        const eventName = args[2];
         let event_files = find_nested("./events/", `.js`);
 
         event_files = event_files.filter((f) => { return path.basename(f) === `${eventName}.js` });
@@ -15,15 +17,21 @@ module.exports.run = async(bot, message, args) => {
         if (event_files.length > 1) { return message.channel.send("More than one event found"); }
         const scriptName = event_files[0];
         try {
-            await botSetup.removeEvent(bot, scriptName);
-            await botSetup.addEvent(bot, scriptName);
-            message.channel.send(`Reloaded event ${eventName}`)
+            if (func == "remove" || func == "reload") {
+                await botSetup.removeEvent(bot, scriptName);
+                message.channel.send(`Removed event ${eventName}`)
+            }
+            if (func == "add" || func == "reload") {
+                await botSetup.addEvent(bot, scriptName);
+                message.channel.send(`Added event ${eventName}`)
+            }
+            
         } catch (err) {
             logger.error(err);
             message.channel.send(`${eventName} event has broken`)
         }
     } else if (type == "cevent") {
-        const ceventName = args[1];
+        const ceventName = args[2];
         let cevent_files = find_nested("./custom_events/", `.js`);
 
         cevent_files = cevent_files.filter((f) => { return path.basename(f) === `${ceventName}.js` });
@@ -32,15 +40,20 @@ module.exports.run = async(bot, message, args) => {
         if (cevent_files.length > 1) { return message.channel.send("More than one cevent found"); }
         const scriptName = cevent_files[0];
         try {
-            await botSetup.removeCEvent(bot, scriptName);
-            await botSetup.addCEvent(bot, scriptName);
-            message.channel.send(`Reloaded Cevent ${ceventName}`)
+            if (func == "remove" || func == "reload") {
+                await botSetup.removeCEvent(bot, scriptName);
+                message.channel.send(`Removed cevent ${ceventName}`)
+            }
+            if (func == "add" || func == "reload") {
+                await botSetup.addCEvent(bot, scriptName);
+                message.channel.send(`Added cevent ${ceventName}`)
+            }
         } catch (err) {
             logger.error(err);
             message.channel.send(`${ceventName} Cevent has broken`)
         }
     } else if (type == "command") {
-        const commandName = args[1];
+        const commandName = args[2];
         let cmd_files = find_nested("./commands/", `.js`);
 
         cmd_files = cmd_files.filter((f) => { return path.basename(f) === `${commandName}.js` });
@@ -49,9 +62,14 @@ module.exports.run = async(bot, message, args) => {
         if (cmd_files.length > 1) { return message.channel.send("More than one command found"); }
         const scriptName = cmd_files[0];
         try {
-            await botSetup.removeCommand(bot, scriptName);
-            await botSetup.addCommand(bot, scriptName);
-            message.channel.send(`Reloaded command ${commandName}`)
+            if (func == "remove" || func == "reload") {
+                await botSetup.removeCommand(bot, scriptName);
+                message.channel.send(`Removed command ${commandName}`)
+            }
+            if (func == "add" || func == "reload") {
+                await botSetup.addCommand(bot, scriptName);
+                message.channel.send(`Added command ${commandName}`)
+            }
         } catch (err) {
             logger.error(err);
             message.channel.send(`${commandName} command has broken`)
@@ -60,10 +78,10 @@ module.exports.run = async(bot, message, args) => {
 };
 
 module.exports.help = {
-    name: "reload",
-    aliases: ["rl"],
-    description: "Reloads an event or command",
-    usage: "[type] [name]",
+    name: "sysmanage",
+    aliases: ["smanage"],
+    description: "Manages an event or command",
+    usage: "[func] [type] [name]",
     cooldown: 3,
     limit: true
 };
