@@ -22,7 +22,7 @@ module.exports = {
             ref: "origin/master",
             repo: "git@github.com:LordFarquhar/Tinker.git",
             path: "/home/pi/Documents/tinker-deploy",
-            "post-deploy": "nvm use node && npm install && pm2 reload ecosystem.config.js --env production && pm2 save"
+            "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production && pm2 save"
         },
     }
 };
