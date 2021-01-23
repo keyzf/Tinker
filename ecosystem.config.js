@@ -4,6 +4,7 @@ module.exports = {
         script: 'index.js',
         // watch: ["./index.js", "./events/", "./commands/", "./lib/", "./util/"],
         kill_timeout: 3000,
+        "exec_interpreter": "~/.nvm/versions/node/v15.6.0/bin/node",
         env: {
           NODE_ENV: "development"
         },
