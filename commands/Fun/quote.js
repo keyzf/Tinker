@@ -5,6 +5,8 @@ const { quotesdb } = require("../../lib/db")
 
 module.exports.run = async(bot, message, args) => {
 
+    // TODO: more advanced quote searching
+
     message.channel.startTyping();
 
     let all;

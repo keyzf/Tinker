@@ -23,7 +23,7 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
 
 module.exports.help = {
     name: 'addquote',
-    aliases: [""],
+    aliases: [],
     description: "add to quote list",
     usage: "\"[name]\" \"[whatever you wanna quote]\" \"[t:sfw f:nsfw]\"",
     cooldown: 2,

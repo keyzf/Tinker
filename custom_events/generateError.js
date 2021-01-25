@@ -6,13 +6,12 @@ const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 module.exports.run = async (err, userMsg) => {
     const { _id } = await errordb.insert({error: util.inspect(err, {promise: false, depth: null}), timestamp: Date.now(), userMsg});
     const embed = generateDefaultEmbed({
-        title: "Whoops, an error occurred",
-        description: "Chances are underneath me is a code, take that to the support server and get some help",
         fields: [
-            { name: "Here's what we know already", value: userMsg },
-            { name: "Error Code", value: _id || "No error code associated with this error"},
+            { name: "Error Code", value: `Give this code to one of our support staff \`\`\`${_id}\`\`\`` || "No error code associated with this error"},
             { name: "Support Server", value: officialServerInvite }
-        ]
+        ],
+        author: userMsg || "This error has no user visible message",
+        authorUrl: "./res/iconError.png"
     })
     return embed;
 }

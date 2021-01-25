@@ -14,6 +14,7 @@ async function start() {
 
     require("dotenv").config();
 
+    require("./lib/logger.js").setup();
     const logger = require("./lib/logger.js");
 
     logger.info("Starting");
@@ -29,6 +30,10 @@ async function start() {
     const Discord = require('discord.js');
 
     logger.debug("creating new client");
+    const intents = new Discord.Intents([
+        Discord.Intents.PRIVILEGED,
+        Discord.Intents.NON_PRIVILEGED
+    ])
     const bot = new Discord.Client({
         autoReconnect: true,
         retryLimit: Infinity,
@@ -36,7 +41,7 @@ async function start() {
             status: "idle",
         },
         fetchAllMembers: false, // should be turned off when in multiple guilds (it automatically caches all members from all guilds in startup)
-        intents: Discord.Intents.NON_PRIVILEGED
+        ws: intents
     });
     module.exports.bot = bot;
 

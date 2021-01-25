@@ -22,7 +22,7 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
         return "```" + figlet.textSync(text, { horizontalLayout: 'full' }) + "```";
     }
 
-    var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim()
+    var code = message.content.slice(dbGuild.prefix.length + cmd.length).trim();
     if (code.indexOf("```") == 0){
         code = code.replace(/```/g, "").replace("js", "");
     }

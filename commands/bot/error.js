@@ -1,6 +1,6 @@
 const { errordb } = require("../../lib/db");
 const { devs } = require("../../config/devs.json");
-const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
+const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 
 module.exports.run = async(bot, message, args, dbGuild) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
@@ -9,7 +9,6 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         let e = {
             title: `Error Code ${args[0]}`
         }
-
         if (!found) {
             e.description = "No error with that code could be found"
         } else {
@@ -26,10 +25,10 @@ module.exports.run = async(bot, message, args, dbGuild) => {
                 e.description = "The error has been logged, please contact us and give us the error code"
             }
         }
-
-
         message.channel.send(generateDefaultEmbed(e));
-
+    }).catch(async (e) => {
+        logger.error(e.stack, { channel: message.channel, content: message.content });
+        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error trying to receive error info, ironic I know"));
     });
 
 };

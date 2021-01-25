@@ -1,5 +1,4 @@
 const fetch = require("node-fetch");
-const setResponses = require("../../data/setResponse");
 const logger = require("../../lib/logger");
 const reddit = [
     "meme",
@@ -22,25 +21,24 @@ module.exports.run = async(bot, message, args) => {
 
     let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
 
-    fetch(url+subreddit+urlEnd)
+    fetch(url + subreddit + urlEnd)
         .then((res) => res.json())
         .then((response) => {
-                let index = Math.floor(Math.random() * 100);
-                let post = response.data.children[index].data;
-                imageEmbed = new Discord.MessageEmbed()
-                    .setTitle(post.title)
-                    .setURL("https://reddit.com" + post.permalink)
-                    // .setColor(config.embedColour)
-                    .setDescription(`u/${post.author}`)
-                    .setFooter(`r/${subreddit}`)
-                    .setImage(post.url);
-                message.channel.send(imageEmbed);
-                message.channel.stopTyping();
-            }
-        )
-        .catch((err) => {
-            message.channel.send(setResponses.httpGetError(""))
+            let index = Math.floor(Math.random() * 100);
+            let post = response.data.children[index].data;
+            imageEmbed = new Discord.MessageEmbed()
+                .setTitle(post.title)
+                .setURL("https://reddit.com" + post.permalink)
+                // .setColor(config.embedColour)
+                .setDescription(`u/${post.author}`)
+                .setFooter(`r/${subreddit}`)
+                .setImage(post.url);
+            message.channel.send(imageEmbed);
             message.channel.stopTyping();
+        })
+        .catch(async (err) => {
+            logger.error(e, { channel: message.channel, content: message.content });
+            return await message.channel.send(await bot.cevents.get("generateError").run(e, "Failed to get meme from reddit"));
         });
 
 

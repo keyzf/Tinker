@@ -22,25 +22,26 @@ module.exports.run = async(bot, message, args) => {
                 embed.setFooter(`Joke id: ${json.id}`)
                 message.channel.send(embed)
             })
-            .catch((err) => {
-                logger.log("warn", `error on dad joke fetch: ${err.stack}`)
-                message.channel.send("Could not get joke");
+            .catch(async (err) => {
+                logger.error(e, { channel: message.channel, content: message.content });
+                message.channel.stopTyping();
+                return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting dad joke"));
             });
     } else {
         fetch('https://icanhazdadjoke.com/', {
-            headers: { 'Accept': 'application/json' }
-        })
-        .then((response) => response.json())
-        .then((json) => {
-            const embed = new Discord.MessageEmbed();
-            embed.setDescription(json.joke)
-            embed.setFooter(`Joke id: ${json.id}`)
-            message.channel.send(embed)
-        })
-        .catch((err) => {
-            logger.log("warn", `error on dad joke fetch: ${err.stack}`)
-            message.channel.send("Could not get joke");
-        });
+                headers: { 'Accept': 'application/json' }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                const embed = new Discord.MessageEmbed();
+                embed.setDescription(json.joke)
+                embed.setFooter(`Joke id: ${json.id}`)
+                message.channel.send(embed)
+            })
+            .catch(async (err) => {
+                logger.error(e, { channel: message.channel, content: message.content });
+                return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting dad joke"));
+            });
     }
     message.channel.stopTyping();
 

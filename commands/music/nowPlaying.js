@@ -13,7 +13,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         authorUrl: "./res/TinkerMusic.png",
         footerText: `Song requested by ${serverQueue.songs[0].requestedBy.usertag}`,
         footerUrl: serverQueue.songs[0].requestedBy.avatar
-    }))
+    }));
 }
 
 module.exports.help = {
