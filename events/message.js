@@ -183,7 +183,7 @@ module.exports.run = async(message) => {
         try {
             await command.run(bot, message, args, dbGuild, cmd);
         } catch (err) {
-            logger.error(err.stack, { channel: message.channel, content: message.content })
+            logger.critical(err.stack, { channel: message.channel, content: message.content })
             const e = await bot.cevents.get("generateError").run(err, "It was a biiiggg error, cause it got all the way here in the code");
             message.channel.send(e)
         }

@@ -3,12 +3,17 @@ const moment = require("moment");
 const { db, Fields } = require("../../lib/db");
 
 module.exports.run = async(bot, message, args, dbGuild) => {
-
-    let target = await message.guild.members.fetch(message.mentions.users.first(), {withPresence: true}) || await message.guild.members.fetch(args[0], {withPresence: true}) || await message.guild.members.fetch(message.author.id, {withPresence: true});
-    if (!target) return message.reply('please specify a user!');
+    let search = message.mentions.users.first() || args[0] || message.author.id
+    let target;
+    try {
+        target = await message.guild.members.fetch({ user: search, withPresence: true });
+        if (!target) { throw Error("No target") }
+    } catch (e) {
+        return message.channel.send("Could not get member")
+    }
 
     let dbTarget = db.prepare(`SELECT * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${target.id}`).get();
-    if (!dbTarget) return message.reply('could not find user!');
+    if (!dbTarget) return message.channel.send("User is not in our database yet");
 
     let embed = new Discord.MessageEmbed()
         .setDescription(`${target.user.username}#${target.user.discriminator} ID: ${target.id}`, target.user.displayAvatarURL())
@@ -41,4 +46,3 @@ module.exports.help = {
     cooldown: 5,
     generated: true
 };
-

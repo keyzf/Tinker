@@ -1,6 +1,6 @@
 const setResponses = require("../../data/setResponse");
 const ytdl = require('ytdl-core');
-// const logger = require("../../lib/logger");
+const logger = require("../../lib/logger");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
@@ -14,13 +14,19 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         return bot.commands.get("search").run(bot, message, args, dbGuild)
     }
 
-    const songInfo = await ytdl.getInfo(argsMatch.input);
+    let songInfo;
+    try {
+        songInfo = await ytdl.getInfo(argsMatch.input);
+    } catch(e) {
+        logger.error(e, { channel: message.channel, content: message.content });
+        return await message.channel.send(await bot.cevents.get("generateError").run(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
+    }
     const song = {
         title: songInfo.videoDetails.title,
         author: songInfo.videoDetails.author.name,
         url: songInfo.videoDetails.video_url,
         lengthSeconds: songInfo.videoDetails.lengthSeconds,
-        thumbnail: songInfo.videoDetails.thumbnails[songInfo.videoDetails.thumbnails.length -1],
+        thumbnail: songInfo.videoDetails.thumbnails[songInfo.videoDetails.thumbnails.length - 1],
         requestedBy: {
             usertag: message.author.tag,
             avatar: message.author.displayAvatarURL()
@@ -54,9 +60,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         }
     } else {
         serverQueue.songs.push(song);
-        return message.channel.send(generateDefaultEmbed(
-            { title: "Song added to queue", description: `${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL()  }
-            ))
+        return message.channel.send(generateDefaultEmbed({ title: "Song added to queue", description: `${song.title}`, author: "Tinker's Tunes", authorUrl: "./res/TinkerMusic.png", footerText: `Requested by ${message.author.tag}`, footerUrl: message.author.displayAvatarURL() }))
     }
 }
 module.exports.help = {

@@ -10,7 +10,8 @@ module.exports.run = async (err, userMsg) => {
             { name: "Error Code", value: `Give this code to one of our support staff \`\`\`${_id}\`\`\`` || "No error code associated with this error"},
             { name: "Support Server", value: officialServerInvite }
         ],
-        author: userMsg || "This error has no user visible message",
+        description: userMsg || "This error has no user visible message",
+        author: "Tinkerror",
         authorUrl: "./res/iconError.png"
     })
     return embed;
