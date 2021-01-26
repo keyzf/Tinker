@@ -6,22 +6,18 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
         return message.channel.send(`You do not have permission to use this command`);
     }
 
-    const question = args[0];
+    let question = args.join(" ");
     if (!question) { return message.channel.send(`You did not specify a question!`); }
 
-    const answers = args.splice(1, args.length)
-
-    bot.shardFunctions.get("generateQuestionPoll").run(message.channel, question, answers, message.author)
-
+    bot.cevents.get("generateSimplePoll").run(message.channel, question, message.author);
     deleteCatch(message);
-
 }
 
 module.exports.help = {
-    name: "questionpoll",
-    aliases: ["qpoll"],
-    description: "Create a question poll",
-    usage: "\"[question]\" \"[answer]\" \"[answer]\"...",
+    name: "simplepoll",
+    aliases: ["poll"],
+    description: "Create a simple yes or no poll",
+    usage: "[Yes no question]",
     cooldown: 1,
     inDev: false,
     generated: true

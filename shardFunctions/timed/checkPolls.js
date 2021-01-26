@@ -1,6 +1,6 @@
 const { db, Fields } = require("../../lib/db");
 
-module.exports.run = async () => {
+module.exports.run = async (bot) => {
     
 }
 

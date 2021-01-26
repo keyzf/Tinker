@@ -1,8 +1,7 @@
-const { bot } = require("../index");
 const { db, Fields } = require("../lib/db");
 const Discord = require("discord.js")
 
-module.exports.run = (dbGuild, id) => {
+module.exports.run = (bot, dbGuild, id) => {
     return new Promise(async(resolve, reject) => {
         const guild = bot.guilds.cache.get(dbGuild.guildID);
         if (id) db.prepare(`UPDATE guilds SET ${Fields.GuildFields.muteRoleID}=${id} WHERE ${Fields.GuildFields.guildID}=${dbGuild.guildID}`).run();

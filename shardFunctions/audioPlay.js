@@ -3,7 +3,7 @@ const ytdl = require("ytdl-core");
 const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 const ms = require("pretty-ms");
 
-module.exports.run = (queue, guildID, song) => {
+module.exports.run = (bot, queue, guildID, song) => {
     const serverQueue = queue.get(guildID);
 
     if (!song) {

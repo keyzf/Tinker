@@ -6,12 +6,12 @@ const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 module.exports.run = async(bot, message, args, dbGuild) => {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.channel.send(setResponses.mustBeInVoiceChannel());
-    if (!args[0]) return bot.commands.get("resume").run(bot, message, args, dbGuild)
+    if (!args[0]) return bot.commands.get("resume").run(message, args, dbGuild)
 
     let argsMatch = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/);
     if (!argsMatch) {
         message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({ timeout: 5000 }))
-        return bot.commands.get("search").run(bot, message, args, dbGuild)
+        return bot.commands.get("search").run(message, args, dbGuild)
     }
 
     let songInfo;
@@ -19,7 +19,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         songInfo = await ytdl.getInfo(argsMatch.input);
     } catch(e) {
         logger.error(e, { channel: message.channel, content: message.content });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
     }
     const song = {
         title: songInfo.videoDetails.title,
@@ -52,7 +52,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
-            bot.cevents.get("audioPlay").run(bot.audioQueue, message.guild.id, queueConstruct.songs[0]);
+            bot.shardFunctions.get("audioPlay").run(bot.audioQueue, message.guild.id, queueConstruct.songs[0]);
         } catch (err) {
             console.log(err);
             bot.audioQueue.delete(message.guild.id);

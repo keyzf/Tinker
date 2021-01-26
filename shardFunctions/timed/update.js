@@ -1,16 +1,15 @@
-const { bot } = require("../../index");
 const logger = require("../../lib/logger");
 const { apiLatency } = require("../../lib/pm2Metrics")
 
 
-module.exports.run = () => {
+module.exports.run = (bot) => {
     logger.debug("update");
 
     apiLatency.update(bot.ws.ping);
 
-    bot.cevents.get("checkEvents").run();
-    bot.cevents.get("checkAnnouncements").run();
-    bot.cevents.get("checkPolls").run();
+    bot.shardFunctions.get("checkEvents").run();
+    bot.shardFunctions.get("checkAnnouncements").run();
+    bot.shardFunctions.get("checkPolls").run();
 }
 
 module.exports.help = {

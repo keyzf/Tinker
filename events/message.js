@@ -1,4 +1,4 @@
-const { bot } = require("../index");
+// const { bot } = require("../index");
 const { db, Fields } = require("../lib/db.js");
 const logger = require("../lib/logger");
 const Discord = require("discord.js");
@@ -10,7 +10,7 @@ const { noMessagesHandling } = require("../lib/pm2Metrics");
 
 // error codes https://www.voucherify.io/generator
 
-module.exports.run = async(message) => {
+module.exports.run = async(bot, message) => {
     noMessagesHandling.inc()
 
     // if the message sent was from a bot then completely ignore it (return)
@@ -68,7 +68,7 @@ module.exports.run = async(message) => {
     if (!message.content.startsWith(prefix)) {
 
         const user = db.prepare(`Select * FROM users WHERE ${Fields.UserFields.guildID}='${dbGuild.guildID}' AND ${Fields.UserFields.userID}=${message.author.id}`).get();
-        if (!user) return bot.cevents.get("addUser").run(message.author.id, dbGuild)
+        if (!user) return bot.shardFunctions.get("addUser").run(message.author.id, dbGuild)
         user.messagesSent += 1;
 
         db.prepare(`
@@ -84,13 +84,13 @@ module.exports.run = async(message) => {
         }
 
         if (dbGuild.profanityFilter) {
-            const prof = await bot.cevents.get("messageProfanityCheck").run(message, dbGuild);
+            const prof = await bot.shardFunctions.get("messageProfanityCheck").run(message, dbGuild);
             if (prof) {
                 await message.delete({ timeout: 0 })
                 message.channel.send(`${message.author} said: "${prof}"`)
             }
         }
-        if (dbGuild.preventSpam) { await bot.cevents.get("messageSpamCheck").run(message, dbGuild); }
+        if (dbGuild.preventSpam) { await bot.shardFunctions.get("messageSpamCheck").run(message, dbGuild); }
 
         return noMessagesHandling.dec();
     }
@@ -181,17 +181,17 @@ module.exports.run = async(message) => {
 
         // run the command
         try {
-            await command.run(bot, message, args, dbGuild, cmd);
+            await command.run(message, args, dbGuild, cmd);
         } catch (err) {
             logger.critical(err.stack, { channel: message.channel, content: message.content })
-            const e = await bot.cevents.get("generateError").run(err, "It was a biiiggg error, cause it got all the way here in the code");
+            const e = await bot.shardFunctions.get("generateError").run(err, "It was a biiiggg error, cause it got all the way here in the code");
             message.channel.send(e)
         }
 
         // message.delete({ timeout: 8000 });
     } else {
         // this code runs if the command was not found (the user used the bot prefix and then an invalid command)
-        bot.cevents.get("guessCommand").run(bot, message, args, dbGuild, cmd);
+        bot.shardFunctions.get("guessCommand").run(message, args, dbGuild, cmd);
     }
     return noMessagesHandling.dec();
 }

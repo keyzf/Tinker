@@ -1,7 +1,7 @@
 const { characterSet } = require("../../data/emoji_list.json");
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
 
-module.exports.run = async (channel, question, answers, author) => {
+module.exports.run = async (bot, channel, question, answers, author) => {
 
     const msg = await channel.send(generateDefaultEmbed({
         title: question,

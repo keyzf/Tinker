@@ -1,10 +1,9 @@
-const { bot } = require('../../index');
 const stringSimilarity = require("string-similarity");
 const deleteCatch = require("../../util/deleteCatch");
 
 const spamTimeoutMS = 3000;
 
-module.exports.run = async (message, dbGuild) => {
+module.exports.run = async (bot, message, dbGuild) => {
 
     return;
     // TODO: This is severely broken

@@ -1,10 +1,9 @@
-const { bot } = require('../index');
 const logger = require("../lib/logger");
 const { db, Fields } = require("../lib/db");
 
-module.exports.run = async() => {
+module.exports.run = async(bot) => {
     logger.log("info", `${bot.user.username} is online! Setup still running`);
-    bot.cevents.get("updateActivity").run();
+    bot.shardFunctions.get("updateActivity").run();
 
     // logger.debug("Checking for invalid guilds");
     // const guilds = db.prepare(`SELECT ${Fields.GuildFields.guildID} FROM guilds`).all();
@@ -17,6 +16,7 @@ module.exports.run = async() => {
 
 
     // tell updateLoop to start counting
+    // must be recieved in another way
     require("../lib/updateLoop").updateTask.start()
 
     // tell pm2 or another connected service that the bot is online and ready

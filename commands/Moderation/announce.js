@@ -25,7 +25,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         INSERT INTO announcements(${Fields.AnnouncementFields.guildID}, ${Fields.AnnouncementFields.announcementName}, ${Fields.AnnouncementFields.announcementDescription}, ${Fields.AnnouncementFields.releaseTime}, ${Fields.AnnouncementFields.announcementID}, ${Fields.AnnouncementFields.webhookID})
         VALUES(?, ?, ?, ?, ?, ?);
     `).run(dbGuild.guildID, args[0], args[1], releaseDate, announcementID, hook.id);
-    const m = await message.channel.send("Announcement Created");
+    const m = await message.channel.send(`Announcement Created. ID:${announcementID}`);
     message.delete({ timeout: 0 });
     m.delete({ timeout: 5000 });
 

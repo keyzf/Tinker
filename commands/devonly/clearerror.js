@@ -4,13 +4,15 @@ const generateDefaultEmbed = require("../../util/generateDefaultEmbed")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
+    let searchCireteria = { _id: args[0] }
+    if (args[0] == "all") { searchCireteria = {} }
 
-    errordb.remove({ _id: args[0] }).then(function(found) {
-        
+    errordb.remove(searchCireteria).then(function(found) {
+
         let e = {
             title: `Error Code ${args[0]}`
         }
-        
+
         if (!found.length) {
             e.description = "No error with that code could be found"
         } else {

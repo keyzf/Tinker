@@ -3,7 +3,7 @@ const { officialServerInvite } = require("../config/config.json");
 const util = require("util");
 const generateDefaultEmbed = require("../util/generateDefaultEmbed");
 
-module.exports.run = async (err, userMsg) => {
+module.exports.run = async (bot, err, userMsg) => {
     const { _id } = await errordb.insert({error: util.inspect(err, {promise: false, depth: null}), timestamp: Date.now(), userMsg});
     const embed = generateDefaultEmbed({
         fields: [

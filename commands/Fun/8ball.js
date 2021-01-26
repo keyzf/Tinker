@@ -11,7 +11,7 @@ module.exports.run = async(bot, message, args) => {
             response = responses[Math.floor(Math.random() * responses.length - 1)];
         } catch (e) {
             logger.error(e, { channel: message.channel });
-            return await message.channel.send(await bot.cevents.get("generateError").run(e, "Could not get 8 Ball response from file"));
+            return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Could not get 8 Ball response from file"));
         }
         message.channel.send(generateDefaultEmbed({
             title: "8 Ball",

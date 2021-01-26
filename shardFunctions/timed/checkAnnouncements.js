@@ -1,9 +1,8 @@
-const { bot } = require('../../index');
 const logger = require("../../lib/logger");
 const { db, Fields } = require("../../lib/db");
 const Discord = require("discord.js")
 
-module.exports.run = async() => {
+module.exports.run = async(bot) => {
     let announcements = db.prepare(`SELECT * FROM announcements`).all();
     for (let a of announcements) {
         // if passed release time
@@ -14,7 +13,6 @@ module.exports.run = async() => {
             embed.setColor("#ff00ff");
             embed.setTitle(a.announcementName);
             embed.setDescription(a.announcementDescription);
-            embed.setFooter(`Announcement ID: ${a.announcementID}`);
             embed.setTimestamp();
 
             try {

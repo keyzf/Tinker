@@ -47,7 +47,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
                 if (reaction.emoji.name === "1️⃣") { link = videos[0].url }
                 if (reaction.emoji.name === "2️⃣") { link = videos[1].url }
                 if (reaction.emoji.name === "3️⃣") { link = videos[2].url }
-                bot.commands.get("play").run(bot, message, [link], dbGuild);
+                bot.commands.get("play").run(message, [link], dbGuild);
                 // remove selection embed
                 msg.delete({ timeout: 0 });
             })

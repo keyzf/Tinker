@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args) => {
         }));
     } catch (e) {
         logger.error(e.stack, { channel: message.channel });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting bot uptime"));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Error getting bot uptime"));
     }
 }
 

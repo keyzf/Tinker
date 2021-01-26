@@ -3,7 +3,7 @@ const whitelist  = require("../../data/swearWhitelist.json");
 const blacklist = require("../../data/swearBlacklist.json");
 let profanity;
 
-module.exports.setup = async() => {
+module.exports.setup = async(bot) => {
     const options = new ProfanityOptions();
     options.wholeWord = false;
     options.grawlix = '⁎⁎⁎⁎';

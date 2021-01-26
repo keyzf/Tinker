@@ -9,7 +9,7 @@ module.exports.run = async(bot, message, args, dbGuild, cmd) => {
     let question = args.join(" ");
     if (!question) { return message.channel.send(`You did not specify a question!`); }
 
-    bot.cevents.get("generateSimplePoll").run(message.channel, question, message.author);
+    bot.shardFunctions.get("generateSimplePoll").run(message.channel, question, message.author);
     deleteCatch(message);
 }
 

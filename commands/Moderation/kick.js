@@ -11,7 +11,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     let reason = arrEndJoin(args, " ", 1) || "No reason specified";
     let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
-    bot.cevents.get("generateInfraction").run(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
+    bot.shardFunctions.get("generateInfraction").run(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
 
     await target.send(`You have been kicked from ${message.guild.name} by ${message.author.tag} for: ${reason}`);
 

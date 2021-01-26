@@ -1,4 +1,5 @@
 const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
+const logger = require("../../lib/logger");
 
 module.exports.run = async(bot, message, args) => {
     try {
@@ -10,7 +11,7 @@ module.exports.run = async(bot, message, args) => {
         });
     } catch (e) {
         logger.error(e.stack, { channel: message.channel, content: message.content });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting bot latency info"));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Error getting bot latency info"));
     }
 }
 

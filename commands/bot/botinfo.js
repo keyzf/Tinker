@@ -7,7 +7,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         var { botInfo } = require("../../data/botInfo.json");
     } catch (e) {
         logger.error(e, { channel: message.channel });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Failed to get Bot Info"));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Failed to get Bot Info"));
     }
     message.channel.send(generateDefaultEmbed({
         title: "Bot Information",

@@ -1,9 +1,8 @@
-const { bot } = require("../../index");
 const { db, Fields } = require("../../lib/db");
 const logger = require("../../lib/logger");
 const { v4: uuidv4 } = require("uuid")
 
-module.exports.run = async(userID, guildID, infractionType, infractionReason, infractorID, channelID) => {
+module.exports.run = async(bot, userID, guildID, infractionType, infractionReason, infractorID, channelID) => {
 
     const infractionID = uuidv4();
     db.prepare(`

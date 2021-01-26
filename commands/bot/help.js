@@ -2,7 +2,6 @@ const Discord = require("discord.js")
 const { devs } = require("../../config/devs.json")
 
 module.exports.run = async(bot, message, args, dbGuild) => {
-
     const { commands } = bot;
     const e = new Discord.MessageEmbed();
     // e.setFooter("The content of this command is completely generated. If anything looks off please contact us to get it fixed");

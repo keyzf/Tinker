@@ -10,11 +10,11 @@ module.exports.run = async(bot, message, args, dbGuild) => {
     let reason = arrEndJoin(args, " ", 1) || "No reason specified";
     let logs = message.guild.channels.cache.get(dbGuild.logsChannel);
 
-    let muteRole = await bot.cevents.get("updateMuteRole").run(dbGuild)
+    let muteRole = await bot.shardFunctions.get("updateMuteRole").run(dbGuild)
 
     target.roles.add(muteRole);
 
-    bot.cevents.get("generateInfraction").run(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
+    bot.shardFunctions.get("generateInfraction").run(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
 
     await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
     message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);

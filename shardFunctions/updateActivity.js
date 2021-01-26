@@ -1,6 +1,6 @@
-const { bot } = require('../index');
+// const { bot } = require('../index');
 
-module.exports.run = async(text) => {
+module.exports.run = async(bot, text) => {
     if (text) {
         return bot.user.setActivity(text, {
             type: "PLAYING"

@@ -9,7 +9,7 @@ module.exports.run = async(bot, message, args) => {
         out = figlet.textSync(text, { horizontalLayout: 'full' })
     } catch (e) {
         logger.error(e, { channel: message.channel, content: message.content });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Could not generate Ascii text"));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Could not generate Ascii text"));
     }
     if (!out) { return message.channel.send("Your message consists of entirely unsupported characters") }
     return message.channel.send("```" + out + "```");

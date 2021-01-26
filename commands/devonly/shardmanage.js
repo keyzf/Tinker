@@ -1,11 +1,10 @@
 const logger = require("../../lib/logger");
-const botSetup = require("../../lib/botSetup");
+const botSetup = require("../../lib/shardSetup");
 const { find_nested } = require("../../lib/utilFunctions");
 const path = require("path")
 
 module.exports.run = async(bot, message, args) => {
     const func = args[0];
-
     const type = args[1];
     if (type == "event") {
         const eventName = args[2];
@@ -30,27 +29,27 @@ module.exports.run = async(bot, message, args) => {
             logger.error(err);
             message.channel.send(`${eventName} event has broken`)
         }
-    } else if (type == "cevent") {
-        const ceventName = args[2];
-        let cevent_files = find_nested("./custom_events/", `.js`);
+    } else if (type == "shardfunction" || type == "sfunc") {
+        const shardFunctionName = args[2];
+        let shardFunction_files = find_nested("./shardFunctions/", `.js`);
 
-        cevent_files = cevent_files.filter((f) => { return path.basename(f) === `${ceventName}.js` });
+        shardFunction_files = shardFunction_files.filter((f) => { return path.basename(f) === `${shardFunctionName}.js` });
 
-        if (!cevent_files.length) { return message.channel.send("CEvent file not found"); }
-        if (cevent_files.length > 1) { return message.channel.send("More than one cevent found"); }
-        const scriptName = cevent_files[0];
+        if (!shardFunction_files.length) { return message.channel.send("shardFunction file not found"); }
+        if (shardFunction_files.length > 1) { return message.channel.send("More than one shardFunction found"); }
+        const scriptName = shardFunction_files[0];
         try {
             if (func == "remove" || func == "reload") {
-                await botSetup.removeCEvent(bot, scriptName);
-                message.channel.send(`Removed cevent ${ceventName}`)
+                await botSetup.removeShardFunction(bot, scriptName);
+                message.channel.send(`Removed shardFunction ${shardFunctionName}`)
             }
             if (func == "add" || func == "reload") {
-                await botSetup.addCEvent(bot, scriptName);
-                message.channel.send(`Added cevent ${ceventName}`)
+                await botSetup.addShardFunction(bot, scriptName);
+                message.channel.send(`Added shardFunction ${shardFunctionName}`)
             }
         } catch (err) {
-            logger.error(err);
-            message.channel.send(`${ceventName} Cevent has broken`)
+            logger.error(err.stack);
+            message.channel.send(`${shardFunctionName} shardFunction has broken`)
         }
     } else if (type == "command") {
         const commandName = args[2];
@@ -78,9 +77,9 @@ module.exports.run = async(bot, message, args) => {
 };
 
 module.exports.help = {
-    name: "sysmanage",
+    name: "shardmanage",
     aliases: ["smanage"],
-    description: "Manages an event or command",
+    description: "Manages dynamically loaded content for the shard this guild is in",
     usage: "[func] [type] [name]",
     cooldown: 3,
     limit: true

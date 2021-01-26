@@ -28,7 +28,7 @@ module.exports.run = async(bot, message, args, dbGuild) => {
         message.channel.send(generateDefaultEmbed(e));
     }).catch(async (e) => {
         logger.error(e.stack, { channel: message.channel, content: message.content });
-        return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error trying to receive error info, ironic I know"));
+        return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Error trying to receive error info, ironic I know"));
     });
 
 };

@@ -44,10 +44,10 @@ module.exports.run = async(bot, message, args, dbGuild, command) => {
                     }
 
                     try {
-                        await command.run(bot, message, args, dbGuild, command);
+                        await command.run(message, args, dbGuild, command);
                     } catch (err) {
                         logger.error(err.stack)
-                        const e = await bot.cevents.get("generateError").run(err, "This is what I get for suggesting a command correction. I know nothing!");
+                        const e = await bot.shardFunctions.get("generateError").run(err, "This is what I get for suggesting a command correction. I know nothing!");
                         message.channel.send(e);
                     }
                 }

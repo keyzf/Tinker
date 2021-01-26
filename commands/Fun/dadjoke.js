@@ -25,7 +25,7 @@ module.exports.run = async(bot, message, args) => {
             .catch(async (err) => {
                 logger.error(e, { channel: message.channel, content: message.content });
                 message.channel.stopTyping();
-                return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting dad joke"));
+                return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Error getting dad joke"));
             });
     } else {
         fetch('https://icanhazdadjoke.com/', {
@@ -40,7 +40,7 @@ module.exports.run = async(bot, message, args) => {
             })
             .catch(async (err) => {
                 logger.error(e, { channel: message.channel, content: message.content });
-                return await message.channel.send(await bot.cevents.get("generateError").run(e, "Error getting dad joke"));
+                return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Error getting dad joke"));
             });
     }
     message.channel.stopTyping();
