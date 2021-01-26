@@ -29,18 +29,7 @@ async function start() {
     require("./lib/updateLoop").start(shard);
 
     logger.debug(`logging in shard with token`);
-    try {
-        await shard.login(process.env.BOT_TOKEN);
-        logger.debug(`Live token found under BOT_TOKEN, logging in`);
-    } catch {
-        try {
-            await shard.login(process.env.BOT_TOKEN_PRE);
-            logger.debug(`Pre-Release token found under BOT_TOKEN_PRE, logging in`);
-        } catch {
-            logger.error("No token could be used");
-            process.exit();
-        }
-    }
+    await shard.login(process.env.BOT_TOKEN)
 
     // setup error case logging for client
     logger.debug("setting up error cases for the shard");
