@@ -1,13 +1,17 @@
-const { db, Fields } = require('../lib/db.js');
-const logger = require("../lib/logger");
+const DiscordEvent = require("../structures/DiscordEvent");
 
-module.exports.run = async(bot, guild) => {
+const event = new DiscordEvent();
+
+event.setInfo({
+    name: "guildDelete"
+});
+
+event.setExecute((client, guid) => {
     db.prepare(`
         DELETE FROM guilds
-        WHERE ${Fields.GuildFields.guildID} = '${guild.id}';
+        WHERE guildID = '${guild.id}';
     `).run();
-}
+});
 
-module.exports.help = {
-    name: "guildDelete"
-}
+
+module.exports = event;

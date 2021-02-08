@@ -1,15 +1,14 @@
-const { botOverlord } = require("../config/config.json")
+const DiscordEvent = require("../structures/DiscordEvent");
 
-// guild members custom status or online/offline status changes
-module.exports.run = function(bot, oldMember, newMember) {
-    // copies my presence
-    // if (newMember.userID == botOverlord) {
-    //     let text;
-    //     if (newMember.activities.length) text = newMember.activities[0].state
-    //     bot.shardFunctions.get("updateActivity").run(text);
-    // }
-}
+const event = new DiscordEvent();
 
-module.exports.help = {
+event.setInfo({
     name: "presenceUpdate"
-}
+});
+
+event.setExecute((client, oldMember, newMember) => {
+    return;
+});
+
+
+module.exports = event;

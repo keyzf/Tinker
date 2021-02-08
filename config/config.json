@@ -1,8 +1,6 @@
 {
-  "prefix": "tk!",
-
-  "officialServerId": "711189052371501107",
-  "officialServerInvite": "https://www.discord.com/invite/aymBcRP",
+  "defaultPrefix": "tk!",
+  "invite": "https://discord.com/api/oauth2/authorize?client_id=710141775808954389&permissions=8&scope=bot",
 
   "botOverlord": "383656791684284427"
 }

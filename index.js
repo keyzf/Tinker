@@ -1,101 +1,19 @@
-(async function() {
+require("dotenv").config()
+require("./structures/prototypeModification/string");
 
-    const chalk = require('chalk');
-    // const clear = require('clear');
-    const figlet = require('figlet');
-    // clear();
+const TinkerClient = require("./structures/TinkerClient");
 
-    await require("./lib/prototypeModification").setup();
+TinkerClient.registerCommandDir("./commands");
+TinkerClient.registerEventDir("./events");
+TinkerClient.registerOperationsDir("./operations");
 
-    const package = require("./package.json")
+TinkerClient.applyConfig("config", require("./config/config.json"));
+TinkerClient.applyConfig("officialServer", require("./config/officialServer.json"));
+TinkerClient.applyConfig("devs", require("./config/devs.json"));
 
-    console.log(
-        chalk.magenta(
-            figlet.textSync(`${package.name.capitalize()}@${package.version}`, { horizontalLayout: 'full' })
-        )
-    );
+TinkerClient.addData("emojis", require("./data/emoji_list.json"));
+TinkerClient.addData("eightBall", require("./data/8ball.json"));
+TinkerClient.addData("botInfo", require("./data/botInfo.json"));
+TinkerClient.addData("permissionsNames", require("./data/permissionsNames.json"));
 
-    require("dotenv").config();
-
-    const { ShardingManager } = require("discord.js");
-
-    const manager = new ShardingManager("./bot.js", {
-        token: process.env.BOT_TOKEN,
-        totalShards: "auto" // "auto"
-    });
-
-    manager.on("shardCreate", (shard) => {
-        console.log(`Shard #${shard.id} is being launched`);
-
-        shard.on("ready", () => {
-            console.log(`Shard #${shard.id} is ready`);
-        });
-
-        shard.on("death", (proc) => {
-            console.log(`Shard #${shard.id} dies`);
-        });
-
-        shard.on("disconnect", () => {
-            console.log(`Shard #${shard.id} disconnected`);
-        });
-
-        shard.on("message", (msg) => {
-            // console.log(`Shard #${shard.id} ${msg}`);
-            // console.log(`Shard[${shard.id}] : ${msg._eval} : ${msg._result}`);
-        });
-
-        shard.on("reconnecting", () => {
-            console.log(`Shard #${shard.id} is reconnecting`);
-        });
-
-        shard.on("spawn", (proc) => {
-            console.log(`Shard #${shard.id} spawned`);
-        });
-    });
-
-    manager.on('message', (shard, message) => {
-        console.log(`Shard[${shard.id}] : ${message._eval} : ${message._result}`);
-    });
-
-    let shards = await manager.spawn();
-
-    // const readline = require('readline');
-    // const rl = readline.createInterface({
-    //     input: process.stdin,
-    //     output: process.stdout,
-    //     terminal: false
-    // });
-
-    // rl.on('line', async(line) => {
-    //     const args = [];
-    //     line.match(/"[^"]+"|[\S]+/g).forEach((element) => {
-    //         if (!element) return null;
-    //         return args.push(element.replace(/"/g, ''));
-    //     });
-    //     let cmd = args.shift(); // .toLowerCase();
-    //     try {
-    //         switch (cmd) {
-    //             case ("shutdown"):
-    //                 await killAll(shards);
-    //                 process.exit();
-    //                 break;
-    //             case ("restart"):
-    //                 manager.respawnAll();
-    //                 break;
-    //             case ("execute"):
-
-    //                 break;
-    //             default:
-    //                 try { // if there is no built-in command in the interface then just evaluate the entire line
-    //                     console.log("command not found, evaluating...");
-    //                     let eresult = eval(line);
-    //                     console.log(eresult);
-    //                 } catch (err) { console.error(err); }
-    //         }
-    //     } catch (err) { console.error(err); }
-    // });
-
-}());
-
-// await require("./dashboard/server").setup(bot);
-// await require("./dashboard/server").start();
+TinkerClient.login(process.env.DISCORD_CLIENT_TOKEN);

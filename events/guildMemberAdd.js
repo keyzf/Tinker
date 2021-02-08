@@ -1,9 +1,13 @@
-const config = require("../config/config.json");
-const logger = require("../lib/logger");
-const { db, Fields } = require("../lib/db");
-const Discord = require("discord.js")
+const DiscordEvent = require("../structures/DiscordEvent");
 
-const { wrapText } = require("../lib/utilFunctions");
+const event = new DiscordEvent();
+
+event.setInfo({
+    name: "guildMemberAdd"
+});
+
+const { MessageAttachment } = require("discord.js")
+
 const Canvas = require('canvas');
 // get the register font method
 const registerFont = Canvas.registerFont;
@@ -13,11 +17,13 @@ registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
 registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
 registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
 
-module.exports.run = async(bot, member) => {
-    const dbGuild = db.prepare(`SELECT * FROM guilds WHERE ${Fields.GuildFields.guildID}='${member.guild.id}'`).get();
-    bot.shardFunctions.get("addUser").run(member.id, dbGuild);
+event.setExecute(async (client, member) => {
+    const dbGuild = client.data.db.prepare(`SELECT * FROM guilds WHERE guildID='${member.guild.id}'`).get();
+    client.operations.get("addUser")(member.id, dbGuild);
     // bot.shardFunctions.get("updateActivity").run();
     if (!dbGuild.welcomeChannel) { return; }
+    const channel = await client.channels.fetch(dbGuild.welcomeChannel);
+    if(!channel) { return; }
 
     const canvas = Canvas.createCanvas(400, 660);
     const ctx = canvas.getContext('2d');
@@ -40,11 +46,10 @@ module.exports.run = async(bot, member) => {
     ctx.clip();
     const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: "jpg" }));
     ctx.drawImage(avatar, (canvas.width / 2) - 65, 110, 130, 130);
-    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome-image.png");
+    const attachment = new MessageAttachment(canvas.toBuffer(), "welcome-image.png");
 
-    bot.channels.cache.get(dbGuild.welcomeChannel).send(`Welcome to the server, ${member}!`, attachment);
-}
+    channel.send(`Welcome to the server, ${member}!`, attachment);
+});
 
-module.exports.help = {
-    name: "guildMemberAdd"
-}
+
+module.exports = event;

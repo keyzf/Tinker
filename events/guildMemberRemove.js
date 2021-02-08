@@ -1,11 +1,14 @@
-const config = require("../config/config.json");
-const logger = require("../lib/logger")
+const DiscordEvent = require("../structures/DiscordEvent");
 
-module.exports.run = async (bot, member) => {
-    bot.shardFunctions.get("removeUser").run(member);
-    // TODO user leave message
-}
+const event = new DiscordEvent();
 
-module.exports.help = {
+event.setInfo({
     name: "guildMemberRemove"
-}
+});
+
+event.setExecute((client, member) => {
+    return;
+});
+
+
+module.exports = event;

@@ -4924,6 +4924,28 @@
         "?": "❓"
     },
     "custom": {
-        "loading": "<a:loading:797530503347044382>"
+        "loading": "<a:loading:797529107004129280>",
+        "TinkerWink": "<:TinkerWink:806943483796652053>",
+        "TinkerSurprise": "<:TinkerSurprise:806943484107817030>",
+        "TinkerStatusRecoveredMonitoring": "<:TinkerStatusRecoveredMonitoring:806943483431485460>",
+        "TinkerStatusPartialOutage": "<:TinkerStatusPartialOutage:806943483662696479>",
+        "TinkerStatusOutage": "<:TinkerStatusOutage:806943483402518579>",
+        "TinkerStatusOnline": "<:TinkerStatusOnline:806943483466088508>",
+        "TinkerStatusOffline": "<:TinkerStatusOffline:806943483473821716>",
+        "TinkerSmile": "<:TinkerSmile:806943483998502913>",
+        "TinkerSad": "<:TinkerSad:806943483612102686>",
+        "TinkerQuestion-yellow": "<:TinkerQuestionyellow:806943483516551199>",
+        "TinkerMusic-purple": "<:TinkerMusicpurple:806943461731074099>",
+        "TinkerIcon": "<:TinkerIcon:806943483373944903>",
+        "TinkerHappy": "<:TinkerHappy:806943374085980160>",
+        "TinkerExclamation-red": "<:TinkerExclamationred:806943473394778123>",
+        "TinkerEllipsis-red": "<:TinkerEllipsisred:806943470182465536>",
+        "TinkerAngry": "<:TinkerAngry:806943457478311967>",
+        "copperCoin": "<:copperCoin:808365694248550440>",
+        "copperCoinStack": "<:copperCoinStack:808365728007716924>",
+        "silverCoin": "<:silverCoin:808365723981185064>",
+        "silverCoinStack": "<:silverCoinStack:808365728574341121>",
+        "goldCoin": "<:goldCoin:808365726925979689>",
+        "goldCoinStack": "<:goldCoinStack:808365730147205130"
     }
 }

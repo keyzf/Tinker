@@ -1,29 +1,21 @@
-const logger = require("../lib/logger");
-const { db, Fields } = require("../lib/db");
+const DiscordEvent = require("../structures/DiscordEvent");
 
-module.exports.run = async(bot) => {
-    logger.log("info", `${bot.user.username} is online! Setup still running`);
-    bot.shardFunctions.get("updateActivity").run();
+const event = new DiscordEvent();
 
-    // logger.debug("Checking for invalid guilds");
-    // const guilds = db.prepare(`SELECT ${Fields.GuildFields.guildID} FROM guilds`).all();
-    // guilds.forEach((guild) => {
-    //     if (!bot.guilds.cache.has(guild.guildID)) {
-    //         db.prepare(`DELETE FROM guilds WHERE ${Fields.GuildFields.guildID}='${guild.guildID}'`);
-    //         logger.warn(`Invalid guildID '${guild.guildID}' found in the database - Removed`);
-    //     }
-    // });
-
-
-    // tell updateLoop to start counting
-    // must be recieved in another way
-    require("../lib/updateLoop").updateTask.start()
-
-    // tell pm2 or another connected service that the bot is online and ready
-    // process.send('ready');
-    logger.info(`${bot.user.username} setup complete and functional`);
-}
-
-module.exports.help = {
+event.setInfo({
     name: "ready"
-}
+});
+
+event.setExecute((client) => {
+    client.logger.info(`Logged in as ${client.user.username}`);
+    client.logger.info("Bot online! Setup still running...");
+    client.logger.info(`Info: ${client.users.cache.size} users, ${client.channels.cache.size} channels, ${client.guilds.cache.size} guilds.`); 
+    
+    client.updater.start();
+
+    client.operations.get("updateActivity")();
+    client.logger.info(`Setup complete and functional`);
+});
+
+
+module.exports = event;

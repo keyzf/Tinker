@@ -1,15 +1,19 @@
-const { db, Fields } = require("../lib/db");
-const config = require("../config/config.json");
-const { v4: uuid } = require("uuid")
+const DiscordEvent = require("../structures/DiscordEvent");
 
-module.exports.run = async(bot, guild) => {
-    db.prepare(`
-        INSERT INTO guilds(${Fields.GuildFields.guildID}, ${Fields.GuildFields.prefix}, ${Fields.GuildFields.name}, ${Fields.GuildFields.dashboardID})
-        VALUES('${guild.id}', '${config.prefix}', ?, '${uuid()}');
-    `).run(guild.name);
-    bot.shardFunctions.get("updateActivity").run();
-}
+const event = new DiscordEvent();
 
-module.exports.help = {
+event.setInfo({
     name: "guildCreate"
-}
+});
+
+const { v4: uuid } = require("uuid");
+
+event.setExecute((client, guild) => {
+    client.data.db.prepare(`
+        INSERT INTO guilds(guildID, prefix, name, dashboardID)
+        VALUES('${guild.id}', '${client.config.config.defaultPrefix}', ?, '${uuid()}');
+    `).run(guild.name);
+});
+
+
+module.exports = event;
