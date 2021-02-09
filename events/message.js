@@ -19,13 +19,14 @@ event.setExecute(async(client, message) => {
         return;
     }
 
+    if(message.channel.id == client.config.officialServer.lounge_text) { await client.operations.get("wanderingWorker")() }
+
     // find the guild from the database using its id (obtained from the sent message)
     const dbGuild = client.data.db.prepare(`Select prefix, guildID FROM guilds WHERE guildID='${message.guild.id}'`).get();
     if (!dbGuild) {
         client.emit("guildCreate", message.guild);
         return;
     }
-
 
     // get the desired prefix for this guild
     const prefix = dbGuild.prefix;
@@ -56,19 +57,7 @@ event.setExecute(async(client, message) => {
 
     const user = client.data.db.prepare(`Select * FROM users WHERE guildID='${dbGuild.guildID}' AND userID=${message.author.id}`).get();
     const currency = client.data.db.prepare(`Select * FROM currency WHERE userID=${message.author.id}`).get();
-    if (!user) { 
-        message.channel.send(`Adding ${message.author} to the ${message.guild.name} db...`).then((m) => m.delete({timeout:3000}));
-        return client.operations.get("addUser")(message.author.id, dbGuild) }
-    if(!currency) { 
-        const msg = client.operations.get("generateDefaultEmbed")({
-            title: "First Time?",
-            description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`
-        })
-        message.author.send(msg).catch((err) => {
-            message.channel.send("Please enable DMs from this server for future communication", msg)
-        });
-        return client.operations.get("addCurrency")(message.author.id);
-    }
+    if (!user) { return client.operations.get("addUser")(message.author.id, dbGuild) }
 
     // if the message isn't a command then:
     if (!message.content.startsWith(prefix)) {
@@ -95,6 +84,15 @@ event.setExecute(async(client, message) => {
         if (dbGuild.preventSpam) { await client.operations.get("messageSpamCheck")(message, dbGuild); }
 
         return;
+    }
+
+    if (!currency) {
+        message.channel.send(client.operations.get("generateDefaultEmbed")({
+            title: "First Time?",
+            description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`
+        })).then((m) => client.operations.get("deleteCatch")(m, 20000))
+
+        return client.operations.get("addCurrency")(message.author.id);
     }
 
     // split the rest of the sentence by each word (SPACE) or "many worded args"

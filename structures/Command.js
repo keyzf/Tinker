@@ -125,7 +125,7 @@ class Command {
                 const perm = this.userPermissions[i];
                 if (!message.member.permissions.has(perm, { checkAdmin: false })) {
                     if (this.client.config.devs.includes(message.author.id)) {
-                        message.channel.send(`Bypassed failed perms check for ${perm} as a developer`);
+                        message.channel.send(`Bypassed failed perms check for ${perm} as a developer`).then((m) => client.operations.get("deleteCatch")(m, 3000));
                         continue;
                     }
                     message.channel.send(this.client.operations.get("generateDefaultEmbed")({

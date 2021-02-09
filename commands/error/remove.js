@@ -6,7 +6,7 @@ command.setInfo({
     aliases: ["rem", "delete", "del", "clear"],
     category: "Bot",
     description: "Remove a particular error from the error entires",
-    usage: ""
+    usage: "<error ID>"
 });
 
 command.setLimits({

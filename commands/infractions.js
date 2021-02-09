@@ -6,7 +6,7 @@ command.setInfo({
     aliases: [],
     category: "Moderation",
     description: "View a users infractions",
-    usage: "<@user>"
+    usage: "<@ user>"
 });
 
 command.setLimits({

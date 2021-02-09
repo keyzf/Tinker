@@ -5,12 +5,13 @@ op.setInfo({
     name: "wanderingWorker"
 });
 
-const count = 0
+let count = 0
+let num = (Math.floor(Math.random() * 15) + 15)
 
 op.setExecute(async(client) => {
     count++;
 
-    if(count % 2 == 0) {return;}
+    if(count % num != 0) {return;}
     const channel = await client.channels.fetch(client.config.officialServer.lounge_text);
     // const channel = await client.channels.fetch("807174238644862986");//test channel
     setTimeout(async() => {
@@ -35,6 +36,7 @@ op.setExecute(async(client) => {
                 client.data.db.prepare(`update currency set currencyUnit0=? where userID=?`).run(coins, user.id);
             });
     }, Math.floor(Math.random() * 1000 * 30))
+    num = (Math.floor(Math.random() * 15) + 15)
 });
 
 module.exports = op;

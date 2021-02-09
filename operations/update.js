@@ -6,7 +6,6 @@ op.setInfo({
 });
 
 op.setExecute(async(client) => {
-    await client.operations.get("wanderingWorker")();
     return;
 });
 

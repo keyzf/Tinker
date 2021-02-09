@@ -3,10 +3,10 @@ const command = new Command();
 
 command.setInfo({
     name: "supportchannel",
-    aliases: ["sc"],
+    aliases: ["sc", "support"],
     category: "Support Server",
     description: "Notifies user of where to get support",
-    usage: "[@user]"
+    usage: "[@ user]"
 });
 
 command.setLimits({

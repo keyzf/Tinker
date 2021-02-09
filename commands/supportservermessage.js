@@ -27,11 +27,11 @@ command.setExecute(async (client, message, args, cmd) => {
     message.channel.send(client.operations.get("generateDefaultEmbed")({
         description: `Use these to shout at our members!
 
-        \`-\` sc: This isn't a support channel, here is where you get support
+        \`-\` supportchannel: This isn't a support channel, here is where you get support
 
         \`-\` perms: Which perms the bot needs and how to manage them
 
-        \`-\` perms: How errors work
+        \`-\` errors: How errors work
         `,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",

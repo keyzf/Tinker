@@ -6,7 +6,7 @@ command.setInfo({
     aliases: [],
     category: "Moderation",
     description: "Mute a member",
-    usage: "<@user> <reason>"
+    usage: "<@ user> <reason>"
 });
 
 command.setLimits({

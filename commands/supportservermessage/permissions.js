@@ -6,7 +6,7 @@ command.setInfo({
     aliases: ["perms"],
     category: "Support Server",
     description: "Explain how permissions work for the bot",
-    usage: ""
+    usage: "[@ user]"
 });
 
 command.setLimits({

@@ -6,7 +6,7 @@ command.setInfo({
     aliases: ["err", "errs", "errors"],
     category: "Support Server",
     description: "Explain how errors work for the bot",
-    usage: ""
+    usage: "[@ user]"
 });
 
 command.setLimits({
