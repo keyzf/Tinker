@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+.btn-outline {
+  font-weight: bold;
+  background-color: #303030;
+  border-style: solid;
+  border-width: 3px;
+  padding: 0;
+  outline: 0;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.btn-outline i,
+.btn-outline span {
+  width: 100%;
+  display: block;
+  padding: 0.7rem;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.btn-outline i {
+  margin-left: -100%;
+  -webkit-transition: margin-left 300ms ease-in-out;
+  transition: margin-left 300ms ease-in-out;
+}
+
+.btn-outline:hover {
+  color: #ffffff;
+  background-color: #aeadad;
+}
+
+.btn-outline:hover i {
+  margin-left: 0;
+}
+
+.btn-outline.default {
+  color: #aeadad;
+  border-color: #aeadad;
+}
+
+.btn-outline.default:hover {
+  color: #ffffff;
+  background-color: #aeadad;
+}
+
+.btn-outline.default:focus {
+  -webkit-box-shadow: 0 0 0 0.3rem rgba(174, 173, 173, 0.7);
+          box-shadow: 0 0 0 0.3rem rgba(174, 173, 173, 0.7);
+}
+
+.btn-outline.default.small:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(174, 173, 173, 0.7);
+          box-shadow: 0 0 0 0.2rem rgba(174, 173, 173, 0.7);
+}
+
+.btn-outline.default.large:focus {
+  -webkit-box-shadow: 0 0 0 0.4rem rgba(174, 173, 173, 0.7);
+          box-shadow: 0 0 0 0.4rem rgba(174, 173, 173, 0.7);
+}
+
+.btn-outline.primary {
+  color: #1489ff;
+  border-color: #1489ff;
+}
+
+.btn-outline.primary:hover {
+  color: #ffffff;
+  background-color: #1489ff;
+}
+
+.btn-outline.primary:focus {
+  -webkit-box-shadow: 0 0 0 0.3rem rgba(20, 137, 255, 0.7);
+          box-shadow: 0 0 0 0.3rem rgba(20, 137, 255, 0.7);
+}
+
+.btn-outline.primary.small:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(20, 137, 255, 0.7);
+          box-shadow: 0 0 0 0.2rem rgba(20, 137, 255, 0.7);
+}
+
+.btn-outline.primary.large:focus {
+  -webkit-box-shadow: 0 0 0 0.4rem rgba(20, 137, 255, 0.7);
+          box-shadow: 0 0 0 0.4rem rgba(20, 137, 255, 0.7);
+}
+
+.btn-outline.success {
+  color: #00ce0d;
+  border-color: #00ce0d;
+}
+
+.btn-outline.success:hover {
+  color: #ffffff;
+  background-color: #00ce0d;
+}
+
+.btn-outline.success:focus {
+  -webkit-box-shadow: 0 0 0 0.3rem rgba(0, 206, 13, 0.7);
+          box-shadow: 0 0 0 0.3rem rgba(0, 206, 13, 0.7);
+}
+
+.btn-outline.success.small:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 206, 13, 0.7);
+          box-shadow: 0 0 0 0.2rem rgba(0, 206, 13, 0.7);
+}
+
+.btn-outline.success.large:focus {
+  -webkit-box-shadow: 0 0 0 0.4rem rgba(0, 206, 13, 0.7);
+          box-shadow: 0 0 0 0.4rem rgba(0, 206, 13, 0.7);
+}
+
+.btn-outline.warning {
+  color: #f1da19;
+  border-color: #f1da19;
+}
+
+.btn-outline.warning:hover {
+  color: #ffffff;
+  background-color: #f1da19;
+}
+
+.btn-outline.warning:focus {
+  -webkit-box-shadow: 0 0 0 0.3rem rgba(241, 218, 25, 0.7);
+          box-shadow: 0 0 0 0.3rem rgba(241, 218, 25, 0.7);
+}
+
+.btn-outline.warning.small:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(241, 218, 25, 0.7);
+          box-shadow: 0 0 0 0.2rem rgba(241, 218, 25, 0.7);
+}
+
+.btn-outline.warning.large:focus {
+  -webkit-box-shadow: 0 0 0 0.4rem rgba(241, 218, 25, 0.7);
+          box-shadow: 0 0 0 0.4rem rgba(241, 218, 25, 0.7);
+}
+
+.btn-outline.danger {
+  color: #ff2323;
+  border-color: #ff2323;
+}
+
+.btn-outline.danger:hover {
+  color: #ffffff;
+  background-color: #ff2323;
+}
+
+.btn-outline.danger:focus {
+  -webkit-box-shadow: 0 0 0 0.3rem rgba(255, 35, 35, 0.7);
+          box-shadow: 0 0 0 0.3rem rgba(255, 35, 35, 0.7);
+}
+
+.btn-outline.danger.small:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 35, 35, 0.7);
+          box-shadow: 0 0 0 0.2rem rgba(255, 35, 35, 0.7);
+}
+
+.btn-outline.danger.large:focus {
+  -webkit-box-shadow: 0 0 0 0.4rem rgba(255, 35, 35, 0.7);
+          box-shadow: 0 0 0 0.4rem rgba(255, 35, 35, 0.7);
+}
+
+.btn-outline.small {
+  font-size: 0.8rem;
+  border-width: 2px;
+}
+
+.btn-outline.small i,
+.btn-outline.small span {
+  padding: 0.5rem;
+}
+
+.btn-outline.large {
+  font-size: 1.5rem;
+  border-width: 4px;
+}
+
+.btn-outline.large i,
+.btn-outline.large span {
+  padding: 0.9rem;
+}
+/*# sourceMappingURL=infoBtns.css.map */

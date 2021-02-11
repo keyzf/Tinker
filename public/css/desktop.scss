@@ -1,0 +1,141 @@
+@import "colours";
+
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+
+    .main {
+        flex-grow: 1;
+        background-color: $theme-dark-blue; /* For browsers that do not support gradients */
+        background-image: linear-gradient(to bottom right, $theme-dark-blue, $theme-mint-green);
+
+        color: $theme-white;
+
+        hr {
+            display: block;
+            position: relative;
+            padding-bottom: 2vh;
+            margin: .8vh auto;
+            height: 0;
+            width: 80%;
+            max-height: 0;
+            font-size: 1px;
+            line-height: 0;
+            clear: both;
+            border: none;
+            border-top: 1px solid $default;
+        }
+
+        .title {
+            padding: 2vw;
+            font-size: 6vw;
+            text-align: center;
+            color: $theme-white;
+        }
+
+        .heading {
+            padding: 1vh 14vw;
+            font-size: 3.6vw;
+            // text-align: center;
+            color: $theme-white;
+        }
+
+        .subheading {
+            padding: 1vh 14vw;
+            font-size: 2.5vw;
+            // text-align: center;
+            color: $theme-white;
+        }
+
+        .para {
+            padding: 1vh 14vw;
+            font-size: 1.2vw;
+            // text-align: center;
+            color: $theme-white;
+        }
+    }
+
+    // navbar
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1vh 2vw;
+        background-color: $dark-grey;
+
+        .logo {
+            max-height: 10vh;
+            cursor: pointer;
+        }
+
+        .nav_links {
+            list-style: none;
+
+            li {
+                font-size: 1.5vw;
+                display: inline-block;
+                padding: 0vw 2em;
+
+                a {
+                    transition: all 0.3s ease 0s;
+                    color: $theme-white;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: $theme-dark-white;
+                        text-decoration: underline;
+                    }
+                    &:visited {
+                        color: $theme-white;
+                        text-decoration: none;
+                    }
+                    &:active {
+                        color: $theme-dark-white;
+                        text-decoration: underline;
+                    }
+
+                    &.active {
+                        cursor: default;
+                        color: $theme-mint-green;
+
+                        &:hover {
+                            color: $theme-mint-green;
+                            text-decoration: none;
+                        }
+                        &:visited {
+                            color: $theme-mint-green;
+                            text-decoration: none;
+                        }
+                        &:active {
+                            color: $theme-mint-green;
+                            text-decoration: none;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .cta {
+            button {
+                padding: 0.8vw 1.6vw;
+                background-color: $theme-mint-green;
+                color: $dark-grey;
+                margin: 0 0.4vw;
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s ease 0s;
+
+                &:hover {
+                    background-color: $theme-dark-blue;
+                    color: $theme-white;
+                }
+            }
+        }
+    }
+}
+
+// Buttons
+
