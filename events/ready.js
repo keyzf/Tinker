@@ -15,6 +15,7 @@ event.setExecute((client) => {
 
     client.operations.get("updateActivity")();
     client.logger.info(`Setup complete and functional`);
+    process.send("ready");
 });
 
 

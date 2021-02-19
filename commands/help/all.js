@@ -25,7 +25,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     e.setColor("#a700bd");
     e.setTimestamp();
     e.setTitle("All my Commands!");
-    let outCommands = {}
+    let outCommands = {};
     commands.array().forEach((item) => {
         if (!item.limits.limited || client.config.devs.includes(message.author.id)) {
             let category = item.info.category;

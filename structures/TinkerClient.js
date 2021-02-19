@@ -1,11 +1,6 @@
 const { Client, Collection, Intents } = require("discord.js");
 const logger = require("./internal/logger");
 
-const cleanExit = async() => {
-    if (client.user) await client.user.setStatus("invisible");
-    process.exit();
-}
-
 const client = new Client({
     autoReconnect: true,
     retryLimit: Infinity,
@@ -19,6 +14,12 @@ const client = new Client({
         ])
     }
 });
+
+client.cleanExit = async(exitCode) => {
+    if (client.user) await client.user.setStatus("invisible");
+    console.log(exitCode)
+    process.exit(exitCode);
+}
 
 client.logger = logger.setup(client);
 
@@ -34,14 +35,14 @@ client.on("shardReady", (id, _) => {
 });
 client.on("shardError", (err, id) => client.logger.error(`Shard #${id} Error ${client.utility.inspect(err)}`));
 client.on("shardReconnecting", (id) => client.logger.info(`Shard #${id} Attempting Reconnect`));
-client.on("shardResume", replayed => client.logger.info(`Connection resumed, replaying ${client.utility.inspect(replayed)} events`));
+client.on("shardResume", (replayed) => client.logger.info(`Connection resumed, replaying ${client.utility.inspect(replayed)} events`));
+client.on("shardDisconnect", (event, id) => client.logger.info(`Shard #${id} Attempting Disconnect`));
 
-process.on("SIGINT", cleanExit)
-client.on("shardDisconnect", cleanExit);
-client.on("disconnect", cleanExit);
+process.on("SIGINT", client.cleanExit)
 
 client.on("rateLimit", m => client.logger.info(`Hit rate limit ${client.utility.inspect(m)}`))
 
+client.logger.debug("Setting skeleton store (volatile)")
 client.commands = new Collection();
 client.aliases = new Collection();
 client.cooldowns = new Collection();
@@ -50,10 +51,13 @@ client.afk = new Map();
 client.audioQueue = new Map();
 client.config = {};
 
+client.logger.debug("Setup database")
 client.data = require("./internal/db").setup(client);
 
+client.logger.debug("Setup time interval manager")
 client.updater = require("./internal/updater").setup(client);
 
+client.logger.debug("Setup Emoji Helper")
 client.emojiHelper = require("./internal/emojiHelper").setup(client);
 
 // client.permissionsManager = {} // for custom perms system
@@ -66,7 +70,7 @@ client.registerCommandDir = (path) => {
     client.commandDir = path;
     const cmd_files = client.utility.find(path, ".js");
     if (cmd_files.length <= 0) return client.logger.info(`No commands to load`);
-    client.logger.info(`Loading ${cmd_files.length} commands...`);
+    client.logger.info(`Loading ${cmd_files.length} commands from dir ${client.commandDir}...`);
     cmd_files.forEach((file, i) => {
         client.registerCommand(require(file));
     });
@@ -120,7 +124,7 @@ client.registerEventDir = (path) => {
     client.eventDir = path;
     const event_files = client.utility.findNested(path, ".js");
     if (event_files.length <= 0) return client.logger.info(`No events to load`);
-    client.logger.info(`Loading ${event_files.length} events...`);
+    client.logger.info(`Loading ${event_files.length} events from dir ${client.eventDir}...`);
     event_files.forEach((file, i) => {
         client.registerEvent(require(file));
     });
@@ -161,7 +165,7 @@ client.registerOperationsDir = (path) => {
     client.operationsDir = path;
     const operation_files = client.utility.findNested(path, ".js");
     if (operation_files.length <= 0) return client.logger.info(`No operations to load`);
-    client.logger.info(`Loading ${operation_files.length} operations...`);
+    client.logger.info(`Loading ${operation_files.length} operations from dir ${client.operationsDir}...`);
     operation_files.forEach((file, i) => {
         client.registerOperation(require(file));
     });
@@ -196,10 +200,12 @@ client.removeOperation = (file) => {
 }
 
 client.applyConfig = (name, config) => {
+    client.logger.debug(`Config ${name} applied`);
     client.config[name] = config;
 }
 
 client.addData = (name, config) => {
+    client.logger.debug(`Data ${name} applied`);
     client.data[name] = config;
 }
 

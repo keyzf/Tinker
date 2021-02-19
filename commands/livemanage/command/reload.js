@@ -15,11 +15,10 @@ cmd.setLimits({
 });
 
 const path = require("path");
-const find = require("../../../structures/utility/fs/find");
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const commandName = args[0];
-    let cmd_files = find(client.commandDir, `.js`);
+    let cmd_files = client.utility.find(client.commandDir, `.js`);
 
     cmd_files = cmd_files.filter((f) => { return path.basename(f) === `${commandName}.js` });
 

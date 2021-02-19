@@ -20,7 +20,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     if (question.length > 1800) { return message.channel.send("Ask a slightly smaller question") } else {
         let response;
         try {
-            response = client.data.eightBall[Math.floor(Math.random() * client.data.eightBall.length - 1)];
+            response = client.utility.array_random(client.data.eightBall);
         } catch (e) {
             client.logger.error(e, { channel: message.channel });
             return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Could not get 8 Ball response from file"));

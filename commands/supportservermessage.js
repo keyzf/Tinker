@@ -22,6 +22,7 @@ command.setPerms({
 command.registerSubCommand(`${__dirname}/supportservermessage/supportchannel.js`);
 command.registerSubCommand(`${__dirname}/supportservermessage/permissions.js`);
 command.registerSubCommand(`${__dirname}/supportservermessage/error.js`);
+command.registerSubCommand(`${__dirname}/supportservermessage/deadchat.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
     message.channel.send(client.operations.get("generateDefaultEmbed")({
@@ -32,6 +33,8 @@ command.setExecute(async (client, message, args, cmd) => {
         \`-\` perms: Which perms the bot needs and how to manage them
 
         \`-\` errors: How errors work
+
+        \`-\` deadchat: Explain why the chat is dead
         `,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",

@@ -1,0 +1,57 @@
+<p class="display-1 text-center">
+    <%= name %>
+        <span class="display-4">
+            <small class="text-muted" id="guildId">
+                <%= id %>
+            </small>
+        </span>
+</p>
+<div class="text-center mt-5" id="loadingSettingsContainer">
+    <p class="display-2">
+        <i class="fa fa-spin fa-cog fa-3x"></i><br>Loading Content...
+    </p>
+</div>
+<div id="settingsContainer">
+    <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#guildSettings"
+            aria-expanded="false" aria-controls="guildSettings">
+            Guild Settings
+        </button>
+    </p>
+    <div class="collapse" id="guildSettings">
+        <div class="card card-body">
+            <!-- prefix -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="guildSettings_prefixLabel">Prefix</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Retrieving..." aria-label="Prefix"
+                    id="guildSettingsUpdate-prefix" aria-describedby="guildSettings_prefixLabel">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" id="guildSettings_prefixUpdateBtn">Set</button>
+                </div>
+            </div>
+            <!-- welcome Channel -->
+            <div class="input-group mb-3">
+                <!-- dropdown version -->
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Welcome Channel</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Retrieving...</option>
+                    <!-- <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option> -->
+                </select>
+            </div>
+
+            <!-- button -->
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const token = "<%- user.apiToken %>"
+</script>
+<script src="/js/dashboard/guildDash.js"></script>

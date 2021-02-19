@@ -34,7 +34,8 @@ command.setExecute(async(client, message, args, cmd) => {
         .setColor("#a700bd")
         .setTimestamp()
         .setTitle("Here to help!")
-        .setDescription(`We have loads of commands (\`${prefix}help all\`) that do so many different things!\nI also have loads of background functionality (\`${prefix}help function\`) that is keeping your server running smooth, safe and fun!\n(don't forget our little disclaimer with \`${prefix}help disclaimer\`)\nMeet our developers by typing \`${prefix}help devs\` cause they deserve credit for everything that I am`);
+        .setDescription(`We have loads of commands (\`${prefix}help all\`) that do so many different things!
+        Meet our developers by typing \`${prefix}help devs\` cause they deserve credit for everything that I am`);
 
     return message.channel.send(e);
 

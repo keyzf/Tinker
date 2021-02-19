@@ -10,8 +10,9 @@ module.exports.setup = (client) => {
     const db = betterSql('./data/db.sqlite', options);
     const quotesdb = localDB("./data/quotes.json");
     const errordb = localDB("./data/genErrors.json");
+    const webuserdb = localDB("./data/webUsers.json");
 
-    return { db, quotesdb, errordb };
+    return { db, quotesdb, errordb, webuserdb };
 }
 
 

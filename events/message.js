@@ -6,7 +6,6 @@ event.setInfo({
     name: "message"
 });
 
-const { Collection } = require("discord.js");
 event.setExecute(async(client, message) => {
     // if the message sent was from a client then completely ignore it (return)
     if (message.author.bot) {

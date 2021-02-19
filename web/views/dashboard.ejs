@@ -1,0 +1,22 @@
+<div class="row row-cols-1 row-cols-xs-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
+    <% if(guilds) { for (g of guilds){ %>
+        <div class="col">
+            <div class="card">
+                <img src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.png" class="card-img-top"
+                    alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= g.name %>
+                    </h5>
+                    <p class="card-text">
+                        <%= g.manageable ? "Manage settings, channels, permissions and more"
+                            : "You must have manage server permission" %>
+                    </p>
+                    <a href="<%= g.manageable ? `/dashboard/guild/${g.id}` : "" %>"
+                        class="btn btn-primary <%= g.manageable ? "" : " disabled" %>"><%= g.manageable ? "Manage"
+                            : "No Access" %></a>
+                </div>
+            </div>
+        </div>
+        <% } } %>
+</div>

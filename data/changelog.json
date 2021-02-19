@@ -1,0 +1,14 @@
+[
+    {
+        "date": "??",
+        "version": "1.0.0-open-beta --> 2.0.0",
+        "title": "Lots happened that wasn't recorded",
+        "changes": ["Too many things", "I didn't record them", "Who knew the bot was going to get this big"]
+    },
+    {
+        "date": "20th June 2020",
+        "version": "1.0.0-open-beta",
+        "title": "First recorded publish",
+        "changes": ["Well nothing changed", "It was the first recorded publish duh"]
+    }
+]

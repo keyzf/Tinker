@@ -6,7 +6,7 @@ op.setInfo({
 });
 
 op.setExecute(async(client) => {
-    return;
+    client.operations.get("checkAnnouncement")();
 });
 
 module.exports = op;

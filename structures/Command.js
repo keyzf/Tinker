@@ -137,9 +137,9 @@ class Command {
             }
         }
 
-
         // TODO: Check custom user perms
 
+        this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`)
         return this.execute(this.client, message, args, cmd);
     }
 

@@ -15,11 +15,10 @@ cmd.setLimits({
 });
 
 const path = require("path");
-const find = require("../../../structures/utility/fs/find");
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const eventName = args[0];
-    let cmd_files = find(client.eventDir, `.js`);
+    let cmd_files = client.utility.find(client.eventDir, `.js`);
 
     cmd_files = cmd_files.filter((f) => { return path.basename(f) === `${eventName}.js` });
 

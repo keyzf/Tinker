@@ -61,8 +61,9 @@ module.exports.setup = (client) => {
     // with the correct console colouring
     const myCustomLevels = {
         levels: {
-            debug: 6,
-            sql: 5,
+            debug: 7,
+            sql: 6,
+            web: 5,
             info: 4,
             automated: 3,
             warn: 2,
@@ -72,6 +73,7 @@ module.exports.setup = (client) => {
         colors: {
             debug: "grey",
             sql: "grey",
+            web: "grey",
             info: "white",
             automated: "lightgreen",
             warn: "yellow",
@@ -81,6 +83,7 @@ module.exports.setup = (client) => {
         hexcolors: {
             debug: "#919191",
             sql: "#919191",
+            web: "#919191",
             info: "#ffffff",
             automated: "#89ff6b",
             warn: "#fff540",
