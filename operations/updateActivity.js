@@ -13,17 +13,17 @@ op.setExecute(async(client, text) => {
     }
     client.user.setStatus('online')
     
-    client.user.setActivity("Inanis make some questionable code decisions", {
-        type: "WATCHING"
-    });
+    // client.user.setActivity("Inanis make some questionable code decisions", {
+    //     type: "WATCHING"
+    // });
 
     // client.user.setActivity("with your guild", {
     //     type: "PLAYING"
     // });
 
-    // bot.user.setActivity(`with ${bot.users.cache.size} users over ${bot.guilds.cache.size} guilds - [${config.prefix}]`, {
-    //     type: "PLAYING"
-    // });
+    client.user.setActivity(`with ${client.users.cache.size} users`, {
+        type: "PLAYING"
+    });
 });
 
 module.exports = op;

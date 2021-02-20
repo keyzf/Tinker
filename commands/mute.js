@@ -29,14 +29,14 @@ command.setExecute(async(client, message, args, cmd) => {
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
 
     const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
-    let logs = await client.channels.fetch(logsChannel);
+    let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     let muteRole = await client.operations.get("updateMuteRole")(message.guild.id);
 
     try {
         target.roles.add(muteRole);
     } catch (err) {
-        logger.error(err, { channel: message.channel, content: message.content })
+        client.logger.error(err, { channel: message.channel, content: message.content })
         const e = await client.operations.get("generateError")(err, "Failed to apply the mute", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
@@ -47,7 +47,7 @@ command.setExecute(async(client, message, args, cmd) => {
     await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
     message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);
 
-    if (!logs) return message.reply(`please set a logging channel to log the mutes`);
+    if (!logs) return message.channel.send(`Please set a logging channel to log the mutes`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
     let embed = new MessageEmbed()
         .setColor('#FF0000')
         .setThumbnail(target.user.displayAvatarURL())

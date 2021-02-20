@@ -29,7 +29,7 @@ command.setExecute(async(client, message, args, cmd) => {
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
 
     const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
-    let logs = await client.channels.fetch(logsChannel);
+    let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     client.operations.get("generateInfraction")(target.user.id, message.guild.id, "BAN", reason, message.author.id, message.channel.id)
     await target.send(`You have been banned from ${message.guild.name} by ${message.author.tag} for: ${reason}`);
@@ -37,14 +37,14 @@ command.setExecute(async(client, message, args, cmd) => {
         // TODO: provide {days: Number} to delete messages that the user has sent this far into the past
         target.ban({reason});
     } catch (err) {
-        logger.error(err, { channel: message.channel, content: message.content });
+        client.logger.error(err, { channel: message.channel, content: message.content });
         const e = await client.operations.get("generateError")(err, "Failed to ban user", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }
     message.channel.send(`${target.user.username} was banned by ${message.author} for ${reason}`);
 
-    if (!logs) return message.channel.send(`please set a logging channel to log the bans`);
+    if (!logs) return message.channel.send(`please set a logging channel to log the bans`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
     let embed = new MessageEmbed()
         .setColor('#FF0000')
         .setThumbnail(target.user.displayAvatarURL())

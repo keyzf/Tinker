@@ -30,7 +30,7 @@ command.setExecute(async (client, message, args, cmd) => {
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
     
     const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
-    let logs = await client.channels.fetch(logsChannel);
+    let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     client.operations.get("generateInfraction")(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
 
@@ -39,14 +39,14 @@ command.setExecute(async (client, message, args, cmd) => {
     try {
         target.kick(reason);
     } catch (err) {
-        logger.error(err, { channel: message.channel, content: message.content })
+        client.logger.error(err, { channel: message.channel, content: message.content })
         const e = await client.operations.get("generateError")(err, "Failed to kick user", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }
     message.channel.send(`${target.user.username} was kicked by ${message.author} for ${reason}`);
 
-    if (!logs) return message.reply(`please set a logging channel to log the kicks`);
+    if (!logs) return message.reply(`please set a logging channel to log the kicks`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
     let embed = new discord.MessageEmbed()
         .setColor('#FF0000')
         .setThumbnail(target.user.displayAvatarURL())

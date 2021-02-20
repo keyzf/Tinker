@@ -26,7 +26,7 @@ command.setExecute(async (client, message, args, cmd) => {
     if (!target) return message.reply('please specify a member to mute!');
 
     const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
-    let logs = await client.channels.fetch(logsChannel);
+    let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     let id = client.data.db.prepare(`SELECT muteRoleID from guilds WHERE guildID=${message.guild.id}`).get().muteRoleID
     await message.guild.roles.fetch();
@@ -35,7 +35,7 @@ command.setExecute(async (client, message, args, cmd) => {
     try {
         target.roles.remove(muteRole);
     } catch (err) {
-        logger.error(err, { channel: message.channel, content: message.content })
+        client.logger.error(err, { channel: message.channel, content: message.content })
         const e = await client.operations.get("generateError")(err, "Failed to revoke the mute", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
@@ -43,7 +43,7 @@ command.setExecute(async (client, message, args, cmd) => {
     await target.send(`You have been unmuted in ${message.guild.name} by ${message.author.tag}`);
     message.channel.send(`${target.user.username} was unmuted by ${message.author}`);
 
-    if (!logs) return message.reply(`please set a logging channel to log the unmutes`);
+    if (!logs) return message.channel.send(`Please set a logging channel to log the unmutes`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
 
     let embed = new MessageEmbed()
         .setColor('#00FF00')

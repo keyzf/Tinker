@@ -11,11 +11,11 @@ command.setInfo({
 
 command.setLimits({
     cooldown: 0,
-    limited: true // TODO remove when not in dev
+    limited: false
 });
 
 command.setPerms({
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: [],
     botPermissions: []
 });
 

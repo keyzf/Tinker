@@ -1,0 +1,44 @@
+{
+	"Logger": {
+		"scope": "javascript,typescript",
+		"prefix": "log",
+		"body": [
+			"client.logger.${1:debug}(\"$2\");$0"
+		],
+		"description": "Make a log"
+	},
+	"Send to Channel": {
+		"scope": "javascript,typescript",
+		"prefix": "send",
+		"body": [
+			"message.channel.send(\"$1\");$0"
+		],
+		"description": "Send a plaintext message to the channel"
+	},
+	"Send Embed to Channel": {
+		"scope": "javascript,typescript",
+		"prefix": "sendEmbed",
+		"body": [
+			"message.channel.send(client.operations.get(\"generateDefaultEmbed\")({",
+			"\t${1}",	
+			"}));$0"
+		],
+		"description": "Send an embed to the channel"
+	},
+	"DB Get": {
+		"scope": "javascript,typescript",
+		"prefix": "dbget",
+		"body": [
+			"client.data.db.prepare(\"${1}\").get(${2});"
+		],
+		"description": "get from the database"
+	},
+	"DB Run": {
+		"scope": "javascript,typescript",
+		"prefix": "dbrun",
+		"body": [
+			"client.data.db.prepare(\"${1}\").run(${2});"
+		],
+		"description": "run database command"
+	}
+}

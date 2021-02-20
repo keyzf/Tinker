@@ -1,7 +1,7 @@
 const Command = require(`../../structures/Command`);
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "prefix",
     aliases: [],
     category: "Config",
@@ -9,19 +9,29 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
+command.setLimits({
     cooldown: 3,
     limited: false
 });
 
-cmd.setPerms({
-    userPermissions: [],
+command.setPerms({
+    userPermissions: ["MANAGE_GUILD"],
     botPermissions: []
 });
 
 
-cmd.setExecute(async(client, message, args, cmd) => {
-    
+command.setExecute(async(client, message, args, cmd) => {
+    if (!args[0]) {
+        const { prefix } = client.data.db.prepare("SELECT prefix FROM guilds where guildID=?").get(message.guild.id);
+        return message.channel.send(client.operations.get("generateDefaultEmbed")({
+            description: `Please provide a prefix to change it to
+            The current prefix is ${prefix}`
+        }));
+    }
+    client.data.db.prepare("UPDATE guilds SET prefix=? WHERE guildID=?").run(args[0], message.guild.id);
+    return message.channel.send(client.operations.get("generateDefaultEmbed")({
+        description: `Prefix set to \`${args[0]}\``
+    }));
 });
 
-module.exports = cmd;
+module.exports = command;

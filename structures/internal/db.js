@@ -37,8 +37,6 @@ module.exports.Fields = {
         ignoredSpamChannels: "ignoredSpamChannels",
         muteRoleID: "muteRoleID",
 
-        dashboardID: "dashboardID",
-
         logsChannel: "logsChannel",
         welcomeChannel: "welcomeChannel",
 
@@ -52,16 +50,6 @@ module.exports.Fields = {
         type: "infractionType",
         channelID: "infractionChannelID",
         reason: "infractionReason"
-    },
-    EventFields: {
-        guildID: "guildID",
-        eventName: "eventName",
-        eventDescription: "eventDescription",
-        eventDeadline: "eventDeadline",
-        eventID: "eventID",
-        releaseTime: "releaseTime",
-        webhookID: "webhookID",
-        released: "released"
     },
     AnnouncementFields: {
         guildID: "guildID",
