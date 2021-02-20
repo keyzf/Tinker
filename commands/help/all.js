@@ -14,7 +14,7 @@ cmd.setLimits({
     limited: false
 });
 
-const {MessageEmbed} = require("discord.js")
+const { MessageEmbed } = require("discord.js");
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const { commands } = client;
@@ -25,6 +25,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     e.setColor("#a700bd");
     e.setTimestamp();
     e.setTitle("All my Commands!");
+    e.setDescription(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`)
     let outCommands = {};
     commands.array().forEach((item) => {
         if (!item.limits.limited || client.config.devs.includes(message.author.id)) {
@@ -39,7 +40,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         e.addField(keys[key] || "No category", values[key].join(", "));
     }
     message.channel.send(e);
-    return message.channel.send(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`);
+    // return message.channel.send(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`);
 });
 
 module.exports = cmd;
