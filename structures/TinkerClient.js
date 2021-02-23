@@ -36,28 +36,32 @@ client.on("shardReady", (id, _) => {
 client.on("shardError", (err, id) => client.logger.error(`Shard #${id} Error ${client.utility.inspect(err)}`));
 client.on("shardReconnecting", (id) => client.logger.info(`Shard #${id} Attempting Reconnect`));
 client.on("shardResume", (replayed) => client.logger.info(`Connection resumed, replaying ${client.utility.inspect(replayed)} events`));
-client.on("shardDisconnect", (event, id) => client.logger.info(`Shard #${id} Attempting Disconnect`));
+client.on("shardDisconnect", (event, id) => client.logger.info(`Shard #${id} Disconnected`));
 
-process.on("SIGINT", client.cleanExit)
+process.on("SIGINT", client.cleanExit);
 
-client.on("rateLimit", m => client.logger.info(`Hit rate limit ${client.utility.inspect(m)}`))
+client.on("rateLimit", m => client.logger.info(`Hit rate limit ${client.utility.inspect(m)}`));
 
-client.logger.debug("Setting skeleton store (volatile)")
+client.logger.debug("Setting skeleton store (volatile)");
+// internal stuff
 client.commands = new Collection();
 client.aliases = new Collection();
 client.cooldowns = new Collection();
 client.operations = new Collection();
 client.afk = new Map();
+
+// fun stuff
 client.audioQueue = new Map();
+
 client.config = {};
 
-client.logger.debug("Setup database")
+client.logger.debug("Setup database");
 client.data = require("./internal/db").setup(client);
 
-client.logger.debug("Setup time interval manager")
+client.logger.debug("Setup time interval manager");
 client.updater = require("./internal/updater").setup(client);
 
-client.logger.debug("Setup Emoji Helper")
+client.logger.debug("Setup Emoji Helper");
 client.emojiHelper = require("./internal/emojiHelper").setup(client);
 
 // client.permissionsManager = {} // for custom perms system
@@ -92,9 +96,10 @@ client.registerCommand = (command) => {
 
     // log all subcommands
     client.utility.recursive.loopObjArr(command, "subcommands", (elts) => {
-        const reqPath = elts.reduce((acc, cur) => {
-            return acc += ` > ${cur.info.name}`
-        }, `${command.info.name}`);
+        const reqPath = elts.reduce(
+            (acc, cur) => { return acc += ` > ${cur.info.name}`; },
+            `${command.info.name}`
+        );
         client.logger.debug(reqPath);
     });
 

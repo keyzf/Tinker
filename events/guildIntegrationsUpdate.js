@@ -3,7 +3,7 @@ const DiscordEvent = require("../structures/DiscordEvent");
 const event = new DiscordEvent();
 
 event.setInfo({
-    name: "guildIntergrationsUpdate"
+    name: "guildIntegrationsUpdate"
 });
 
 event.setExecute((client, guild) => {

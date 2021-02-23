@@ -24,7 +24,8 @@ command.setExecute(async (client, message, args, cmd) => {
     try {
         throw new Error("Intentional Error")
     } catch (err) {
-        const e = await client.operations.get("generateError")(err, "A dev asked me to do this... idk why", { channel: message.channel, content: message.content });
+        client.logger.error(err.stack)
+        const e = await client.operations.get("generateError")(err.stack, "A dev asked me to do this... idk why", { channel: message.channel, content: message.content });
         message.channel.send(e);
     }
 });

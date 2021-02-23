@@ -29,10 +29,6 @@ module.exports.setup = (client) => {
             if (match && match[0]) { return match[0]; }
 
             return undefined;
-        },
-
-        parseUser() {
-
         }
     }
 
