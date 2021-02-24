@@ -4,7 +4,7 @@ const command = new Command();
 command.setInfo({
     name: "pouch",
     aliases: ["bal", "balance"],
-    category: "Currency",
+    category: "Adventuring",
     description: "See what you've got in your pouch",
     usage: ""
 });

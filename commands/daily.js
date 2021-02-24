@@ -4,7 +4,7 @@ const command = new Command();
 command.setInfo({
     name: "daily",
     aliases: [],
-    category: "Currency",
+    category: "Adventuring",
     description: "Get your daily wage",
     usage: ""
 });

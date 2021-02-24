@@ -4,7 +4,7 @@ const command = new Command();
 command.setInfo({
     name: "work",
     aliases: [],
-    category: "Currency",
+    category: "Adventuring",
     description: "Get to work",
     usage: ""
 });
