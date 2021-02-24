@@ -31,6 +31,8 @@ However they require a lot of work to go through, check for malicious intent, bu
 
 Keep track of bugs and feature progress with the [public Tinker Trello Board](https://trello.com/b/Pg6aO3Wd/tinker-bot)
 
+If you wish to contribute, please see our [contributing guidelines](https://github.com/LordFarquhar/Tinker/blob/master/CONTRIBUTING.md)
+
 ## Help
 
-We have a wonderful community that you can talk to in the discussions of this GitHub Repository, and in our [Official Support server](https://discord.com/aymBcRP)
+We have a wonderful community that you can talk to in the [discussions](https://github.com/LordFarquhar/Tinker/discussions) of this GitHub Repository, but mostly in our [Official Support server](https://discord.com/aymBcRP)
