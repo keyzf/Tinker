@@ -4,6 +4,31 @@
         "name": "Dagger",
         "size": "small",
         "description": "A thin, short blade wielded with a shaped handle",
-        "damage": ""
+        "damage": "1d4",
+        "damageType": "piercing"
+    },
+    {
+        "id": "weap-40a-db1",
+        "name": "Shortsword",
+        "size": "small",
+        "description": "A thin blade wielded with a handle and wide guard",
+        "damage": "1d6",
+        "damageType": "piercing"
+    },
+    {
+        "id": "weap-ea5-80a",
+        "name": "Longsword",
+        "size": "medium",
+        "description": "A long blade wielded with a handle, wide guard and intricate pommel",
+        "damage": "1d8",
+        "damageType": "piercing"
+    },
+    {
+        "id": "weap-9a5-ef7",
+        "name": "Greatsword",
+        "size": "large",
+        "description": "A large blade wielded with a handle. An intricate guard and pommel and a large grip for two hands",
+        "damage": "2d6",
+        "damageType": "piercing"
     }
 ]
