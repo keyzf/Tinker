@@ -11,7 +11,7 @@ command.setInfo({
 
 command.setLimits({
     cooldown: 0,
-    limited: true
+    limited: false
 });
 
 command.setPerms({
