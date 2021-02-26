@@ -23,6 +23,14 @@ client.cleanExit = async(exitCode) => {
 
 client.logger = logger.setup(client);
 
+// const AutoPoster = require('topgg-autoposter');
+
+// const ap = AutoPoster('Your Top.gg Token', client) // TODO: need to get my top.gg token
+// ap.on('posted', () => {
+//     client.logger.info("Posted stats to Top.gg!");
+// });
+// TODO: use https://www.npmjs.com/package/@top-gg/sdk for posting and for webhooks when webserver is public
+
 client.statics = require("./StaticsManager.js").setup(client);
 client.utility = require("./UtilityManager.js").setup(client);
 
@@ -185,9 +193,9 @@ const Operation = require("../structures/Operation");
 client.registerOperation = (operation) => {
     operation._registerClient(client);
     client.operations = ({...client.operations, [operation.info.name]: operation })
-    // client.operations.set(operation.info.name, (...args) => {
-    //     return operation.run(...args);
-    // });
+        // client.operations.set(operation.info.name, (...args) => {
+        //     return operation.run(...args);
+        // });
     client.logger.debug(`Operation ${operation.info.name} added!`);
 }
 

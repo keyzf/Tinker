@@ -26,8 +26,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
         title: "Noughts and Crosses",
         description: `Please wait, setting up`
     }));
-    
-    const winner =  new NoughtsAndCrosses(client, message, msg, message.author);
+
+    const { winner, loser } = new NoughtsAndCrosses(client, message, msg, message.author);
 
 });
 

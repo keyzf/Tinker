@@ -7,7 +7,7 @@ event.setInfo({
 });
 
 event.setExecute((client, guid) => {
-    db.prepare(`
+    client.data.db.prepare(`
         DELETE FROM guilds
         WHERE guildID = '${guild.id}';
     `).run();

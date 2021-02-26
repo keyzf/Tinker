@@ -211,10 +211,10 @@ class NoughtsAndCrosses {
 
         for (let turn = 0; turn < 5; turn++) {
             if (!await this.takeTurn(this.player1, "O")) { return; }
-            if (this.checkWin(this.player1, "O")) { return this.player1; }
+            if (this.checkWin(this.player1, "O")) { return { winner: this.player1, loser: this.player2 }; }
             if (this.checkDraw()) { return; }
             if (!await this.takeTurn(this.player2, "X")) { return; }
-            if (this.checkWin(this.player2, "X")) { return this.player2; }
+            if (this.checkWin(this.player2, "X")) { return { winner: this.player2, lower: this.player1 }; }
             if (this.checkDraw()) { return; }
         }
 
