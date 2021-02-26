@@ -54,7 +54,7 @@ class NoughtsAndCrosses {
 
     takeTurn(player, symbol) {
         return new Promise(async(resolve, reject) => {
-            this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+            this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
                 title: "Noughts and Crosses",
                 description: `Player ${player.username}'s turn ${this.client.data.emojis.noughtsAndCrosses[symbol]}`,
                 fields: [
@@ -67,7 +67,7 @@ class NoughtsAndCrosses {
                 try {
                     collected = await gameObj.gameMessage.channel.awaitMessages(m => m.author.id == player.id && m.content.indexOf(".") != 0, { max: 1, time: 30000 })
                 } catch {
-                    gameObj.gameMessage.edit(gameObj.client.operations.get("generateDefaultEmbed")({
+                    gameObj.gameMessage.edit(gameObj.client.operations.generateDefaultEmbed.run({
                         title: "Noughts and Crosses",
                         description: `${player.username} ${gameObj.client.data.emojis.noughtsAndCrosses[symbol]} took too long to take their turn`,
                         fields: [
@@ -79,9 +79,9 @@ class NoughtsAndCrosses {
 
                 if (!collected.first()) { return null; }
                 const responseChars = collected.first().content.toLowerCase().trim().split("");
-                gameObj.client.operations.get("deleteCatch")(collected.first())
+                gameObj.client.operations.deleteCatch.run(collected.first())
                 if (!responseChars.length == 2 || !gameObj.choices[responseChars[0]] || !gameObj.choices[responseChars[0]][responseChars[1]]) {
-                    gameObj.gameMessage.edit(gameObj.client.operations.get("generateDefaultEmbed")({
+                    gameObj.gameMessage.edit(gameObj.client.operations.generateDefaultEmbed.run({
                         title: "Noughts and Crosses",
                         description: `${player.username} ${gameObj.client.data.emojis.noughtsAndCrosses[symbol]} this is not a valid choice, please use abc (top->bottom) and 123 (L->R)`,
                         fields: [
@@ -99,7 +99,7 @@ class NoughtsAndCrosses {
                     gameObj.board[pos.row][pos.col] = symbol;
                     return gameObj.board;
                 }
-                gameObj.gameMessage.edit(gameObj.client.operations.get("generateDefaultEmbed")({
+                gameObj.gameMessage.edit(gameObj.client.operations.generateDefaultEmbed.run({
                     title: "Noughts and Crosses",
                     description: `${player.username} ${gameObj.client.data.emojis.noughtsAndCrosses[symbol]} this is not a valid choice, you cannot place on top of another counter`,
                     fields: [
@@ -118,7 +118,7 @@ class NoughtsAndCrosses {
                 return resolve(true);
             }
 
-            this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+            this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
                 title: "Noughts and Crosses",
                 description: `${player.username} ${this.client.data.emojis.noughtsAndCrosses[symbol]} You clearly can't play the game right, you forfeit this round`,
                 fields: [
@@ -134,7 +134,7 @@ class NoughtsAndCrosses {
         for (let i = 0; i < this.winningLines.length; i++) {
             const line = this.winningLines[i];
             if (line.every((pos) => this.board[this.posToIndex[pos][0]][this.posToIndex[pos][1]] == symbol)) {
-                this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+                this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
                     title: "Noughts and Crosses",
                     description: `${player.username} won!`,
                     fields: [
@@ -155,7 +155,7 @@ class NoughtsAndCrosses {
                 });
             })
         ) {
-            this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+            this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
                 title: "Noughts and Crosses",
                 description: `Game ended in a draw :(`,
                 fields: [
@@ -168,7 +168,7 @@ class NoughtsAndCrosses {
     }
 
     async getOpponent() {
-        this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+        this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
             title: "Noughts and Crosses",
             description: `${this.client.emojiHelper.sendWith(this.client.data.emojis.custom.loading)} Waiting for a user to join`
         }));
@@ -182,9 +182,9 @@ class NoughtsAndCrosses {
             await this.gameMessage.reactions.removeAll()
         } catch (err) {
             return this.gameMessage.reactions.removeAll().then(async() => {
-                this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({ title: "Nobody joined your game" }));
-                this.client.operations.get("deleteCatch")(this.gameMessage, 5000);
-                this.client.operations.get("deleteCatch")(this.message, 5000);
+                this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({ title: "Nobody joined your game" }));
+                this.client.operations.deleteCatch.run(this.gameMessage, 5000);
+                this.client.operations.deleteCatch.run(this.message, 5000);
             });
         }
     }
@@ -192,7 +192,7 @@ class NoughtsAndCrosses {
     async runGame() {
         await this.getOpponent();
 
-        this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+        this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
             title: "Noughts and Crosses",
             description: `${this.player1.username} vs ${this.player2.username}`,
             fields: [
@@ -218,7 +218,7 @@ class NoughtsAndCrosses {
             if (this.checkDraw()) { return; }
         }
 
-        this.gameMessage.edit(this.client.operations.get("generateDefaultEmbed")({
+        this.gameMessage.edit(this.client.operations.generateDefaultEmbed.run({
             title: "Noughts and Crosses",
             description: `Well something failed, probably my win checking!`,
             fields: [

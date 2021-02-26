@@ -38,7 +38,7 @@ command.setExecute(async (client, message, args, cmd) => {
             e.description = "Error has been removed from the file"
         }
 
-        message.channel.send(client.operations.get("generateDefaultEmbed")(e));
+        message.channel.send(client.operations.generateDefaultEmbed.run(e));
 
     });
 });

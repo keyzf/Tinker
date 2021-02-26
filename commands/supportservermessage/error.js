@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.get("generateDefaultEmbed")({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
         description: `Sometimes the bot goes wrong and sends an error message along with a code
         You can use the command \`error\` to find out some information about it, however some information is limited to our support team for data privacy
         

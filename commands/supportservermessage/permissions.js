@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.get("generateDefaultEmbed")({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
         description: `For the bot to function properly quite a few permissions are needed,
         run the command \`perms\` to see the list, what they do and whether the bot has permissions to do it or not
         

@@ -23,7 +23,7 @@ command.registerSubCommand(`${__dirname}/invite/bot`);
 command.registerSubCommand(`${__dirname}/invite/server`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(client.operations.get("generateDefaultEmbed")({
+    message.channel.send(client.operations.generateDefaultEmbed.run({
        title: "My Invite Links",
        description: `[Server](${client.config.officialServer.invite}) - Tinker Support Server, get help, chat to the community, try out the bot!\n[Bot](${client.config.config.invite}) - Have Tinker for yourself!` 
     }))

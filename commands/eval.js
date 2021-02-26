@@ -19,6 +19,7 @@ cmd.setPerms({
     userPermissions: []
 });
 
+const Discord = require("discord.js");
 const util = require("util");
 const figlet = require("figlet");
 

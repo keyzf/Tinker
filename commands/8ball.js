@@ -23,9 +23,9 @@ cmd.setExecute(async(client, message, args, cmd) => {
             response = client.utility.array_random(client.data.eightBall);
         } catch (e) {
             client.logger.error(e, { channel: message.channel });
-            return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Could not get 8 Ball response from file"));
+            return await message.channel.send(await client.operations.generateError.run(e, "Could not get 8 Ball response from file"));
         }
-        message.channel.send(await client.operations.get("generateDefaultEmbed")({
+        message.channel.send(await client.operations.generateDefaultEmbed.run({
             title: "8 Ball",
             description: `You asked: ${question}\nMy reply: ${response}`
         }));

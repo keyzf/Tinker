@@ -22,7 +22,7 @@ command.setPerms({
 
 command.setExecute(async(client, message, args, cmd) => {
 
-    await message.author.send(client.operations.get("generateDefaultEmbed")({
+    await message.author.send(client.operations.generateDefaultEmbed.run({
         title: "Required Permissions",
         description: "I need perms to do a lot of things. From merely sending messages to them and playing you music.\nThis lists all the permissions I have and what they are needed to do",
         fields: [

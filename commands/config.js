@@ -24,7 +24,7 @@ command.registerSubCommand(`${__dirname}/config/welcomechannel.js`);
 command.registerSubCommand(`${__dirname}/config/logchannel.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(client.operations.get("generateDefaultEmbed")({
+    message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Configuration",
         description: `All the things you can setup and configure
 

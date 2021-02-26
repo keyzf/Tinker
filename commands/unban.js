@@ -31,7 +31,7 @@ command.setExecute(async (client, message, args, cmd) => {
         message.guild.members.unban(target);
     } catch (err) {
         client.logger.error(err, { channel: message.channel, content: message.content })
-        const e = await client.operations.get("generateError")(err, "Failed to unban user", { channel: message.channel, content: message.content });
+        const e = await client.operations.generateError.run(err, "Failed to unban user", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }
@@ -39,7 +39,7 @@ command.setExecute(async (client, message, args, cmd) => {
     await target.send(`You have been unbanned from ${message.guild.name} by ${message.author.tag}`);
     message.channel.send(`${target.username} was unbanned by ${message.author}`);
 
-    if (!logs) return message.reply(`please set a logging channel to log the unbans`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
+    if (!logs) return message.reply(`please set a logging channel to log the unbans`).then((msg) => client.operations.deleteCatch.run(msg, 5000));
 
     let embed = new Discord.MessageEmbed()
         .setColor("#00FF00")

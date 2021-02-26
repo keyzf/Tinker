@@ -33,11 +33,11 @@ command.setExecute(async (client, message, args, cmd) => {
         e.description = current.map((err) => {
             return err._id
         });
-        return client.operations.get("generateDefaultEmbed")(e);
+        return client.operations.generateDefaultEmbed.run(e);
     };
     // end
 
-    const m = await message.channel.send(client.operations.get("generateDefaultEmbed")({title:`${client.data.emojis.custom.loading} Fetching Error Info`}))
+    const m = await message.channel.send(client.operations.generateDefaultEmbed.run({title:`${client.data.emojis.custom.loading} Fetching Error Info`}))
     const allErrors = await client.data.errordb.find();
 
     // send the embed with the first noPerPage worlds

@@ -6,7 +6,8 @@ op.setInfo({
 });
 
 op.setExecute(async(client) => {
-    client.operations.get("checkAnnouncement")();
+    client.operations.checkAnnouncement.run();
+    client.operations.checkDiscordIncidents.run();
 });
 
 module.exports = op;

@@ -13,7 +13,7 @@ event.setExecute((client) => {
     
     client.updater.start();
 
-    client.operations.get("updateActivity")();
+    client.operations.updateActivity.run();
     client.logger.info(`Setup complete and functional`);
     process.send("ready");
 });

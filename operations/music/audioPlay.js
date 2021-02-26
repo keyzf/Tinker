@@ -20,7 +20,7 @@ op.setExecute(async(client, guildID, song) => {
     if (!song) {
         client.logger.debug(`[Audio]: Guild: ${guildID} finished queue`);
         serverQueue.voiceChannel.leave();
-        serverQueue.textChannel.send(await client.operations.get("generateDefaultEmbed")({
+        serverQueue.textChannel.send(await client.operations.generateDefaultEmbed.run({
             title: "Playback Finished",
             author: "Tinker's Tunes",
             authorUrl: "./res/TinkerMusic-purple.png"
@@ -38,7 +38,7 @@ op.setExecute(async(client, guildID, song) => {
         .on("error", async (error) => {
             client.logger.error(error);
             client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
-            serverQueue.textChannel.send(await client.operations.get("generateDefaultEmbed")({
+            serverQueue.textChannel.send(await client.operations.generateDefaultEmbed.run({
                 title: "Error Occurred",
                 author: "Tinker's Tunes",
                 authorUrl: "./res/TinkerMusic-purple.png"
@@ -48,7 +48,7 @@ op.setExecute(async(client, guildID, song) => {
     serverQueue.connection.on("disconnect", async() => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
         if (client.audioQueue.get(guildID)) return;
-        serverQueue.textChannel.send(await client.operations.get("generateDefaultEmbed")({
+        serverQueue.textChannel.send(await client.operations.generateDefaultEmbed.run({
             title: "Forcefully Disconnected by user",
             author: "Tinker's Tunes",
             authorUrl: "./res/TinkerMusic-purple.png"
@@ -57,7 +57,7 @@ op.setExecute(async(client, guildID, song) => {
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
 
-    serverQueue.textChannel.send(await client.operations.get("generateDefaultEmbed")({
+    serverQueue.textChannel.send(await client.operations.generateDefaultEmbed.run({
         title: "Now Playing",
         description: `[${serverQueue.songs[0].title}: ${serverQueue.songs[0].author} (${ms(parseInt(serverQueue.songs[0].lengthSeconds) * 1000)})](${serverQueue.songs[0].url})`,
         imageUrl: serverQueue.songs[0].thumbnail.url,

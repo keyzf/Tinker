@@ -26,10 +26,10 @@ command.setExecute(async(client, message, args, cmd) => {
     await message.delete();
     try {
         await message.channel.bulkDelete(count);
-        return message.channel.send(client.operations.get("generateDefaultEmbed")({ title: `Deleted ${count} messages` })).then((m) => { m.delete({ timeout: 3000 }) });
+        return message.channel.send(client.operations.generateDefaultEmbed.run({ title: `Deleted ${count} messages` })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
     } catch (err) {
-        client.operations.get("generateError")(err, "Failed to remove messages", { channel: message.channel, content: message.content });
-        return message.channel.send(client.operations.get("generateDefaultEmbed")({ title: `Could not delete messages`, description: `: ${err}` })).then((m) => { m.delete({ timeout: 3000 }) });
+        client.operations.generateError.run(err, "Failed to remove messages", { channel: message.channel, content: message.content });
+        return message.channel.send(client.operations.generateDefaultEmbed.run({ title: `Could not delete messages`, description: `: ${err}` })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
     }
 });
 

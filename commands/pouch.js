@@ -27,7 +27,7 @@ const preResponses = [
 
 command.setExecute(async (client, message, args, cmd) => {
     let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM currency WHERE userID=${message.author.id}`).get();
-    message.channel.send(client.operations.get("generateDefaultEmbed")({
+    message.channel.send(client.operations.generateDefaultEmbed.run({
         author: `${message.author.username}'s Pouch`,
         authorUrl: message.author.displayAvatarURL(),
         description: preResponses[Math.floor(Math.random() * preResponses.length)],

@@ -27,7 +27,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     for (let i = 0; i < serverQueue.songs.length; i++) {
         queue.push(`${(i + 1).toString()} ${serverQueue.songs[i].title}`);
     }
-    return message.channel.send(await client.operations.get("generateDefaultEmbed")({
+    return message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Queue",
         description: queue.reduce((accumulator, current) => {
             return accumulator + "\n" + current

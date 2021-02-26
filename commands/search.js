@@ -23,7 +23,7 @@ const yts = require("yt-search")
 
 cmd.setExecute(async(client, message, args, cmd) => {
 
-    const msg = await message.channel.send(await client.operations.get("generateDefaultEmbed")({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
+    const msg = await message.channel.send(await client.operations.generateDefaultEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
 
     const searchCriteria = args.join(" ");
     const r = await yts(searchCriteria);
@@ -39,7 +39,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         return accumulator += `**${vids.indexOf(v) + 1}** ${ v.title } (${ v.timestamp }) | ${ v.author }\n`; // | ${ v.views } views
     }, "");
 
-    const e = client.operations.get("generateDefaultEmbed")({
+    const e = client.operations.generateDefaultEmbed.run({
         title: `Search: ${searchCriteria}`,
         description: desc,
         author: "Tinker's Tunes",
@@ -56,7 +56,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
 
     if (!vids.length || vids.length == 0) {
-        msg.edit(client.operations.get("generateDefaultEmbed")({
+        msg.edit(client.operations.generateDefaultEmbed.run({
             title: `Search: ${searchCriteria}`,
             description: "No videos from that search result",
             author: "Tinker's Tunes",
@@ -64,8 +64,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
             footerText: `Requested by ${message.author.tag}`,
             footerUrl: message.author.displayAvatarURL()
         }));
-        client.operations.get("deleteCatch")(msg, 8000);
-        client.operations.get("deleteCatch")(message, 8000);
+        client.operations.deleteCatch.run(msg, 8000);
+        client.operations.deleteCatch.run(message, 8000);
         return;
     }
 
@@ -84,15 +84,15 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 if (reaction.emoji.name === "3️⃣") { link = videos[2].url }
                 client.commands.get("play").run(message, [link], cmd);
                 // remove selection embed
-                await client.operations.get("deleteCatch")(msg, 0);
+                await client.operations.deleteCatch.run(msg, 0);
             })
         })
         .catch(() => {
             // console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
             msg.reactions.removeAll().then(() => {
-                msg.edit(client.operations.get("generateDefaultEmbed")({ title: "You took too long to make a decision" }));
-                client.operations.get("deleteCatch")(msg, 8000);
-                client.operations.get("deleteCatch")(message, 8000);
+                msg.edit(client.operations.generateDefaultEmbed.run({ title: "You took too long to make a decision" }));
+                client.operations.deleteCatch.run(msg, 8000);
+                client.operations.deleteCatch.run(message, 8000);
             })
         });
 });

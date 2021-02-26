@@ -27,7 +27,7 @@ op.setExecute(async(client, message, args, cmd) => {
         message.react("🤦‍♂️")
         message.channel.send(`Need a hand? Type \`${prefix}help\``)
             .then((msg) => {
-                client.operations.get("deleteCatch")(msg, 5000);
+                client.operations.deleteCatch.run(msg, 5000);
             });
         return;
     }
@@ -58,15 +58,15 @@ op.setExecute(async(client, message, args, cmd) => {
                         await command.run(message, args, command);
                     } catch (err) {
                         client.logger.error(err.stack)
-                        const e = await client.operations.get("generateError")(err, "This is what I get for suggesting a command correction. I know nothing!");
+                        const e = await client.operations.generateError.run(err, "This is what I get for suggesting a command correction. I know nothing!");
                         message.channel.send(e);
                     }
                 }
-                client.operations.get("deleteCatch")(msg, 0);
+                client.operations.deleteCatch.run(msg, 0);
             });
         })
         .catch(() => {
-            client.operations.get("deleteCatch")(msg, 0)
+            client.operations.deleteCatch.run(msg, 0)
         });
 });
 

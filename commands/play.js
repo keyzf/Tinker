@@ -37,7 +37,7 @@ cmd.setExecute(async (client, message, args, cmd) => {
         songInfo = await ytdl.getInfo(argsMatch.input);
     } catch(e) {
         client.logger.error(e, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.get("generateError")(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
+        return await message.channel.send(await client.operations.generateError.run(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
     }
     const song = {
         title: songInfo.videoDetails.title,
@@ -69,7 +69,7 @@ cmd.setExecute(async (client, message, args, cmd) => {
 
         try {
             queueConstruct.connection = await voiceChannel.join();
-            client.operations.get("audioPlay")(message.guild.id, queueConstruct.songs[0]);
+            client.operations.audioPlay.run(message.guild.id, queueConstruct.songs[0]);
         } catch (err) {
             console.log(err);
             client.audioQueue.delete(message.guild.id);
@@ -77,7 +77,7 @@ cmd.setExecute(async (client, message, args, cmd) => {
         }
     } else {
         serverQueue.songs.push(song);
-        return message.channel.send(await client.operations.get("generateDefaultEmbed")({
+        return message.channel.send(await client.operations.generateDefaultEmbed.run({
             title: "Song added to queue",
             description: `${song.title}`,
             author: "Tinker's Tunes",

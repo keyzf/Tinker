@@ -22,7 +22,7 @@ cmd.setPerms({
 const NoughtsAndCrosses = require("../structures/games/NoughtsAndCrosses");
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    const msg = await message.channel.send(client.operations.get("generateDefaultEmbed")({
+    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Noughts and Crosses",
         description: `Please wait, setting up`
     }));

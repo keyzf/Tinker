@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.get("generateDefaultEmbed")({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
         description: `We are aware the chat is dead. However this is a support server, not a place for casual hangout 
         We have these channels for your pleasure so:
         

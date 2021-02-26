@@ -47,7 +47,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         .catch(async(err) => {
             client.logger.error(err, { channel: message.channel, content: message.content });
             message.channel.stopTyping();
-            return await message.channel.send(await client.operation.get("generateError")(e, "Error getting Covid stats, this is likely an issue with an external API"));
+            return await message.channel.send(await client.operations.generateError.run(e, "Error getting Covid stats, this is likely an issue with an external API"));
         });
 
 });

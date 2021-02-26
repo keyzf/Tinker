@@ -23,7 +23,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     let question = args.join(" ");
     if (!question) { return message.channel.send(`You did not specify a question!`); }
 
-    const msg = await message.channel.send(client.operations.get("generateDefaultEmbed")({
+    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Poll",
         description: question,
         footerText: `Poll made by ${message.author.tag}`,
@@ -32,7 +32,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
 
     await msg.react("👍");
     await msg.react("👎");
-    client.operations.get("deleteCatch")(message);
+    client.operations.deleteCatch.run(message);
 });
 
 module.exports = cmd;

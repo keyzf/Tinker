@@ -4954,5 +4954,12 @@
         "silverCoinStack": "<:silverCoinStack:808365728574341121>",
         "goldCoin": "<:goldCoin:808365726925979689>",
         "goldCoinStack": "<:goldCoinStack:808365730147205130"
+    },
+    "status": {
+        "recoveringMonitoring": "<:recoveringmonitoring:802113569843445760>",
+        "partialOutage": "<:partialoutage:802113570140585997>",
+        "outage": "<:outage:802113570196291584>",
+        "onlineRecovered": "<:onlinerecovered:802113569717092402>",
+        "offline": "<:offline:802113570313207809>"
     }
 }

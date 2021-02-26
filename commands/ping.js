@@ -21,14 +21,14 @@ cmd.setPerms({
 cmd.setExecute(async(client, message, args) => {
     try {
         message.channel.send("Ping?").then((m) => {
-            m.edit("", client.operations.get("generateDefaultEmbed")({
+            m.edit("", client.operations.generateDefaultEmbed.run({
                 title: "Pong!",
                 description: `Interaction latency of \`${m.createdTimestamp - message.createdTimestamp}ms\`\nAPI Latency of \`${Math.round(client.ws.ping)}ms\``
             }));
         });
     } catch (e) {
         client.logger.error(e.stack, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.get("generateError")(e, "Error getting bot latency info"));
+        return await message.channel.send(await client.operations.generateError.run(e, "Error getting bot latency info"));
     }
 });
 

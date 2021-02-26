@@ -60,7 +60,7 @@ command.setExecute(async (client, message, args, cmd) => {
         .catch(async(err) => {
             client.logger.error(err, { channel: message.channel, content: message.content });
             message.channel.stopTyping();
-            return await message.channel.send(await client.operation.get("generateError")(e, "Error getting covid stats"));
+            return await message.channel.send(await client.operations.generateError.run(e, "Error getting covid stats"));
         });
     } else {
         command.findSubcommand("all").run(message, args.slice(1, args.length), cmd);

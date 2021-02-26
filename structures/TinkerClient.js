@@ -23,6 +23,7 @@ client.cleanExit = async(exitCode) => {
 
 client.logger = logger.setup(client);
 
+client.statics = require("./StaticsManager.js").setup(client);
 client.utility = require("./UtilityManager.js").setup(client);
 
 client.on('debug', m => client.logger.debug(m));
@@ -31,7 +32,7 @@ client.on('error', m => client.logger.error(m));
 
 client.on("shardReady", (id, _) => {
     client.logger.info(`Shard Ready #${id}`)
-    client.operations.get("updateActivity")();
+    client.operations.updateActivity.run().catch((err) => client.logger.error(err));
 });
 client.on("shardError", (err, id) => client.logger.error(`Shard #${id} Error ${client.utility.inspect(err)}`));
 client.on("shardReconnecting", (id) => client.logger.info(`Shard #${id} Attempting Reconnect`));
@@ -179,13 +180,14 @@ client.registerOperationsDir = (path) => {
 const Operation = require("../structures/Operation");
 /**
  * 
- * @param {Operation} Operation 
+ * @param {Operation} operation 
  */
 client.registerOperation = (operation) => {
     operation._registerClient(client);
-    client.operations.set(operation.info.name, (...args) => {
-        return operation.run(...args);
-    });
+    client.operations = ({...client.operations, [operation.info.name]: operation })
+    // client.operations.set(operation.info.name, (...args) => {
+    //     return operation.run(...args);
+    // });
     client.logger.debug(`Operation ${operation.info.name} added!`);
 }
 
@@ -193,9 +195,9 @@ client.removeOperation = (file) => {
     return new Promise(async(resolve, reject) => {
         try {
             const operation = require(file)
-            if (!client.operations.has(operation.info.name)) { reject(Error("Operation does not exist")); }
+            if (!client.operations[operation.info.name]) { reject(Error("Operation does not exist")); }
             delete require.cache[require.resolve(file)];
-            client.operations.delete(operation.info.name);
+            client.operations[operation.info.name] = undefined;
             client.logger.debug(`Operation ${operation.info.name} removed!`);
             resolve();
         } catch (err) {

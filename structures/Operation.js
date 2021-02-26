@@ -35,7 +35,7 @@ class Operation {
         for (let i = 0; i < this.botPermissions.length; i++) {
             const perm = this.botPermissions[i];
             if (!guild.me.permissions.has(perm, { checkAdmin: false })) {
-                channel.send(this.client.operations.get("generateDefaultEmbed")({
+                channel.send(this.client.operations.generateDefaultEmbed.run({
                     title: "I need permission!",
                     description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`
                 }));

@@ -27,7 +27,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     const answers = args.splice(1, args.length);
     if(answers.length > 20) {return message.channel.send("Woah! Hold ya horses, too many answers there")}
 
-    const msg = await message.channel.send(client.operations.get("generateDefaultEmbed")({
+    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
         title: question,
         description: answers.reduce((accumulator, a) => {
             return accumulator += `**${String.fromCharCode(answers.indexOf(a) + 65)}** ${a}\n`;
@@ -40,7 +40,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         await msg.react(client.data.emojis.characterSet[String.fromCharCode(answers.indexOf(a) + 65)])
     });
 
-    client.operations.get("deleteCatch")(message);
+    client.operations.deleteCatch.run(message);
 });
 
 module.exports = cmd;

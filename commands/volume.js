@@ -29,7 +29,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         volume = parseInt(args[0]);
         if (volume < 0 || volume > 100) throw new Error()
     } catch (e) {
-        return message.channel.send(await client.operations.get("generateDefaultEmbed")({
+        return message.channel.send(client.operations.generateDefaultEmbed.run({
             title: `Incorrect volume: ${args[0]}`,
             description: "Pick any value between 0 and 100",
             author: "Tinker's Tunes",
@@ -38,7 +38,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
     serverQueue.volume = volume
     serverQueue.connection.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-    return message.channel.send(await client.operations.get("generateDefaultEmbed")({
+    return message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Volume set",
         description: `${serverQueue.volume}`,
         author: "Tinker's Tunes",

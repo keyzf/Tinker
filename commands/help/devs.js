@@ -16,7 +16,7 @@ cmd.setLimits({
 
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    return message.channel.send(await client.operations.get("generateDefaultEmbed")({
+    return message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "The Tinker Team",
         description: "Here are all of the people involved in my development",
         fields: [

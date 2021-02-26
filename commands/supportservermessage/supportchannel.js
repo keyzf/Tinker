@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.get("generateDefaultEmbed")({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
         description: `This is ***NOT*** a support channel
         If you need help with our bot then please use the channels below
         

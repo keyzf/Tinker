@@ -31,8 +31,8 @@ cmd.setExecute(async (client, message, args, cmd) => {
         };
 
         client.afk.set(message.author.id, construct);
-        message.channel.send(await client.operations.get("generateDefaultEmbed")({description: `you have been set to afk for reason: ${reason}`})).then(async(msg) => {
-            await client.operations.get("deleteCatch")(msg, 5000);
+        message.channel.send(await client.operations.generateDefaultEmbed.run({description: `you have been set to afk for reason: ${reason}`})).then(async(msg) => {
+            await client.operations.deleteCatch.run(msg, 5000);
         });
     }    
 });

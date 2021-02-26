@@ -23,13 +23,13 @@ command.setPerms({
 command.setExecute(async(client, message, args, cmd) => {
     if (!args[0]) {
         const { prefix } = client.data.db.prepare("SELECT prefix FROM guilds where guildID=?").get(message.guild.id);
-        return message.channel.send(client.operations.get("generateDefaultEmbed")({
+        return message.channel.send(client.operations.generateDefaultEmbed.run({
             description: `Please provide a prefix to change it to
             The current prefix is ${prefix}`
         }));
     }
     client.data.db.prepare("UPDATE guilds SET prefix=? WHERE guildID=?").run(args[0], message.guild.id);
-    return message.channel.send(client.operations.get("generateDefaultEmbed")({
+    return message.channel.send(client.operations.generateDefaultEmbed.run({
         description: `Prefix set to \`${args[0]}\``
     }));
 });

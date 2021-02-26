@@ -111,7 +111,7 @@ class Command {
         for (let i = 0; i < this.botPermissions.length; i++) {
             const perm = this.botPermissions[i];
             if (!message.guild.me.permissions.has(perm, { checkAdmin: false })) {
-                message.channel.send(this.client.operations.get("generateDefaultEmbed")({
+                message.channel.send(this.client.operations.generateDefaultEmbed.run({
                     title: "I need permission!",
                     description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`
                 }));
@@ -125,10 +125,10 @@ class Command {
                 const perm = this.userPermissions[i];
                 if (!message.member.permissions.has(perm, { checkAdmin: false })) {
                     if (this.client.config.devs.includes(message.author.id)) {
-                        message.channel.send(`Bypassed failed perms check for ${perm} as a developer`).then((m) => this.client.operations.get("deleteCatch")(m, 3000));
+                        message.channel.send(`Bypassed failed perms check for ${perm} as a developer`).then((m) => this.client.operations.deleteCatch.run(m, 3000));
                         continue;
                     }
-                    message.channel.send(this.client.operations.get("generateDefaultEmbed")({
+                    message.channel.send(this.client.operations.generateDefaultEmbed.run({
                         title: "You need permission!",
                         description: `You need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.`
                     }));

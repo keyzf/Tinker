@@ -52,16 +52,16 @@ module.exports.setup = (client) => {
     router.use("/admin/client", adminApiAccess, require("./api/admin/client").setup(client))
 
     router.get("*", (req, res) => {
-        res.sendStatus(403).end();
+        res.sendStatus(406).end();
     });
     router.post("*", (req, res) => {
-        res.sendStatus(403).end();
+        res.sendStatus(406).end();
     });
     router.put("*", (req, res) => {
-        res.sendStatus(403).end();
+        res.sendStatus(406).end();
     });
     router.patch("*", (req, res) => {
-        res.sendStatus(403).end();
+        res.sendStatus(406).end();
     });
 
     return router;

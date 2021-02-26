@@ -36,14 +36,14 @@ command.setExecute(async (client, message, args, cmd) => {
         target.roles.remove(muteRole);
     } catch (err) {
         client.logger.error(err, { channel: message.channel, content: message.content })
-        const e = await client.operations.get("generateError")(err, "Failed to revoke the mute", { channel: message.channel, content: message.content });
+        const e = await client.operations.generateError.run(err, "Failed to revoke the mute", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }
     await target.send(`You have been unmuted in ${message.guild.name} by ${message.author.tag}`);
     message.channel.send(`${target.user.username} was unmuted by ${message.author}`);
 
-    if (!logs) return message.channel.send(`Please set a logging channel to log the unmutes`).then((msg) => client.operations.get("deleteCatch")(msg, 5000));
+    if (!logs) return message.channel.send(`Please set a logging channel to log the unmutes`).then((msg) => client.operations.deleteCatch.run(msg, 5000));
 
     let embed = new MessageEmbed()
         .setColor('#00FF00')

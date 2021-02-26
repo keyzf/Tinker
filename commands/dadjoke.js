@@ -43,7 +43,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
             })
             .catch(async(err) => {
                 message.channel.stopTyping();
-                return await message.channel.send(await client.operations.get("generateError")(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
+                return await message.channel.send(await client.operations.generateError.run(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
             });
     } else {
         axios({
@@ -62,7 +62,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 message.channel.send(embed)
             })
             .catch(async(err) => {
-                return await message.channel.send(await client.operations.get("generateError")(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
+                return await message.channel.send(await client.operations.generateError.run(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
             });
     }
     message.channel.stopTyping();

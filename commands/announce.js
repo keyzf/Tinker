@@ -56,9 +56,9 @@ command.setExecute(async(client, message, args, cmd) => {
         message.author.send(`Announcement Created. ID:${announcementID}`);
     } catch (err) {
         const m = await message.channel.send(`Announcement Created. ID:${announcementID}`);
-        client.operations.get("deleteCatch")(m, 5000);
+        client.operations.deleteCatch.run(m, 5000);
     }
-    client.operations.get("deleteCatch")(message, 0);
+    client.operations.deleteCatch.run(message, 0);
 
 });
 

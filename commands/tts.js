@@ -33,7 +33,7 @@ command.setExecute(async(client, message, args, cmd) => {
 
     const speech = args.join(" ");
 
-    message.channel.send(client.operations.get("generateDefaultEmbed")({
+    message.channel.send(client.operations.generateDefaultEmbed.run({
         title: "Now Saying",
         description: speech
     }));
@@ -53,7 +53,7 @@ command.setExecute(async(client, message, args, cmd) => {
         .on("error", async(error) => {
             client.logger.debug(`[TTS]: Guild: ${message.guild.id} disconnected`);
             client.logger.error(err, { channel: message.channel, content: message.content });
-            await message.channel.send(await client.operations.get("generateError")(err, `Error occurred playing tts`));
+            await message.channel.send(await client.operations.generateError.run(err, `Error occurred playing tts`));
             await fs.unlink(filepath);
             voiceChannel.leave();
         });

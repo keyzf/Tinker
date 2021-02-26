@@ -47,10 +47,10 @@ command.setExecute(async (client, message, args, cmd) => {
                 e.description = "The error has been logged, please contact us and give us the error code"
             }
         }
-        message.channel.send(await client.operations.get("generateDefaultEmbed")(e));
+        message.channel.send(client.operations.generateDefaultEmbed.run(e));
     }).catch(async(e) => {
         return await message.channel.send(
-            await client.operations.get("generateError")(
+            await client.operations.generateError.run(
                 e, "Error trying to receive error info, ironic I know", { channel: message.channel, content: message.content }
             )
         );

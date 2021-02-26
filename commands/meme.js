@@ -58,7 +58,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         .catch(async(err) => {
             client.logger.error(err, { channel: message.channel, content: message.content });
             message.channel.stopTyping();
-            return await message.channel.send(await bot.shardFunctions.get("generateError").run(e, "Failed to get meme from reddit"));
+            return await message.channel.send(await client.operations.generateError.run(e, "Failed to get meme from reddit"));
         });
 });
 

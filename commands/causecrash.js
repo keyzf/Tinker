@@ -20,12 +20,12 @@ command.setPerms({
 });
 
 
-command.setExecute(async (client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     try {
         throw new Error("Intentional Error")
     } catch (err) {
-        client.logger.error(err.stack)
-        const e = await client.operations.get("generateError")(err.stack, "A dev asked me to do this... idk why", { channel: message.channel, content: message.content });
+        client.logger.error(err.stack, { channel: message.channel, content: message.content })
+        const e = await client.operations.generateError.run(err.stack, "A dev asked me to do this... idk why", { channel: message.channel, content: message.content });
         message.channel.send(e);
     }
 });

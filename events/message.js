@@ -18,7 +18,7 @@ event.setExecute(async(client, message) => {
         return;
     }
 
-    if(message.channel.id == client.config.officialServer.lounge_text) { await client.operations.get("wanderingWorker")() }
+    if(message.channel.id == client.config.officialServer.lounge_text) { await client.operations.wanderingWorker.run() }
 
     // find the guild from the database using its id (obtained from the sent message)
     const dbGuild = client.data.db.prepare(`Select prefix, guildID FROM guilds WHERE guildID='${message.guild.id}'`).get();
@@ -38,8 +38,8 @@ event.setExecute(async(client, message) => {
             const mentioned = client.afk.get(user.id);
             // if they are then tell the channel that the user is afk and for the reason the user set
             if (mentioned) {
-                message.channel.send(client.operations.get("generateDefaultEmbed")({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` }))
-                    .then((msg) => client.operations.get("deleteCatch")(msg, 5000));
+                message.channel.send(client.operations.generateDefaultEmbed.run({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` }))
+                    .then((msg) => client.operations.deleteCatch.run(msg, 5000));
             }
         });
     }
@@ -50,13 +50,13 @@ event.setExecute(async(client, message) => {
     if (afkcheck) {
         client.afk.delete(message.author.id);
         message.channel.send(
-                client.operations.get("generateDefaultEmbed")({ description: `you have been removed from the afk list!` }))
-            .then(msg => client.operations.get("deleteCatch")(msg, 5000));
+                client.operations.generateDefaultEmbed.run({ description: `you have been removed from the afk list!` }))
+            .then(msg => client.operations.deleteCatch.run(msg, 5000));
     }
 
     const user = client.data.db.prepare(`Select * FROM users WHERE guildID='${dbGuild.guildID}' AND userID=${message.author.id}`).get();
     const currency = client.data.db.prepare(`Select * FROM currency WHERE userID=${message.author.id}`).get();
-    if (!user) { return client.operations.get("addUser")(message.author.id, dbGuild) }
+    if (!user) { return client.operations.addUser.run(message.author.id, dbGuild) }
 
     // if the message isn't a command then:
     if (!message.content.startsWith(prefix)) {
@@ -74,24 +74,24 @@ event.setExecute(async(client, message) => {
         }
 
         if (dbGuild.profanityFilter) {
-            const prof = await client.operations.get("messageProfanityCheck")(message, dbGuild);
+            const prof = await client.operations.messageProfanityCheck.run(message, dbGuild);
             if (prof) {
                 await message.delete({ timeout: 0 })
                 message.channel.send(`${message.author} said: "${prof}"`)
             }
         }
-        if (dbGuild.preventSpam) { await client.operations.get("messageSpamCheck")(message, dbGuild); }
+        if (dbGuild.preventSpam) { await client.operations.messageSpamCheck.run(message, dbGuild); }
 
         return;
     }
 
     if (!currency) {
-        message.channel.send(client.operations.get("generateDefaultEmbed")({
+        message.channel.send(client.operations.generateDefaultEmbed.run({
             title: "First Time?",
             description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`
-        })).then((m) => client.operations.get("deleteCatch")(m, 20000))
+        })).then((m) => client.operations.deleteCatch.run(m, 20000))
 
-        return client.operations.get("addCurrency")(message.author.id);
+        return client.operations.addCurrency.run(message.author.id);
     }
 
     // split the rest of the sentence by each word (SPACE) or "many worded args"
@@ -127,10 +127,10 @@ event.setExecute(async(client, message) => {
         // check if dev only command
         if (command.limits.limited && !client.config.devs.includes(message.author.id)) {
             if (command.limits.limitMessage) {
-                message.channel.send(client.operations.get("generateDefaultEmbed")({ description: command.limits.limitMessage }));
+                message.channel.send(client.operations.generateDefaultEmbed.run({ description: command.limits.limitMessage }));
                 return;
             }
-            message.channel.send(client.operations.get("generateDefaultEmbed")({
+            message.channel.send(client.operations.generateDefaultEmbed.run({
                 title: "Sorry, not for you",
                 description: "This is a developer only command \nOur dev team leave commands in the client to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
@@ -142,10 +142,10 @@ event.setExecute(async(client, message) => {
         // check if in dev command
         if (command.limits.inDev && !client.config.devs.includes(message.author.id)) {
             if (command.limits.inDevMessage) {
-                message.channel.send(client.operations.get("generateDefaultEmbed")(command.limits.inDevMessage));
+                message.channel.send(client.operations.generateDefaultEmbed.run(command.limits.inDevMessage));
                 return;
             }
-            message.channel.send(client.operations.get("generateDefaultEmbed")({
+            message.channel.send(client.operations.generateDefaultEmbed.run({
                 title: "This is in development",
                 description: "This command is in development and cannot currently be used in this server\nWe are constantly adding features and improving current ones. But the way we work is that the client should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the client is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
@@ -160,14 +160,14 @@ event.setExecute(async(client, message) => {
             await command.run(message, args, cmd);
         } catch (err) {
             client.logger.critical(err.stack)
-            const e = await client.operations.get("generateError")(err, "It was a biiiggg error, cause it got all the way here in the code", { channel: message.channel, content: message.content });
+            const e = await client.operations.generateError.run(err, "It was a biiiggg error, cause it got all the way here in the code", { channel: message.channel, content: message.content });
             message.channel.send(e)
         }
 
         // message.delete({ timeout: 8000 });
     } else {
         // this code runs if the command was not found (the user used the client prefix and then an invalid command)
-        client.operations.get("guessCommand")(message, args, cmd);
+        client.operations.guessCommand.run(message, args, cmd);
     }
     return;
 });
