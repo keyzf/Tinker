@@ -15,7 +15,7 @@ command.setLimits({
 });
 
 command.setPerms({
-    userPermissions: ["MANGE_ROLES"],
+    userPermissions: [],
     botPermissions: ["ADD_REACTIONS"]
 });
 
@@ -59,8 +59,10 @@ command.setExecute(async(client, message, args, cmd) => {
             { name: `Manage Emojis - ${message.guild.me.permissions.has("MANAGE_EMOJIS", { checkAdmin: false }) ? "Passed" : "Failed"}`, value: "Not currently used" },
         ],
         colour: client.statics.colours.tinker
-    }));
-
+    })).catch(async ({ stack }) => {
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
+        message.channel.send(await client.operations.generateError.run(stack, "Failed to send perms to DMs", { channel: message.channel, content: message.content, origin: __filename }));
+    });
     message.react("✅");
 });
 

@@ -28,9 +28,9 @@ cmd.setExecute(async(client, message, args) => {
                 ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
             }));
         });
-    } catch (e) {
-        client.logger.error(e.stack, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.generateError.run(e, "Error getting bot latency info"));
+    } catch ({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename });
+        return await message.channel.send(await client.operations.generateError.run(stack, "Error getting bot latency info", { channel: message.channel, content: message.content, origin: __filename }));
     }
 });
 

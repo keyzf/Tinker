@@ -36,9 +36,9 @@ command.setExecute(async(client, message, args, cmd) => {
     try {
         // TODO: provide {days: Number} to delete messages that the user has sent this far into the past
         target.ban({reason});
-    } catch (err) {
-        client.logger.error(err, { channel: message.channel, content: message.content });
-        const e = await client.operations.generateError.run(err, "Failed to ban user", { channel: message.channel, content: message.content });
+    } catch ({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename });
+        const e = await client.operations.generateError.run(stack, "Failed to ban user", { channel: message.channel, content: message.content, origin: __filename });
         message.channel.send(e);
         return;
     }

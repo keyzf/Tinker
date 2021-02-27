@@ -41,9 +41,9 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 embed.setFooter(`Joke id: ${data.id}`)
                 embed.setColor(client.statics.colours.tinker)
             })
-            .catch(async(err) => {
+            .catch(async({stack}) => {
                 message.channel.stopTyping();
-                return await message.channel.send(await client.operations.generateError.run(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
+                return await message.channel.send(await client.operations.generateError.run(stack, "Error getting dad joke", { channel: message.channel, content: message.content, origin: __filename }));
             });
     } else {
         axios({
@@ -62,8 +62,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 embed.setColor(client.statics.colours.tinker)
                 message.channel.send(embed)
             })
-            .catch(async(err) => {
-                return await message.channel.send(await client.operations.generateError.run(err, "Error getting dad joke", { channel: message.channel, content: message.content }));
+            .catch(async({stack}) => {
+                return await message.channel.send(await client.operations.generateError.run(stack, "Error getting dad joke", { channel: message.channel, content: message.content, origin: __filename }));
             });
     }
     message.channel.stopTyping();

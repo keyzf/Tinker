@@ -29,8 +29,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
     try {
         out = figlet.textSync(text, { horizontalLayout: 'full' })
     } catch (e) {
-        client.logger.error(e, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.generateError.run(e, "Could not generate Ascii text"));
+        client.logger.error(e, { channel: message.channel, content: message.content, origin: __filename });
+        return await message.channel.send(await client.operations.generateError.run(e, "Could not generate Ascii text", { channel: message.channel, content: message.content, origin: __filename }));
     }
     if (!out) { return message.channel.send("Your message consists of entirely unsupported characters") }
     return message.channel.send("```" + out + "```");

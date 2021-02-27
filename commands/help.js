@@ -34,7 +34,6 @@ command.setExecute(async(client, message, args, cmd) => {
         Meet our developers by typing \`${prefix}help devs\` cause they deserve credit for everything that I am`,
         colour: client.statics.colours.tinker,
         ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
-
     }));
 });
 

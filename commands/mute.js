@@ -35,9 +35,9 @@ command.setExecute(async(client, message, args, cmd) => {
 
     try {
         target.roles.add(muteRole);
-    } catch (err) {
-        client.logger.error(err, { channel: message.channel, content: message.content })
-        const e = await client.operations.generateError.run(err, "Failed to apply the mute", { channel: message.channel, content: message.content });
+    } catch ({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
+        const e = await client.operations.generateError.run(stack, "Failed to apply the mute", { channel: message.channel, content: message.content, origin: __filename });
         message.channel.send(e);
         return;
     }

@@ -159,7 +159,7 @@ event.setExecute(async(client, message) => {
         try {
             await command.run(message, args, cmd);
         } catch ({stack}) {
-            client.logger.critical(stack)
+            client.logger.critical(stack, { channel: message.channel, content: message.content, origin: "events/message.js" })
             const e = await client.operations.generateError.run(stack, "It was a biiiggg error, cause it got all the way here in the code", { channel: message.channel, content: message.content });
             message.channel.send(e)
         }

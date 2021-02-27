@@ -36,8 +36,8 @@ cmd.setExecute(async (client, message, args, cmd) => {
     try {
         songInfo = await ytdl.getInfo(argsMatch.input);
     } catch({stack}) {
-        client.logger.error(stack, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.generateError.run(stack, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename });
+        return await message.channel.send(await client.operations.generateError.run(stack, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`, { channel: message.channel, content: message.content, origin: __filename }));
     }
     const song = {
         title: songInfo.videoDetails.title,

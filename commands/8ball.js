@@ -22,8 +22,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
         try {
             response = client.utility.array_random(client.data.eightBall);
         } catch ({stack}) {
-            client.logger.error(stack, { channel: message.channel, content: message.content });
-            return await message.channel.send(await client.operations.generateError.run(stack, "Could not get 8 Ball response from file", { channel: message.channel, content: message.content }));
+            client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename });
+            return await message.channel.send(await client.operations.generateError.run(stack, "Could not get 8 Ball response from file", { channel: message.channel, content: message.content, origin: __filename }));
         }
         message.channel.send(await client.operations.generateEmbed.run({
             title: "8 Ball",

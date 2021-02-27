@@ -41,6 +41,7 @@ command.setExecute(async(client, message, args, cmd) => {
                 if (found.data) {
                     if (found.data.content) { e.fields.push({ name: "Content", value: `\`\`\`${found.data.content}\`\`\`` }) }
                     if (found.data.channel) { e.fields.push({ name: "channel", value: `<#${found.data.channel.id}>` }) }
+                    if (found.data.origin) { e.fields.push({ name: "origin", value: `\`\`\`${found.data.origin}\`\`\`` }) }
                 }
             } else if (found.userMsg) {
                 e.description = found.userMsg
@@ -52,17 +53,18 @@ command.setExecute(async(client, message, args, cmd) => {
         try {
             message.channel.send(client.operations.generateEmbed.run(e));
         } catch ({ stack }) {
+            client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
             return await message.channel.send(
                 await client.operations.generateError.run(
-                    stack, "Error likely too large", { channel: message.channel, content: message.content }
+                    stack, "Error likely too large", { channel: message.channel, content: message.content, origin: __filename }
                 )
             );
         }
     }).catch(async({stack}) => {
-        client.logger.error(stack, { channel: message.channel, content: message.content })
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
         return await message.channel.send(
             await client.operations.generateError.run(
-                stack, "Error trying to receive error info, ironic I know", { channel: message.channel, content: message.content }
+                stack, "Error trying to receive error info, ironic I know", { channel: message.channel, content: message.content, origin: __filename }
             )
         );
     });

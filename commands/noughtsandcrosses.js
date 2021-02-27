@@ -28,8 +28,12 @@ cmd.setExecute(async(client, message, args, cmd) => {
         colour: client.statics.colours.tinker
     }));
 
-    const { winner, loser } = new NoughtsAndCrosses(client, message, msg, message.author);
-
+    try {
+        const { winner, loser } = new NoughtsAndCrosses(client, message, msg, message.author);
+    } catch ({ stack }) {
+        client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
+        return message.channel.send(await client.operations.generateError.run(stack, "Uncaught Error in Noughts and Crosses", { channel: message.channel, content: message.content, origin: __filename }));
+    }
 });
 
 module.exports = cmd;

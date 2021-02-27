@@ -55,10 +55,10 @@ cmd.setExecute(async(client, message, args, cmd) => {
             message.channel.send(imageEmbed);
             message.channel.stopTyping();
         })
-        .catch(async(err) => {
-            client.logger.error(err, { channel: message.channel, content: message.content });
+        .catch(async({stack}) => {
+            client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename });
             message.channel.stopTyping();
-            return await message.channel.send(await client.operations.generateError.run(e, "Failed to get meme from reddit"));
+            return await message.channel.send(await client.operations.generateError.run(stack, "Failed to get meme from reddit", { channel: message.channel, content: message.content, origin: __filename }));
         });
 });
 
