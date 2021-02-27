@@ -36,6 +36,9 @@ module.exports.setup = (client) => {
             if (info.content) {
                 embed.addFields({ name: "Content", value: `\`\`\`${info.content}\`\`\`` });
             }
+            if(info.origin) {
+                embed.addFields({ name: "Origin", value: `\`\`\`${info.origin}\`\`\`` });
+            }
 
             embed.setColor(this.colours[info.level]);
             embed.setTitle(info.level)

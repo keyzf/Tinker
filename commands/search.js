@@ -22,6 +22,7 @@ cmd.setPerms({
 const yts = require("yt-search")
 
 cmd.setExecute(async(client, message, args, cmd) => {
+    if(!args || !args.length) {return message.channel.send("Please provide something to search")}
 
     const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
 

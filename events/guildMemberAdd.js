@@ -17,13 +17,14 @@ registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
 registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
 registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
 
-event.setExecute(async (client, member) => {
+event.setExecute(async(client, member) => {
     const dbGuild = client.data.db.prepare(`SELECT * FROM guilds WHERE guildID='${member.guild.id}'`).get();
     client.operations.addUser.run(member.id, member.guild.id);
     // bot.shardFunctions.get("updateActivity").run();
+    if (!dbGuild) { return; }
     if (!dbGuild.welcomeChannel) { return; }
     const channel = await client.channels.fetch(dbGuild.welcomeChannel);
-    if(!channel) { return; }
+    if (!channel) { return; }
 
     const canvas = Canvas.createCanvas(400, 660);
     const ctx = canvas.getContext('2d');

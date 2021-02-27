@@ -15,7 +15,7 @@ const ms = require("pretty-ms");
 op.setExecute(async(client, guildID, song) => {
     const serverQueue = client.audioQueue.get(guildID);
 
-    if(!op.checkPerms(serverQueue.textChannel.guild, serverQueue.textChannel)) {return;}
+    if (!op.checkPerms(serverQueue.textChannel.guild, serverQueue.textChannel)) { return; }
 
     if (!song) {
         client.logger.debug(`[Audio]: Guild: ${guildID} finished queue`);
@@ -35,7 +35,7 @@ op.setExecute(async(client, guildID, song) => {
             serverQueue.songs.shift();
             op.run(guildID, serverQueue.songs[0]);
         })
-        .on("error", async (error) => {
+        .on("error", async(error) => {
             client.logger.error(error);
             client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
             serverQueue.textChannel.send(await client.operations.generateEmbed.run({
@@ -64,7 +64,8 @@ op.setExecute(async(client, guildID, song) => {
         author: "Tinker's Tunes",
         authorUrl: "./res/TinkerMusic-purple.png",
         colour: client.statics.colours.tinker,
-        ...client.statics.defaultEmbed.footerUser("Requested by", serverQueue.songs[0].author)
+        footerText: `Song requested by ${serverQueue.songs[0].requestedBy.usertag}`,
+        footerUrl: serverQueue.songs[0].requestedBy.avatar
     }));
 });
 
