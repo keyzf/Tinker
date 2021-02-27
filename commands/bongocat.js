@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: [],
+    botPermissions: ["EMBED_LINKS"],
     userPermissions: []
 });
 

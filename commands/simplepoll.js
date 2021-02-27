@@ -23,11 +23,11 @@ cmd.setExecute(async(client, message, args, cmd) => {
     let question = args.join(" ");
     if (!question) { return message.channel.send(`You did not specify a question!`); }
 
-    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
+    const msg = await message.channel.send(client.operations.generateEmbed.run({
         title: "Poll",
         description: question,
-        footerText: `Poll made by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Poll made by", message.author, "")
     }));
 
     await msg.react("👍");

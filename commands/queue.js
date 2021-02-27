@@ -27,15 +27,15 @@ cmd.setExecute(async(client, message, args, cmd) => {
     for (let i = 0; i < serverQueue.songs.length; i++) {
         queue.push(`${(i + 1).toString()} ${serverQueue.songs[i].title}`);
     }
-    return message.channel.send(client.operations.generateDefaultEmbed.run({
+    return message.channel.send(client.operations.generateEmbed.run({
         title: "Queue",
         description: queue.reduce((accumulator, current) => {
             return accumulator + "\n" + current
         }),
         author: "Tinker's Tunes",
-        authorUrl: "./res/TinkerMusic-purple.png", 
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        authorUrl: "./res/TinkerMusic-purple.png",
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
     }))
 });
 

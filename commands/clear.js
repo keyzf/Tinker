@@ -16,7 +16,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES"],
-    botPermissions: ["MANAGE_MESSAGES"]
+    botPermissions: []
 });
 
 
@@ -26,10 +26,14 @@ command.setExecute(async(client, message, args, cmd) => {
     await message.delete();
     try {
         await message.channel.bulkDelete(count);
-        return message.channel.send(client.operations.generateDefaultEmbed.run({ title: `Deleted ${count} messages` })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
+        return message.channel.send(client.operations.generateEmbed.run({
+            description: `Deleted ${count} messages`,
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Deleted by", message.author)
+        })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
     } catch (err) {
         client.operations.generateError.run(err, "Failed to remove messages", { channel: message.channel, content: message.content });
-        return message.channel.send(client.operations.generateDefaultEmbed.run({ title: `Could not delete messages`, description: `: ${err}` })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
+        return message.channel.send(client.operations.generateEmbed.run({ title: `Could not delete messages`, description: `: ${err}` })).then((m) => { client.operations.deleteCatch.run(m, 3000) });
     }
 });
 

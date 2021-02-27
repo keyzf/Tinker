@@ -2,7 +2,7 @@ const Operation = require("../../structures/Operation");
 const op = new Operation();
 
 op.setInfo({
-    name: "generateDefaultEmbed"
+    name: "generateEmbed"
 });
 
 
@@ -10,18 +10,24 @@ const { MessageEmbed, MessageAttachment } = require("discord.js")
 
 /**
  * 
- * @param {{title: String, description: String, fields: {name: String, value: String}[], colour: string, author: String, authorUrl: String, authorLink: String, thumbnailUrl: String, imageUrl: String, footerUrl: String, footerText: String}} embedInfo 
+ * @typedef {Object} GenerateEmbedOptions
+ * @property {String} name a unique command name
+ */
+
+
+/**
+ * 
+ * @param {GenerateEmbedOptions} embedInfo 
  */
 op.setExecute((client, embedInfo) => {
     const embed = new MessageEmbed();
 
-    if (embedInfo.authorImage != false) {
-        embed.attachFiles(new MessageAttachment(embedInfo.authorUrl || "./res/TinkerHappy.png", "author.png"));
+    if (embedInfo.authorUrl) { embed.attachFiles(new MessageAttachment(embedInfo.authorUrl, "author.png")); }
+    if (embedInfo.author) {
+        embed.setAuthor(embedInfo.author, "attachment://author.png", embedInfo.authorLink || "")
     }
 
-    embed.setAuthor(embedInfo.author || "Tinker", "attachment://author.png", embedInfo.authorLink || 'https://discord.com/invite/aymBcRP')
-
-    if (embedInfo.colour) { embed.setColor(embedInfo.colour) } else { embed.setColor('#a700bd') }
+    if (embedInfo.colour) { embed.setColor(embedInfo.colour) }
 
     if (embedInfo.title) { embed.setTitle(embedInfo.title) }
     if (embedInfo.description) { embed.setDescription(embedInfo.description) }
@@ -42,13 +48,12 @@ op.setExecute((client, embedInfo) => {
     }
     if (embedInfo.footerUrl) {
         embed.attachFiles(new MessageAttachment(embedInfo.footerUrl, "footer.png"))
-        embed.setFooter(embedInfo.footerText || "See you around!", "attachment://footer.png");
-        // embed.setFooter(embedInfo.footerText || "See you around!", embedInfo.footerUrl);
-    } else {
-        embed.setFooter(embedInfo.footerText || "See you around!");
+    }
+    if (embedInfo.footerText) {
+        embed.setFooter(embedInfo.footerText, "attachment://footer.png")
     }
 
-    embed.setTimestamp()
+    if (embedInfo.timestamp) { embed.setTimestamp() }
 
     return embed;
 });

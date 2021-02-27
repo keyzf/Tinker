@@ -21,8 +21,6 @@ cmd.setExecute(async(client, message, args, cmd) => {
     const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
 
     const e = new MessageEmbed();
-    e.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL());
-    e.setColor("#a700bd");
     e.setTimestamp();
     e.setTitle("All my Commands!");
     e.setDescription(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`)
@@ -39,7 +37,11 @@ cmd.setExecute(async(client, message, args, cmd) => {
     for (let key in keys) {
         e.addField(keys[key] || "No category", values[key].join(", "));
     }
-    message.channel.send(e);
+    message.channel.send(client.operations.generateEmbed.run({
+        ...e,
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
+    }));
     // return message.channel.send(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`);
 });
 

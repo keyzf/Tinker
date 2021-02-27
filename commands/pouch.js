@@ -27,7 +27,7 @@ const preResponses = [
 
 command.setExecute(async (client, message, args, cmd) => {
     let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM currency WHERE userID=${message.author.id}`).get();
-    message.channel.send(client.operations.generateDefaultEmbed.run({
+    message.channel.send(client.operations.generateEmbed.run({
         author: `${message.author.username}'s Pouch`,
         authorUrl: message.author.displayAvatarURL(),
         description: preResponses[Math.floor(Math.random() * preResponses.length)],
@@ -35,7 +35,9 @@ command.setExecute(async (client, message, args, cmd) => {
             { name: "Gold Coins", value: dbTargetCurrency.currencyUnit2, inline: true },
             { name: "Silver Coins", value: dbTargetCurrency.currencyUnit1, inline: true },
             { name: "Copper Coins", value: dbTargetCurrency.currencyUnit0, inline: true }
-        ]
+        ],
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Property of", message.author, "")
     }));
 });
 

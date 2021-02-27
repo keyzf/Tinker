@@ -23,7 +23,7 @@ const yts = require("yt-search")
 
 cmd.setExecute(async(client, message, args, cmd) => {
 
-    const msg = await message.channel.send(await client.operations.generateDefaultEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
+    const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
 
     const searchCriteria = args.join(" ");
     const r = await yts(searchCriteria);
@@ -39,13 +39,13 @@ cmd.setExecute(async(client, message, args, cmd) => {
         return accumulator += `**${vids.indexOf(v) + 1}** ${ v.title } (${ v.timestamp }) | ${ v.author }\n`; // | ${ v.views } views
     }, "");
 
-    const e = client.operations.generateDefaultEmbed.run({
+    const e = client.operations.generateEmbed.run({
         title: `Search: ${searchCriteria}`,
         description: desc,
         author: "Tinker's Tunes",
         authorUrl: "./res/TinkerMusic-purple.png",
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
     });
     msg.edit(e);
 
@@ -56,13 +56,13 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
 
     if (!vids.length || vids.length == 0) {
-        msg.edit(client.operations.generateDefaultEmbed.run({
+        msg.edit(client.operations.generateEmbed.run({
             title: `Search: ${searchCriteria}`,
             description: "No videos from that search result",
             author: "Tinker's Tunes",
             authorUrl: "./res/TinkerMusic-purple.png",
-            footerText: `Requested by ${message.author.tag}`,
-            footerUrl: message.author.displayAvatarURL()
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
         }));
         client.operations.deleteCatch.run(msg, 8000);
         client.operations.deleteCatch.run(message, 8000);
@@ -90,7 +90,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         .catch(() => {
             // console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
             msg.reactions.removeAll().then(() => {
-                msg.edit(client.operations.generateDefaultEmbed.run({ title: "You took too long to make a decision" }));
+                msg.edit(client.operations.generateEmbed.run({ title: "You took too long to make a decision" }));
                 client.operations.deleteCatch.run(msg, 8000);
                 client.operations.deleteCatch.run(message, 8000);
             })

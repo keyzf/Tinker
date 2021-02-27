@@ -5,11 +5,11 @@ op.setInfo({
     name: "addUser"
 });
 
-op.setExecute(async(client, userID, dbGuild) => {
+op.setExecute(async(client, userID, guildID) => {
     client.data.db.prepare(`
         INSERT INTO users(userID, guildID)
         VALUES(?, ?);
-    `).run(userID, dbGuild.guildID);
+    `).run(userID, guildID);
     
 });
 

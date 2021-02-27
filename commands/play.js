@@ -35,9 +35,9 @@ cmd.setExecute(async (client, message, args, cmd) => {
     let songInfo;
     try {
         songInfo = await ytdl.getInfo(argsMatch.input);
-    } catch(e) {
-        client.logger.error(e, { channel: message.channel, content: message.content });
-        return await message.channel.send(await client.operations.generateError.run(e, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
+    } catch({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content });
+        return await message.channel.send(await client.operations.generateError.run(stack, `Failed to get information for single video with ID:\`${argsMatch.input}\`\nPlease remember we cannot currently support playlists`));
     }
     const song = {
         title: songInfo.videoDetails.title,
@@ -77,13 +77,13 @@ cmd.setExecute(async (client, message, args, cmd) => {
         }
     } else {
         serverQueue.songs.push(song);
-        return message.channel.send(await client.operations.generateDefaultEmbed.run({
+        return message.channel.send(await client.operations.generateEmbed.run({
             title: "Song added to queue",
             description: `${song.title}`,
             author: "Tinker's Tunes",
             authorUrl: "./res/TinkerMusic-purple.png",
-            footerText: `Requested by ${message.author.tag}`,
-            footerUrl: message.author.displayAvatarURL()
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
         }));
     }
 });

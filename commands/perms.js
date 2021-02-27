@@ -22,7 +22,7 @@ command.setPerms({
 
 command.setExecute(async(client, message, args, cmd) => {
 
-    await message.author.send(client.operations.generateDefaultEmbed.run({
+    await message.author.send(client.operations.generateEmbed.run({
         title: "Required Permissions",
         description: "I need perms to do a lot of things. From merely sending messages to them and playing you music.\nThis lists all the permissions I have and what they are needed to do",
         fields: [
@@ -57,7 +57,8 @@ command.setExecute(async(client, message, args, cmd) => {
             { name: `Manage Roles - ${message.guild.me.permissions.has("MANAGE_ROLES", { checkAdmin: false }) ? "Passed" : "Failed"}`, value: "Used for `mute` command" },
             { name: `Manage Webhooks - ${message.guild.me.permissions.has("MANAGE_WEBHOOKS", { checkAdmin: false }) ? "Passed" : "Failed"}`, value: "Used for announcements" },
             { name: `Manage Emojis - ${message.guild.me.permissions.has("MANAGE_EMOJIS", { checkAdmin: false }) ? "Passed" : "Failed"}`, value: "Not currently used" },
-        ]
+        ],
+        colour: client.statics.colours.tinker
     }));
 
     message.react("✅");

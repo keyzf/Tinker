@@ -56,7 +56,7 @@ command.setExecute(async(client, message, args, cmd) => {
         }
     }
 
-    const m = await message.channel.send(client.operations.generateDefaultEmbed.run({
+    const m = await message.channel.send(client.operations.generateEmbed.run({
         title: `${client.data.emojis.custom.loading} Fetching User Infraction Info`,
         authorImage: false
     }));

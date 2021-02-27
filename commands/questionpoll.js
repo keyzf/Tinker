@@ -27,13 +27,13 @@ cmd.setExecute(async(client, message, args, cmd) => {
     const answers = args.splice(1, args.length);
     if(answers.length > 20) {return message.channel.send("Woah! Hold ya horses, too many answers there")}
 
-    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
+    const msg = await message.channel.send(client.operations.generateEmbed.run({
         title: question,
         description: answers.reduce((accumulator, a) => {
             return accumulator += `**${String.fromCharCode(answers.indexOf(a) + 65)}** ${a}\n`;
         }, ""),
-        footerText: `Poll made by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Poll made by", message.author, "")
     }));
 
     answers.forEach(async(a) => {

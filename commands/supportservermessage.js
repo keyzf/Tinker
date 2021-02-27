@@ -25,7 +25,7 @@ command.registerSubCommand(`${__dirname}/supportservermessage/error.js`);
 command.registerSubCommand(`${__dirname}/supportservermessage/deadchat.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(client.operations.generateDefaultEmbed.run({
+    message.channel.send(client.operations.generateEmbed.run({
         description: `Use these to shout at our members!
 
         \`-\` supportchannel: This isn't a support channel, here is where you get support
@@ -38,8 +38,8 @@ command.setExecute(async (client, message, args, cmd) => {
         `,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
     }));
     client.operations.deleteCatch.run(message);
 });

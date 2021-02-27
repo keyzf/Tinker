@@ -21,8 +21,6 @@ command.setPerms({
 
 
 command.setExecute(async (client, message, args, cmd) => {
-    if (!message.member.hasPermission('KICK_MEMBERS')) return message.reply('you do not have permissions to use this command!');
-
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
     if (!target) return message.reply('please specify a member to kick!');
     if (target.id == message.author.id) { return message.channel.send("You cannot kick yourself"); }

@@ -22,9 +22,10 @@ cmd.setPerms({
 const NoughtsAndCrosses = require("../structures/games/NoughtsAndCrosses");
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    const msg = await message.channel.send(client.operations.generateDefaultEmbed.run({
+    const msg = await message.channel.send(client.operations.generateEmbed.run({
         title: "Noughts and Crosses",
-        description: `Please wait, setting up`
+        description: `Please wait, setting up`,
+        colour: client.statics.colours.tinker
     }));
 
     const { winner, loser } = new NoughtsAndCrosses(client, message, msg, message.author);

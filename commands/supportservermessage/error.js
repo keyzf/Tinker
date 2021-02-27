@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateEmbed.run({
         description: `Sometimes the bot goes wrong and sends an error message along with a code
         You can use the command \`error\` to find out some information about it, however some information is limited to our support team for data privacy
         
@@ -29,8 +29,8 @@ command.setExecute(async (client, message, args, cmd) => {
         `,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
     }));
     message.delete({timeout:0});
 });

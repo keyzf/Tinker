@@ -21,9 +21,11 @@ cmd.setPerms({
 cmd.setExecute(async(client, message, args) => {
     try {
         message.channel.send("Ping?").then((m) => {
-            m.edit("", client.operations.generateDefaultEmbed.run({
+            m.edit("", client.operations.generateEmbed.run({
                 title: "Pong!",
-                description: `Interaction latency of \`${m.createdTimestamp - message.createdTimestamp}ms\`\nAPI Latency of \`${Math.round(client.ws.ping)}ms\``
+                description: `Interaction latency of \`${m.createdTimestamp - message.createdTimestamp}ms\`\nAPI Latency of \`${Math.round(client.ws.ping)}ms\``,
+                colour: client.statics.colours.tinker,
+                ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
             }));
         });
     } catch (e) {

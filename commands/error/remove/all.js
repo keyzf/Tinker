@@ -21,8 +21,9 @@ command.setPerms({
 
 command.setExecute(async (client, message, args, cmd) => {
     client.data.errordb.remove({}).then(function(found) {
-        message.channel.send(client.operations.generateDefaultEmbed.run({
-            title: "All errors deleted"
+        message.channel.send(client.operations.generateEmbed.run({
+            title: "All errors deleted",
+            colour: client.statics.colours.tinker
         }));
     });
 });

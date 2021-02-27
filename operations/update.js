@@ -7,7 +7,10 @@ op.setInfo({
 
 op.setExecute(async(client) => {
     client.operations.checkAnnouncement.run();
-    client.operations.checkDiscordIncidents.run();
+    
+    if (process.env.NODE_ENV == "production") {
+        client.operations.checkDiscordIncidents.run();
+    }
 });
 
 module.exports = op;

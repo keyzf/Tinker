@@ -49,13 +49,15 @@ op.setExecute(async(client) => {
                 fields.push({ name, value });
             });
         }
-        return client.operations.generateDefaultEmbed.run({
+        return client.operations.generateEmbed.run({
             author: "Discord Status",
             authorUrl: "https://images-ext-1.discordapp.net/external/XfGS-yR9XzpKCUHSMJFjMa7cnn93VljpCt6tq0gROeM/https/discord.com/assets/2c21aeda16de354ba5334551a883b481.png",
             authorLink: "https://discordstatus.com/",
             description: `[${inc.name}](${inc.shortlink})`,
             fields,
-            footerText: "Started"
+            footerText: "Started",
+            timestamp: true,
+            colour: client.statics.colours.tinker
         });
     }
 
@@ -68,7 +70,7 @@ op.setExecute(async(client) => {
         for (let i = 0; i < incidents.length; i++) {
             const inc = incidents[i];
             const dbIncident = client.data.db.prepare("SELECT * FROM discordStatus WHERE incidentID=?").get(inc.id);
-            console.log(dbIncident);
+
             if (dbIncident != null && dbIncident.ignore) { return; }
 
             const statusChannel = await client.channels.fetch(client.config.config.discordStatusChannel);
@@ -81,11 +83,7 @@ op.setExecute(async(client) => {
                 }
             } else {
                 const msg = await statusChannel.send(genEmbed(inc));
-                axios({
-                    method: "post",
-                    url: `${client.options.http.api}/v${client.options.http.version}/channels/${statusChannel.id}/messages/${msg.id}/crosspost`,
-                    headers: { Authorization: `${client.rest.tokenPrefix} ${client.token}`, }
-                });
+                if (message.channel.type == "news") { msg.crosspost(); }
                 client.data.db.prepare("INSERT INTO discordStatus(incidentID, messageID, ignore) VALUES(?, ?, ?)").run(inc.id, msg.id, 0);
             }
         }

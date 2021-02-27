@@ -15,7 +15,7 @@ command.setLimits({
 });
 
 command.setPerms({
-    userPermissions: [],
+    userPermissions: ["MANAGE_GUILD"],
     botPermissions: []
 });
 
@@ -24,7 +24,7 @@ command.registerSubCommand(`${__dirname}/config/welcomechannel.js`);
 command.registerSubCommand(`${__dirname}/config/logchannel.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(client.operations.generateDefaultEmbed.run({
+    message.channel.send(client.operations.generateEmbed.run({
         title: "Configuration",
         description: `All the things you can setup and configure
 
@@ -33,7 +33,9 @@ command.setExecute(async (client, message, args, cmd) => {
             {name: "Prefix - \n`prefix`", value: "Change the prefix used to interact with the bot", inline: true},
             {name: "Welcome channel - \n`welcomechannel`", value: "Send a message to a specific channel to welcome new members", inline: true},
             {name: "Logs Channel - \n`logchannel`", value: "Send logging messages to this channel for actions (moderation, message edits, etc)", inline: true}
-        ]
+        ],
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Deleted by", message.author)
     }));
 });
 

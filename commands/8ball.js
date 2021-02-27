@@ -21,13 +21,15 @@ cmd.setExecute(async(client, message, args, cmd) => {
         let response;
         try {
             response = client.utility.array_random(client.data.eightBall);
-        } catch (e) {
-            client.logger.error(e, { channel: message.channel });
-            return await message.channel.send(await client.operations.generateError.run(e, "Could not get 8 Ball response from file"));
+        } catch ({stack}) {
+            client.logger.error(stack, { channel: message.channel, content: message.content });
+            return await message.channel.send(await client.operations.generateError.run(stack, "Could not get 8 Ball response from file", { channel: message.channel, content: message.content }));
         }
-        message.channel.send(await client.operations.generateDefaultEmbed.run({
+        message.channel.send(await client.operations.generateEmbed.run({
             title: "8 Ball",
-            description: `You asked: ${question}\nMy reply: ${response}`
+            description: `${question}\n${response}`,
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
         }));
     }
 });

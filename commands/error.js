@@ -3,7 +3,7 @@ const command = new Command();
 
 command.setInfo({
     name: "error",
-    aliases: [],
+    aliases: ["errors", "err", "errs"],
     category: "Bot",
     description: "View and manage errors the bot has",
     usage: "[instruction] <error code>"
@@ -22,10 +22,10 @@ command.setPerms({
 command.registerSubCommand(`${__dirname}/error/remove`);
 command.registerSubCommand(`${__dirname}/error/all`);
 
-command.setExecute(async (client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     if (!args[0]) { return message.channel.send("Please provide an error code"); }
 
-    client.data.errordb.findOne({ _id: args[0] }).then(async (found) => {
+    client.data.errordb.findOne({ _id: args[0] }).then(async(found) => {
         let e = {
             title: `Error Code ${args[0]}`
         }
@@ -38,8 +38,10 @@ command.setExecute(async (client, message, args, cmd) => {
                     { name: "Timestamp", value: new Date(found.timestamp) },
                     { name: "User Message", value: found.userMsg }
                 ];
-                if (found.data.content) { e.fields.push({ name: "Content", value: `\`\`\`${found.data.content}\`\`\`` })}
-                if (found.data.channel) { e.fields.push({ name: "channel", value: `<#${found.data.channel.id}>` })}
+                if (found.data) {
+                    if (found.data.content) { e.fields.push({ name: "Content", value: `\`\`\`${found.data.content}\`\`\`` }) }
+                    if (found.data.channel) { e.fields.push({ name: "channel", value: `<#${found.data.channel.id}>` }) }
+                }
             } else if (found.userMsg) {
                 e.description = found.userMsg
                 e.fields = [{ name: "Well?", value: "The error has been logged, please contact us and give us the error code" }]
@@ -47,11 +49,20 @@ command.setExecute(async (client, message, args, cmd) => {
                 e.description = "The error has been logged, please contact us and give us the error code"
             }
         }
-        message.channel.send(client.operations.generateDefaultEmbed.run(e));
-    }).catch(async(e) => {
+        try {
+            message.channel.send(client.operations.generateEmbed.run(e));
+        } catch ({ stack }) {
+            return await message.channel.send(
+                await client.operations.generateError.run(
+                    stack, "Error likely too large", { channel: message.channel, content: message.content }
+                )
+            );
+        }
+    }).catch(async({stack}) => {
+        client.logger.error(stack, { channel: message.channel, content: message.content })
         return await message.channel.send(
             await client.operations.generateError.run(
-                e, "Error trying to receive error info, ironic I know", { channel: message.channel, content: message.content }
+                stack, "Error trying to receive error info, ironic I know", { channel: message.channel, content: message.content }
             )
         );
     });

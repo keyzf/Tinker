@@ -19,7 +19,7 @@ registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold
 
 event.setExecute(async (client, member) => {
     const dbGuild = client.data.db.prepare(`SELECT * FROM guilds WHERE guildID='${member.guild.id}'`).get();
-    client.operations.addUser.run(member.id, dbGuild);
+    client.operations.addUser.run(member.id, member.guild.id);
     // bot.shardFunctions.get("updateActivity").run();
     if (!dbGuild.welcomeChannel) { return; }
     const channel = await client.channels.fetch(dbGuild.welcomeChannel);

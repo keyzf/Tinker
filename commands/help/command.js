@@ -40,18 +40,15 @@ cmd.setExecute(async(client, message, args, cmd) => {
     const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
 
     const e = new MessageEmbed();
-    e.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL());
-    e.setColor("#a700bd");
     e.setTimestamp();
     e.setTitle(path)
     e.setDescription(command.info.description || "No description set")
-    e.addFields(
-        { name: "Aliases", value: `${command.info.aliases.join(", ") || "No aliases set"}`,inline: true },
-        { name: "Usage", value: `${(command.info.usage) ? prefix + command.info.name + " " + command.info.usage : "No usage advice"}`, inline: true },
-        { name: "Cooldown", value: `${command.limits.cooldown || 0}s`, inline: true },
-        { name: "Subcommands", value: `${command.subcommands.length ? command.subcommands.map((cmd) => { return cmd.info.name }).join(", ") : "No subcommands"}` }
-    );
-    return message.channel.send(e)
+    e.addFields({ name: "Aliases", value: `${command.info.aliases.join(", ") || "No aliases set"}`, inline: true }, { name: "Usage", value: `${(command.info.usage) ? prefix + command.info.name + " " + command.info.usage : "No usage advice"}`, inline: true }, { name: "Cooldown", value: `${command.limits.cooldown || 0}s`, inline: true }, { name: "Subcommands", value: `${command.subcommands.length ? command.subcommands.map((cmd) => { return cmd.info.name }).join(", ") : "No subcommands"}` });
+    return message.channel.send(client.operations.generateEmbed.run({
+        ...e,
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
+    }));
 });
 
 module.exports = cmd;

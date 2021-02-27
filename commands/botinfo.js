@@ -21,7 +21,10 @@ cmd.setPerms({
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const botInfo = client.data.botInfo;
-    message.channel.send(client.operations.generateDefaultEmbed.run(botInfo));
+    message.channel.send(client.operations.generateEmbed.run({
+        ...botInfo,
+        colour: client.statics.colours.tinker
+    }));
 });
 
 module.exports = cmd;

@@ -31,7 +31,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 url: `https://icanhazdadjoke.com/j/${args[0]}`,
                 headers: { accept: "application/json" }
             })
-            .then(({data}) => {
+            .then(({ data }) => {
                 if (data.status != 200) {
                     message.channel.send(data.message)
                     return message.channel.stopTyping();
@@ -39,7 +39,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 const embed = new MessageEmbed();
                 embed.setDescription(data.joke)
                 embed.setFooter(`Joke id: ${data.id}`)
-                message.channel.send(embed)
+                embed.setColor(client.statics.colours.tinker)
             })
             .catch(async(err) => {
                 message.channel.stopTyping();
@@ -51,7 +51,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 url: `https://icanhazdadjoke.com/`,
                 headers: { accept: "application/json" }
             })
-            .then(({data}) => {
+            .then(({ data }) => {
                 if (data.status != 200) {
                     message.channel.send(data.message)
                     return message.channel.stopTyping();
@@ -59,6 +59,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
                 const embed = new MessageEmbed();
                 embed.setDescription(data.joke)
                 embed.setFooter(`Joke id: ${data.id}`)
+                embed.setColor(client.statics.colours.tinker)
                 message.channel.send(embed)
             })
             .catch(async(err) => {

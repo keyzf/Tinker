@@ -20,9 +20,9 @@ op.setExecute(async(client, userId) => {
             headers: { accept: "application/json" }
         });
         return data.voted ? true : false
-    } catch (err) {
-        client.logger.error(err);
-        await client.operations.generateError.run(err, "Error getting/parsing Top.gg vote");
+    } catch ({stack}) {
+        client.logger.error(stack);
+        await client.operations.generateError.run(stack, "Error getting/parsing Top.gg vote");
         return null;
     }
 });

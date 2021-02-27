@@ -38,7 +38,7 @@ command.setExecute(async (client, message, args, cmd) => {
             e.description = "Error has been removed from the file"
         }
 
-        message.channel.send(client.operations.generateDefaultEmbed.run(e));
+        message.channel.send(client.operations.generateEmbed.run({...e, colour: client.statics.colours.tinker}));
 
     });
 });

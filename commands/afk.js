@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: ["MANAGE_MESSAGES"],
+    botPermissions: [],
     userPermissions: []
 });
 
@@ -31,8 +31,11 @@ cmd.setExecute(async (client, message, args, cmd) => {
         };
 
         client.afk.set(message.author.id, construct);
-        message.channel.send(await client.operations.generateDefaultEmbed.run({description: `you have been set to afk for reason: ${reason}`})).then(async(msg) => {
-            await client.operations.deleteCatch.run(msg, 5000);
+        message.channel.send(await client.operations.generateEmbed.run({
+            description: `you have been set to afk for reason: ${reason}`,
+            colour: client.statics.colours.tinker,
+        })).then((msg) => {
+            client.operations.deleteCatch.run(msg, 5000);
         });
     }    
 });

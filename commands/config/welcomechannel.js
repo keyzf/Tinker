@@ -15,7 +15,7 @@ command.setLimits({
 });
 
 command.setPerms({
-    userPermissions: [],
+    userPermissions: ["MANAGE_GUILD"],
     botPermissions: []
 });
 
@@ -28,15 +28,17 @@ command.setExecute(async(client, message, args, cmd) => {
     }
     if (!channel) {
         const { welcomeChannel } = client.data.db.prepare("SELECT welcomeChannel FROM guilds where guildID=?").get(message.guild.id);
-        return message.channel.send(client.operations.generateDefaultEmbed.run({
+        return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a welcome channel to change it to
-            ${welcomeChannel ? `The current welcome channel is <#${welcomeChannel}>` : "Welcome channel not currently active" }`
+            ${welcomeChannel ? `The current welcome channel is <#${welcomeChannel}>` : "Welcome channel not currently active" }`,
+            colour: client.statics.colours.tinker
         }));
     }
 
     client.data.db.prepare("UPDATE guilds SET welcomeChannel=? WHERE guildID=?").run(channel.id, message.guild.id);
-    return message.channel.send(client.operations.generateDefaultEmbed.run({
-        description: `Welcome channel set to <#${channel.id}>`
+    return message.channel.send(client.operations.generateEmbed.run({
+        description: `Welcome channel set to <#${channel.id}>`,
+        colour: client.statics.colours.tinker
     }));
 });
 

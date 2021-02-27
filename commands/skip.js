@@ -24,12 +24,12 @@ cmd.setExecute(async(client, message, args, cmd) => {
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
     if (!serverQueue) return message.channel.send('There is no song that I could skip!');
     serverQueue.connection.dispatcher.end();
-    return message.channel.send(client.operations.generateDefaultEmbed.run({
+    return message.channel.send(client.operations.generateEmbed.run({
         title: "Song Skipped",
         author: "Tinker's Tunes",
         authorUrl: "./res/TinkerMusic-purple.png",
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
     }));
 });
 

@@ -29,9 +29,9 @@ command.setExecute(async (client, message, args, cmd) => {
 
     try {
         message.guild.members.unban(target);
-    } catch (err) {
-        client.logger.error(err, { channel: message.channel, content: message.content })
-        const e = await client.operations.generateError.run(err, "Failed to unban user", { channel: message.channel, content: message.content });
+    } catch ({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content })
+        const e = await client.operations.generateError.run(stack, "Failed to unban user", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }

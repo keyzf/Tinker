@@ -33,9 +33,11 @@ command.setExecute(async(client, message, args, cmd) => {
 
     const speech = args.join(" ");
 
-    message.channel.send(client.operations.generateDefaultEmbed.run({
+    message.channel.send(client.operations.generateEmbed.run({
         title: "Now Saying",
-        description: speech
+        description: speech,
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
     }));
 
     await client.utility.promisify.promisifyLastCallback(gtts.save, filepath, speech);

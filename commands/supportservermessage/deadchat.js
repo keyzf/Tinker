@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
-    message.channel.send(args.length ? args[0] : "", client.operations.generateDefaultEmbed.run({
+    message.channel.send(args.length ? args[0] : "", client.operations.generateEmbed.run({
         description: `We are aware the chat is dead. However this is a support server, not a place for casual hangout 
         We have these channels for your pleasure so:
         
@@ -31,8 +31,8 @@ command.setExecute(async (client, message, args, cmd) => {
         `,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",
-        footerText: `Requested by ${message.author.tag}`,
-        footerUrl: message.author.displayAvatarURL()
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
     }));
     message.delete({timeout:0});
 });

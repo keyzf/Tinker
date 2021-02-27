@@ -15,7 +15,7 @@ command.setLimits({
 });
 
 command.setPerms({
-    userPermissions: [],
+    userPermissions: ["MANAGE_GUILD"],
     botPermissions: []
 });
 
@@ -28,15 +28,17 @@ command.setExecute(async(client, message, args, cmd) => {
     }
     if (!channel) {
         const { logsChannel } = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
-        return message.channel.send(client.operations.generateDefaultEmbed.run({
+        return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a log channel to change it to
-            ${logsChannel ? `The current log channel is <#${logsChannel}>` : "Log channel not currently active" }`
+            ${logsChannel ? `The current log channel is <#${logsChannel}>` : "Log channel not currently active" }`,
+            colour: client.statics.colours.tinker
         }));
     }
 
     client.data.db.prepare("UPDATE guilds SET logsChannel=? WHERE guildID=?").run(channel.id, message.guild.id);
-    return message.channel.send(client.operations.generateDefaultEmbed.run({
-        description: `Log channel set to <#${channel.id}>`
+    return message.channel.send(client.operations.generateEmbed.run({
+        description: `Log channel set to <#${channel.id}>`,
+        colour: client.statics.colours.tinker
     }));
 });
 
