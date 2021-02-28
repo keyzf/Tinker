@@ -16,7 +16,7 @@ cmd.setLimits({
 
 cmd.setExecute(async(client, message, args, cmd) => {
     let question = args.join(" ")
-    if (!question) { return message.channel.send(`Uhmmm bozo, you need to provide a question for me to answer, I can't read your mind!`); }
+    if (!question) { return message.channel.send(`Uhmmm bozo, you need to provide a question for me to answer, I can't read your mind! ${client.data.emojis.people.brain}`); }
     if (question.length > 1800) { return message.channel.send("Woah woah woah! Thats a lot to ask... maybe ask something slightly smaller?") } else {
         let response;
         try {

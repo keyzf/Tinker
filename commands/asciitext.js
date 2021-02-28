@@ -24,7 +24,7 @@ const figlet = require("figlet")
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const text = args.join(" ");
-    if (text.length == 0) { return message.channel.send("provide something to say") } else if (text.length > 15) { return message.channel.send("Too long") }
+    if (text.length == 0) { return message.channel.send("Provide something to say - if I could read your brain, do you think I'd be a Discord bot? No, me neither!") } else if (text.length > 15) { return message.channel.send("Really, you've got that much to say... just put it in a normal message") }
     let out;
     try {
         out = figlet.textSync(text, { horizontalLayout: 'full' })

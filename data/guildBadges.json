@@ -1,0 +1,18 @@
+{
+    "0": {
+        "name": "Official",
+        "emoji": "✅"
+    },
+    "1": {
+        "name": "Partner",
+        "emoji": "👥"
+    },
+    "2": {
+        "name": "Early user",
+        "emoji": "👶"
+    },
+    "3": {
+        "name": "Premium",
+        "emoji": "🏆"
+    }
+}

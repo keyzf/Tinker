@@ -22,6 +22,7 @@ command.setPerms({
 command.registerSubCommand(`${__dirname}/config/prefix.js`);
 command.registerSubCommand(`${__dirname}/config/welcomechannel.js`);
 command.registerSubCommand(`${__dirname}/config/logchannel.js`);
+command.registerSubCommand(`${__dirname}/config/description.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
     message.channel.send(client.operations.generateEmbed.run({
@@ -32,10 +33,11 @@ command.setExecute(async (client, message, args, cmd) => {
         fields: [
             {name: "Prefix - \n`prefix`", value: "Change the prefix used to interact with the bot", inline: true},
             {name: "Welcome channel - \n`welcomechannel`", value: "Send a message to a specific channel to welcome new members", inline: true},
-            {name: "Logs Channel - \n`logchannel`", value: "Send logging messages to this channel for actions (moderation, message edits, etc)", inline: true}
+            {name: "Logs Channel - \n`logchannel`", value: "Send logging messages to this channel for actions (moderation, message edits, etc)", inline: true},
+            {name: "Description - \n`description`", value: "The server description... what is this place about?", inline: true}
         ],
         colour: client.statics.colours.tinker,
-        ...client.statics.defaultEmbed.footerUser("Deleted by", message.author)
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
     }));
 });
 

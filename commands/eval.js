@@ -23,32 +23,22 @@ const Discord = require("discord.js");
 const util = require("util");
 const figlet = require("figlet");
 
-cmd.setExecute(async (client, message, args, cmd) => {
+cmd.setExecute(async(client, message, args, cmd) => {
     const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
 
     function send(data) {
         message.channel.send(data)
     }
 
-    function showAll(data) {
-        return util.inspect(data, {showHidden: false, depth: null})
-    }
-
-    function asciiImagetext(text) {
-        return "```" + figlet.textSync(text, { horizontalLayout: 'full' }) + "```";
-    }
-
     var code = message.content.slice(prefix.length + cmd.length).trim();
-    if (code.indexOf("```") == 0){
+    if (code.indexOf("```") == 0) {
         code = code.replace(/```/g, "").replace("js", "");
     }
     try {
         const data = await eval(code);
-        if (data) {
-            message.channel.send(`Return data: \`${data}\``);
-        }
-    } catch (err) {
-        message.channel.send(`Error:\`${err}\``);
+        message.channel.send(util.inspect(data, { showHidden: false, depth: null }), { code: "js" });
+    } catch ({ stack }) {
+        message.channel.send(stack, { code: "js" });
     }
 });
 
