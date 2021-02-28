@@ -4,31 +4,79 @@
         "name": "Dagger",
         "size": "small",
         "description": "A thin, short blade wielded with a shaped handle",
-        "damage": "1d4",
-        "damageType": "piercing"
+        "attacks": [
+            {
+                "name": "stab",
+                "damage": "1d4",
+                "hitBonus": 0,
+                "damageType": "piercing"
+            },
+            {
+                "name": "throw",
+                "damage": "1d4+2",
+                "hitBonus": -1,
+                "damageType": "piercing"
+            }
+        ]
     },
     {
         "id": "weap-40a-db1",
         "name": "Shortsword",
         "size": "small",
         "description": "A thin blade wielded with a handle and wide guard",
-        "damage": "1d6",
-        "damageType": "piercing"
+        "attacks": [
+            {
+                "name": "stab",
+                "damage": "1d6",
+                "hitBonus": 0,
+                "damageType": "piercing"
+            },
+            {
+                "name": "throw",
+                "damage": "1d6+2",
+                "hitBonus": -1,
+                "damageType": "piercing"
+            }
+        ]
     },
     {
         "id": "weap-ea5-80a",
         "name": "Longsword",
         "size": "medium",
         "description": "A long blade wielded with a handle, wide guard and intricate pommel",
-        "damage": "1d8",
-        "damageType": "piercing"
+        "attacks": [
+            {
+                "name": "stab",
+                "damage": "1d8",
+                "hitBonus": 0,
+                "damageType": "piercing"
+            },
+            {
+                "name": "throw",
+                "damage": "1d8+4",
+                "hitBonus": -3,
+                "damageType": "piercing"
+            }
+        ]
     },
     {
         "id": "weap-9a5-ef7",
         "name": "Greatsword",
         "size": "large",
         "description": "A large blade wielded with a handle. An intricate guard and pommel and a large grip for two hands",
-        "damage": "2d6",
-        "damageType": "piercing"
+        "attacks": [
+            {
+                "name": "stab",
+                "damage": "2d6",
+                "hitBonus": 0,
+                "damageType": "piercing"
+            },
+            {
+                "name": "throw",
+                "damage": "2d6+5",
+                "hitBonus": -5,
+                "damageType": "piercing"
+            }
+        ]
     }
 ]

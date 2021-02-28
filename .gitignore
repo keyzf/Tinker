@@ -11,6 +11,9 @@ lerna-debug.log*
 
 genErrors.json
 
+# please just ignore this stuff
+ignore/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

@@ -159,7 +159,7 @@ $(async() => {
         const memoryData = google.visualization.arrayToDataTable(memoryStack);
         const memoryOptions = {
             title: "Memory Usage",
-            vAxis: { title: "kb" },
+            vAxis: { title: "B" },
             isStacked: true
         };
         const memoryChart = new google.visualization.SteppedAreaChart(document.getElementById("memoryChart"));

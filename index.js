@@ -1,25 +1,28 @@
-require("dotenv").config()
-require("./structures/prototypeModification/process");
+(async() => {
 
-// bot
-const TinkerClient = require("./structures/TinkerClient");
+    require("dotenv").config()
+    require("./structures/prototypeModification/process");
 
-TinkerClient.registerCommandDir("./commands");
-TinkerClient.registerEventDir("./events");
-TinkerClient.registerOperationsDir("./operations");
+    // bot
+    const TinkerClient = require("./structures/TinkerClient");
 
-TinkerClient.applyConfig("config", require("./config/config.json"));
-TinkerClient.applyConfig("officialServer", require("./config/officialServer.json"));
-TinkerClient.applyConfig("devs", require("./config/devs.json"));
+    TinkerClient.registerCommandDir("./commands");
+    TinkerClient.registerEventDir("./events");
+    TinkerClient.registerOperationsDir("./operations");
 
-TinkerClient.addData("emojis", require("./data/emoji_list.json"));
-TinkerClient.addData("eightBall", require("./data/8ball.json"));
-TinkerClient.addData("botInfo", require("./data/botInfo.json"));
-TinkerClient.addData("permissionsNames", require("./data/permissionsNames.json"));
-TinkerClient.addData("tinkerReviews", require("./data/tinkerReviews.json"));
-TinkerClient.addData("changelog", require("./data/changelog.json"));
+    TinkerClient.applyConfig("config", require("./config/config.json"));
+    TinkerClient.applyConfig("officialServer", require("./config/officialServer.json"));
+    TinkerClient.applyConfig("devs", require("./config/devs.json"));
 
-TinkerClient.login(process.env.DISCORD_CLIENT_TOKEN);
+    TinkerClient.addData("emojis", require("./data/emoji_list.json"));
+    TinkerClient.addData("eightBall", require("./data/8ball.json"));
+    TinkerClient.addData("botInfo", require("./data/botInfo.json"));
+    TinkerClient.addData("permissionsNames", require("./data/permissionsNames.json"));
+    TinkerClient.addData("tinkerReviews", require("./data/tinkerReviews.json"));
+    TinkerClient.addData("changelog", require("./data/changelog.json"));
 
-// webserver
-const server = require("./web/index").setup(TinkerClient);
+    await TinkerClient.login(process.env.DISCORD_CLIENT_TOKEN);
+
+    // webserver
+    const server = require("./web/index").setup(TinkerClient);
+})();

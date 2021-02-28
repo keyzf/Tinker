@@ -35,7 +35,7 @@ command.setExecute(async(client, message, args, cmd) => {
             if (client.config.devs.includes(message.author.id)) {
                 e.description = `\`\`\`js\n${found.error} \`\`\``
                 e.fields = [
-                    { name: "Timestamp", value: new Date(found.timestamp) },
+                    { name: "Timestamp", value: new Date(found.timestamp).toLocaleString() },
                     { name: "User Message", value: found.userMsg }
                 ];
                 if (found.data) {

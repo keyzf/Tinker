@@ -20,7 +20,6 @@ module.exports.setup = (client) => {
         async log(info, callback) {
 
             const embed = new MessageEmbed();
-            // embed.setTitle('Some Title');
             embed.setDescription(`\`\`\`${info.message}\`\`\``);
             if (info.channel) {
                 embed.addFields({ name: "Channel Origin", value: `<#${info.channel.id}>` });

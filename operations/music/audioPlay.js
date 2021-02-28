@@ -47,11 +47,12 @@ op.setExecute(async(client, guildID, song) => {
         });
     serverQueue.connection.on("disconnect", async() => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
-        if (client.audioQueue.get(guildID)) return;
+        if (!client.audioQueue.get(guildID)) return;
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Forcefully Disconnected by user",
             author: "Tinker's Tunes",
-            authorUrl: "./res/TinkerMusic-purple.png"
+            authorUrl: "./res/TinkerMusic-purple.png",
+            colour: client.statics.colours.tinker
         }));
         return client.audioQueue.delete(guildID);
     })
