@@ -32,13 +32,13 @@ cmd.setExecute(async(client, message, args, cmd) => {
             embed.setTitle("Covid Stats - All")
             embed.addFields(
                 { name: "Cases", value: json.cases.toLocaleString(), inline: true },
-                { name: "Todays Cases", value: json.todayCases.toLocaleString(), inline : true },
+                { name: "Today's Cases", value: json.todayCases.toLocaleString(), inline : true },
                 { name: "\u200B", value: "\u200B", inline : true },
                 { name: "Deaths", value: json.deaths.toLocaleString(), inline: true },
-                { name: "Todays Deaths", value: json.todayDeaths.toLocaleString(), inline: true },
+                { name: "Today's Deaths", value: json.todayDeaths.toLocaleString(), inline: true },
                 { name: '\u200B', value: '\u200B', inline : true },
                 { name: "Recovered", value: json.recovered.toLocaleString(), inline: true },
-                { name: "Todays Recovered", value: json.todayRecovered.toLocaleString(), inline: true },
+                { name: "Today's Recovered", value: json.todayRecovered.toLocaleString(), inline: true },
                 { name: '\u200B', value: '\u200B', inline : true }
             )
             embed.setFooter(`Last updated: ${new Date(json.updated).toLocaleString()}`)
