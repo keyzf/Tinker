@@ -30,7 +30,7 @@ command.setExecute(async(client, message, args, cmd) => {
     const { lastWork } = client.data.db.prepare("SELECT lastWork FROM currency WHERE userID=?").get(message.author.id);
     if (sameHour(new Date(lastWork), new Date())) {
         return message.channel.send(client.operations.generateEmbed.run({
-            description: "You can't get back to work yet",
+            description: "You can't get back to work yet.",
             colour: client.statics.colours.tinker
         }));
     }
