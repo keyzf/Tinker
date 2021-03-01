@@ -22,7 +22,7 @@ op.setExecute(async(client, message) => {
         await client.utility.sleep(time * 1000);
     }
     message.channel.send(responseObj.answer);
-    message.channel.send(responseObj.classifications.slice(0, 3).map((cl) => `${cl.intent}:${cl.score.toFixed(2).toString()}`).join(", "), { code: "xl" })
+    // message.channel.send(responseObj.classifications.slice(0, 3).map((cl) => `${cl.intent}:${cl.score.toFixed(2).toString()}`).join(", "), { code: "xl" })
     message.channel.stopTyping();
 });
 
