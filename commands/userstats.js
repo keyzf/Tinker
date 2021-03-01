@@ -34,7 +34,7 @@ command.setExecute(async(client, message, args, cmd) => {
     }
 
     let dbTargetUser = client.data.db.prepare(`SELECT * FROM users WHERE guildID='${message.guild.id}' AND userID=${target.id}`).get();
-    let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM globalUser WHERE userID=${target.id}`).get();
+    let dbTargetGlobal = client.data.db.prepare(`SELECT * FROM globalUser WHERE userID=${target.id}`).get();
 
     let embed = new MessageEmbed()
     embed.setAuthor(`${target.user.username}#${target.user.discriminator} (${target.id})`, target.user.displayAvatarURL())
@@ -50,13 +50,27 @@ command.setExecute(async(client, message, args, cmd) => {
             else return dbTargetUser.infractions.split(",").length
         }()), true);
     }
-    if(dbTargetCurrency){
-        embed.addField("Level", dbTargetCurrency.currencyUnit2, true)
-        embed.addField('Gold:', dbTargetCurrency.currencyUnit2, true);
-        embed.addField('Silver:', dbTargetCurrency.currencyUnit1, true);
-        embed.addField('Copper:', dbTargetCurrency.currencyUnit0, true);
-    } 
-    if(!dbTargetUser || !dbTargetCurrency) {
+    if (dbTargetGlobal) {
+        embed.addField("Level", dbTargetGlobal.currencyUnit2, true)
+        embed.addField('Gold:', dbTargetGlobal.currencyUnit2, true);
+        embed.addField('Silver:', dbTargetGlobal.currencyUnit1, true);
+        embed.addField('Copper:', dbTargetGlobal.currencyUnit0, true);
+        embed.addFields({
+            name: "Badges",
+            value: (() => {
+                if (dbTargetGlobal.badges) {
+                    badgesArr = dbTargetGlobal.badges.split(",");
+                    badgesArr = badgesArr.map((badge) => {
+                        return `${client.data.userBadges[badge].emoji} ${client.data.userBadges[badge].name}`
+                    });
+                    return badgesArr.join(", ");
+                }
+                return "None"
+            })(),
+            inline: true
+        })
+    }
+    if (!dbTargetUser || !dbTargetGlobal) {
         embed.addField("Database User", "This user is not yet in the database so some information will not be shown, such as messages sent and currency")
     }
     embed.addField('Roles:', (function() {

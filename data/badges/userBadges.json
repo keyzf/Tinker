@@ -1,17 +1,13 @@
 {
     "0": {
-        "name": "Official",
+        "name": "Developer",
         "emoji": "✅"
     },
     "1": {
-        "name": "Partner",
-        "emoji": "👥"
-    },
-    "2": {
         "name": "Early user",
         "emoji": "👶"
     },
-    "3": {
+    "2": {
         "name": "Premium",
         "emoji": "🏆"
     }

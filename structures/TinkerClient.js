@@ -16,8 +16,10 @@ const client = new Client({
 });
 
 client.cleanExit = async(exitCode) => {
-    if (client.user) await client.user.setStatus("invisible");
-    console.log(exitCode)
+    if (client.user) {
+        await client.user.setStatus("invisible");
+        await client.destroy();
+    }
     process.exit(exitCode);
 }
 

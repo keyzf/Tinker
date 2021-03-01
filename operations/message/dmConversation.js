@@ -7,7 +7,7 @@ op.setInfo({
 
 const NLP = require("../../structures/NLP");
 
-const nlpProcessor = new NLP("./data/corpus-en.json")
+const nlpProcessor = new NLP("./data/NLP/corpus-en.json");
 nlpProcessor.train();
 
 op.setExecute(async(client, message) => {
@@ -22,8 +22,9 @@ op.setExecute(async(client, message) => {
         await client.utility.sleep(time * 1000);
     }
     message.channel.send(responseObj.answer);
-    // message.channel.send(responseObj.classifications.slice(0, 3).map((cl) => `${cl.intent}:${cl.score.toFixed(2).toString()}`).join(", "), { code: "xl" })
     message.channel.stopTyping();
+
+    // message.channel.send(responseObj.classifications.slice(0, 3).map((cl) => `${cl.intent}:${cl.score.toFixed(2).toString()}`).join(", "), { code: "xl" })
 });
 
 module.exports = op;
