@@ -22,7 +22,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
 
     const e = new MessageEmbed();
     e.setTimestamp();
-    e.setTitle("All my Commands!");
+    e.setTitle("All my commands!");
     e.setDescription(`Use \`${prefix}help command [Command Name]\` to get help with a specific command.`)
     let outCommands = {};
     commands.array().forEach((item) => {
