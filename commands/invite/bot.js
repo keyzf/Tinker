@@ -5,7 +5,7 @@ command.setInfo({
     name: "bot",
     aliases: ["tinker"],
     category: "Bot",
-    description: "Get link to add Tinker",
+    description: "Get a link to add Tinker to your own server",
     usage: ""
 });
 
