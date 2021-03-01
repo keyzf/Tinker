@@ -26,7 +26,7 @@ command.setExecute(async (client, message, args, cmd) => {
         const current = all.slice(start, start + noPerPage);
         let e = {}
         if (all.length < 1) {
-            e.title = `There are no errors to show`;
+            e.title = `There are no errors to show.`;
         } else {
             e.title = `Showing errors ${start + 1}-${start + current.length} out of ${all.length}`;
         }
