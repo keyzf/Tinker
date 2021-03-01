@@ -11,6 +11,8 @@ lerna-debug.log*
 
 genErrors.json
 
+model.nlp
+
 # please just ignore this stuff
 ignore/
 

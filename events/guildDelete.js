@@ -11,6 +11,8 @@ event.setExecute((client, guild) => {
         DELETE FROM guilds
         WHERE guildID = '${guild.id}';
     `).run();
+
+    client.logger.info(`Added to ${guild.name}(${guild.id})`);
 });
 
 

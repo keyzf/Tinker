@@ -10,7 +10,7 @@ cmd.setInfo({
 });
 
 cmd.setLimits({
-    cooldown: 1,
+    cooldown: 5,
     limited: false
 });
 

@@ -1,12 +1,11 @@
 const Operation = require("../..//structures/Operation");
-const cmd = require("../../commands/search");
 const op = new Operation();
 
 op.setInfo({
     name: "deleteCatch"
 });
 
-cmd.setPerms({
+op.setPerms({
     botPermissions: ["MANAGE_MESSAGES"]
 })
 

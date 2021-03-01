@@ -26,7 +26,7 @@ function sameDay(d1, d2) {
 }
 
 command.setExecute(async(client, message, args, cmd) => {
-    const { lastDaily } = client.data.db.prepare("SELECT lastDaily FROM currency WHERE userID=?").get(message.author.id);
+    const { lastDaily } = client.data.db.prepare("SELECT lastDaily FROM globalUser WHERE userID=?").get(message.author.id);
     if (sameDay(new Date(lastDaily), new Date())) {
         return message.channel.send(client.operations.generateEmbed.run({
             description: "Nice try but you've had your daily allowance",
@@ -34,7 +34,7 @@ command.setExecute(async(client, message, args, cmd) => {
         }));
     }
     const val = client.utility.randomFromInterval(1, 5);
-    client.data.db.prepare("UPDATE currency SET lastDaily=?, currencyUnit1=? WHERE userID=?").run(Date.now(), val, message.author.id);
+    client.data.db.prepare("UPDATE globalUser SET lastDaily=?, currencyUnit1=? WHERE userID=?").run(Date.now(), val, message.author.id);
     return message.channel.send(client.operations.generateEmbed.run({
         description: `You earned ${val} Silver Piece${val > 1 ? "s" : "" } ${client.data.emojis.custom.silverCoin}`,
         colour: client.statics.colours.tinker

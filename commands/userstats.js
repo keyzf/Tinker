@@ -34,7 +34,7 @@ command.setExecute(async(client, message, args, cmd) => {
     }
 
     let dbTargetUser = client.data.db.prepare(`SELECT * FROM users WHERE guildID='${message.guild.id}' AND userID=${target.id}`).get();
-    let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM currency WHERE userID=${target.id}`).get();
+    let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM globalUser WHERE userID=${target.id}`).get();
 
     let embed = new MessageEmbed()
     embed.setAuthor(`${target.user.username}#${target.user.discriminator} (${target.id})`, target.user.displayAvatarURL())

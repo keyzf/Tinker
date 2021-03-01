@@ -13,8 +13,9 @@ event.setExecute(async(client, message) => {
     }
     // if the message was sent to the client through a dm (direct message) send a response to head to the server
     if (message.channel.type === "dm") {
-        // TODO: something special in DMs not sure what yet
-        message.channel.send("Yo dude. I'm hanging out in the server");
+        client.operations.dmConversation.run(message)
+        
+        // message.channel.send("Yo dude. I'm hanging out in the server");
         return;
     }
 
@@ -55,7 +56,7 @@ event.setExecute(async(client, message) => {
     }
 
     const user = client.data.db.prepare(`Select * FROM users WHERE guildID='${dbGuild.guildID}' AND userID=${message.author.id}`).get();
-    const currency = client.data.db.prepare(`Select * FROM currency WHERE userID=${message.author.id}`).get();
+    const globalUser = client.data.db.prepare(`Select * FROM globalUser WHERE userID=${message.author.id}`).get();
     if (!user) { return client.operations.addUser.run(message.author.id, message.guild.id) }
 
     // if the message isn't a command then:
@@ -85,13 +86,13 @@ event.setExecute(async(client, message) => {
         return;
     }
 
-    if (!currency) {
+    if (!globalUser) {
         message.channel.send(client.operations.generateEmbed.run({
             title: "First Time?",
             description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`
         })).then((m) => client.operations.deleteCatch.run(m, 20000))
 
-        return client.operations.addCurrency.run(message.author.id);
+        return client.operations.addGlobalUser.run(message.author.id);
     }
 
     // split the rest of the sentence by each word (SPACE) or "many worded args"
