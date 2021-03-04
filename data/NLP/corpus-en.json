@@ -146,9 +146,9 @@
                 "date of your birthday"
             ],
             "answers": [
-                "Wait, are you planning a party for me? It's today! My birthday is today!",
-                "I'm young. I'm not sure of my birth date",
-                "I don't know my birth date. Most virtual agents are young, though, like me."
+                "Wait, are you planning a party for me? It's today! My birthday is today! Well actually it is the 1st of March 2021",
+                "I'm young, activated on the 1st of March 2021",
+                "I was activated on the 1st of March 2021, quite young really (like most virtual beings)"
             ]
         },
         {
@@ -543,11 +543,12 @@
             ]
         },
         {
-            "intent": "help.notrseponding",
+            "intent": "help.notresponding",
             "utterances": [
                 "you aren't responding to my commands",
                 "you are not listening",
                 "ignore me",
+                "why you ignore me",
                 "you ignore me in my server",
                 "Tinker is not saying anything",
                 "not doing anything",

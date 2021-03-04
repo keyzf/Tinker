@@ -12,10 +12,8 @@ event.setExecute(async(client, message) => {
         return;
     }
     // if the message was sent to the client through a dm (direct message) send a response to head to the server
-    if (message.channel.type === "dm") {
+    if (message.channel.type === "dm" || message.channel.id == "816250220807454771") {
         client.operations.dmConversation.run(message)
-        
-        // message.channel.send("Yo dude. I'm hanging out in the server");
         return;
     }
 

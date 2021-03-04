@@ -1,9 +1,11 @@
 const { dockStart } = require("@nlpjs/basic");
+const posTagger = require( 'wink-pos-tagger' );
 
 class NLP {
     constructor(corpusFile) {
         this.corpusFile = corpusFile;
         this.trained = false;
+        this.tagger = posTagger();
     }
 
     async train() {
@@ -14,7 +16,17 @@ class NLP {
         this.trained = true;
     }
 
-    async getResponse(message) {
+    async rebuildWithLemma(message) {
+        const tokens = this.tagger.tagSentence(message);
+        return tokens.reduce((acc, curr) => {
+            if(curr.lemma){
+                return acc + (curr.tag != "word" ? "" : " ") + curr.lemma
+            }
+            return acc + (curr.tag != "word" ? "" : " ") + curr.value
+        }, "");
+    }
+
+    async getResponse(message) {       
         if (!this.trained) { return message.channel.send("One sec, im still booting up"); }
         return await this.nlp.process('en', message);
     }
