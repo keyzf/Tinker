@@ -21,7 +21,7 @@ op.setExecute(async(client, text) => {
     //     type: "PLAYING"
     // });
 
-    client.user.setActivity(`with ${client.users.cache.size} users`, {
+    client.user.setActivity(`with ${client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} users`, {
         type: "PLAYING"
     });
 });

@@ -5,9 +5,13 @@ op.setInfo({
     name: "update"
 });
 
-op.setExecute(async(client) => {
+op.setExecute(async(client, count) => {
     client.operations.checkAnnouncement.run();
     
+    if (count % 2 == 0) {
+        client.operations.checkVcLeave.run();
+    }
+
     if (process.env.NODE_ENV == "production") {
         client.operations.checkDiscordIncidents.run();
         client.operations.updateActivity.run()

@@ -87,7 +87,8 @@ event.setExecute(async(client, message) => {
     if (!globalUser) {
         message.channel.send(client.operations.generateEmbed.run({
             title: "First Time?",
-            description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`
+            description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`,
+            colour: client.statics.colour.tinker
         })).then((m) => client.operations.deleteCatch.run(m, 20000))
 
         await client.operations.addGlobalUser.run(message.author.id);

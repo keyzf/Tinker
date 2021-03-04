@@ -14,18 +14,20 @@ const ms = require("pretty-ms");
 
 op.setExecute(async(client, guildID, song) => {
     const serverQueue = client.audioQueue.get(guildID);
+    serverQueue.playing = true;
 
     if (!op.checkPerms(serverQueue.textChannel.guild, serverQueue.textChannel)) { return; }
 
     if (!song) {
         client.logger.debug(`[Audio]: Guild: ${guildID} finished queue`);
-        serverQueue.voiceChannel.leave();
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Playback Finished",
             author: "Tinker's Tunes",
-            authorUrl: "./res/TinkerMusic-purple.png"
+            authorUrl: "./res/TinkerMusic-purple.png",
+            colour: client.statics.colours.tinker
         }));
-        return client.audioQueue.delete(guildID);
+        serverQueue.playing = false;
+        return;
     }
 
     client.logger.debug(`[Audio]: Guild: ${guildID} playing track ${song.title}`)
@@ -41,13 +43,15 @@ op.setExecute(async(client, guildID, song) => {
             serverQueue.textChannel.send(await client.operations.generateEmbed.run({
                 title: "Error Occurred",
                 author: "Tinker's Tunes",
-                authorUrl: "./res/TinkerMusic-purple.png"
+                authorUrl: "./res/TinkerMusic-purple.png",
+                colour: client.statics.colours.tinker
             }));
+            serverQueue.voiceChannel.leave()
             return client.audioQueue.delete(guildID);
         });
     serverQueue.connection.on("disconnect", async() => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
-        if (!client.audioQueue.get(guildID)) return;
+        if (!serverQueue.playing) { return client.audioQueue.delete(guildID); }
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Forcefully Disconnected by user",
             author: "Tinker's Tunes",
