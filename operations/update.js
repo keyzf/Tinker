@@ -10,6 +10,7 @@ op.setExecute(async(client) => {
     
     if (process.env.NODE_ENV == "production") {
         client.operations.checkDiscordIncidents.run();
+        client.operations.updateActivity.run()
     }
 });
 
