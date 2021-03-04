@@ -12,7 +12,7 @@ op.setExecute(async(client) => {
         for (let key = 0; key < keys.length; key++) {
             const queue = client.audioQueue.get(keys[key]);
             if (!queue.playing) {
-                serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+                queue.textChannel.send(await client.operations.generateEmbed.run({
                     title: "Goodbye!",
                     description: "No one has played anything for a while",
                     author: "Tinker's Tunes",
@@ -25,7 +25,7 @@ op.setExecute(async(client) => {
 
             if (queue.voiceChannel.members.size <= 1) {
                 queue.playing = false;
-                serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+                queue.textChannel.send(await client.operations.generateEmbed.run({
                     title: "Goodbye!",
                     description: "Everyone left me hear alone :( ",
                     author: "Tinker's Tunes",
