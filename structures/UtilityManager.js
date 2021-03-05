@@ -1,3 +1,5 @@
+// @ts-check
+
 const find_nested = require("./utility/fs/findNested");
 
 module.exports.setup = (client) => {

@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async(client, message, args, cmd) => {
-    const voted = await client.operations.checkVote.run(message.author.id);
+    const {voted} = await client.voteManager.getVote(message.author.id);
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Voting",
         description: `Voting can provide you with benefits in the future... for now it just helps us gain more publicity! You can [vote here](${client.config.config.voteLink})`,
@@ -29,7 +29,8 @@ command.setExecute(async(client, message, args, cmd) => {
             { name: "Voting Benefit 2", value: "It does this cool stuff as well, I know so much!", inline: true }
         ],
         footerText: `${voted == null ? "Error getting your vote status" : voted ? "You have already voted, please vote again in 12 hours" : "You have not yet voted today" }`,
-        footerUrl: message.author.displayAvatarURL()
+        footerUrl: message.author.displayAvatarURL(),
+        colour: client.statics.colours.tinker
     }));
 });
 

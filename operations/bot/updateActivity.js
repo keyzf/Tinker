@@ -1,4 +1,4 @@
-const Operation = require("../structures/Operation");
+const Operation = require("../../structures/Operation");
 const op = new Operation();
 
 op.setInfo({

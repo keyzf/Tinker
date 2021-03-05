@@ -11,10 +11,12 @@ op.setExecute(async(client) => {
     loop1:
         for (let key = 0; key < keys.length; key++) {
             const queue = client.audioQueue.get(keys[key]);
-            if (!queue.playing) {
+            
+            if (queue.voiceChannel.members.size <= 1) {
+                queue.playing = false;
                 queue.textChannel.send(await client.operations.generateEmbed.run({
                     title: "Goodbye!",
-                    description: "No one has played anything for a while",
+                    description: "Everyone left me hear alone :( ",
                     author: "Tinker's Tunes",
                     authorUrl: "./res/TinkerMusic-purple.png",
                     colour: client.statics.colours.tinker
@@ -23,11 +25,10 @@ op.setExecute(async(client) => {
                 continue loop1;
             }
 
-            if (queue.voiceChannel.members.size <= 1) {
-                queue.playing = false;
+            if (!queue.playing) {
                 queue.textChannel.send(await client.operations.generateEmbed.run({
                     title: "Goodbye!",
-                    description: "Everyone left me hear alone :( ",
+                    description: "No one has played anything for a while",
                     author: "Tinker's Tunes",
                     authorUrl: "./res/TinkerMusic-purple.png",
                     colour: client.statics.colours.tinker

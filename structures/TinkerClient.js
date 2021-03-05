@@ -2,7 +2,6 @@ const { Client, Collection, Intents } = require("discord.js");
 const logger = require("./internal/logger");
 
 const client = new Client({
-    autoReconnect: true,
     retryLimit: Infinity,
     presence: {
         status: "idle",
@@ -61,6 +60,8 @@ client.cooldowns = new Collection();
 client.operations = new Collection();
 client.afk = new Map();
 
+const VoteManager = require("./VoteManager");
+client.voteManager = new VoteManager(client);
 // fun stuff
 client.audioQueue = new Map();
 

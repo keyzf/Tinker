@@ -1,4 +1,4 @@
-const Operation = require(`../structures/Operation`);
+const Operation = require(`../../structures/Operation`);
 const op = new Operation();
 
 op.setInfo({
@@ -6,6 +6,8 @@ op.setInfo({
 });
 
 op.setExecute(async(client, count) => {
+    client.operations.heartbeat.run();
+    
     client.operations.checkAnnouncement.run();
     
     if (count % 2 == 0) {
