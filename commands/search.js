@@ -24,7 +24,7 @@ const yts = require("yt-search")
 cmd.setExecute(async(client, message, args, cmd) => {
     if(!args || !args.length) {return message.channel.send("Please provide something to search")}
 
-    const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info` }))
+    const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info`, colour: client.statics.colours.tinker }))
 
     const searchCriteria = args.join(" ");
     const r = await yts(searchCriteria);
@@ -91,7 +91,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         .catch(() => {
             // console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
             msg.reactions.removeAll().then(() => {
-                msg.edit(client.operations.generateEmbed.run({ title: "You took too long to make a decision" }));
+                msg.edit(client.operations.generateEmbed.run({ title: "You took too long to make a decision", colour: client.statics.colours.tinker }));
                 client.operations.deleteCatch.run(msg, 8000);
                 client.operations.deleteCatch.run(message, 8000);
             })

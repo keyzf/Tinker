@@ -1,10 +1,10 @@
 [
     {
-        "id": "",
-        "name": "",
-        "description": "",
-        "size": "", 
-        "hp": "",
+        "id": "enem-70d-a0f",
+        "name": "Goblin",
+        "description": "A short, green man with pointy ears",
+        "size": "small", 
+        "hp": "15",
         "attacks": [
             
         ]

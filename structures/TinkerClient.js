@@ -2,7 +2,6 @@ const { Client, Collection, Intents } = require("discord.js");
 const logger = require("./internal/logger");
 
 const client = new Client({
-    autoReconnect: true,
     retryLimit: Infinity,
     presence: {
         status: "idle",
@@ -16,8 +15,10 @@ const client = new Client({
 });
 
 client.cleanExit = async(exitCode) => {
-    if (client.user) await client.user.setStatus("invisible");
-    console.log(exitCode)
+    if (client.user) {
+        await client.user.setStatus("invisible");
+        await client.destroy();
+    }
     process.exit(exitCode);
 }
 
@@ -59,6 +60,8 @@ client.cooldowns = new Collection();
 client.operations = new Collection();
 client.afk = new Map();
 
+const VoteManager = require("./VoteManager");
+client.voteManager = new VoteManager(client);
 // fun stuff
 client.audioQueue = new Map();
 

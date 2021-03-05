@@ -8,11 +8,11 @@
     },
     {
       "name": "Version",
-      "value": "1.7.0"
+      "value": "2.0.1"
     },
     {
       "name": "Recent Changes",
-      "value": "The Information Age! Our most recent update brings to you polls! Ask yes-no, thumbs up - thumbs down or multiple choice questions.\nWe now also have a better error detection system, now you can bring error codes to our support server instead of trying to describe the error. This makes bug fixes and bot improvements much quicker and easier so we can bring out more updates for you!"
+      "value": "Flashback to 2012! Tinker now has an actual chatbot feature, DM to try it out."
     },
     {
       "name": "Developers",
@@ -24,7 +24,7 @@
     },
     {
       "name": "Just one click away",
-      "value": "[Get Tinker for yourself!](https://discord.com/api/oauth2/authorize?client_id=710141775808954389&permissions=8&scope=bot)"
+      "value": "[Get Tinker for yourself!](https://discord.com/oauth2/authorize?client_id=710141775808954389&permissions=2147483647&scope=bot)"
     }
   ]
 }

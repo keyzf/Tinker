@@ -3,7 +3,7 @@ const cmd = new Command();
 
 cmd.setInfo({
     name: "serverinfo",
-    aliases: ["guildinfo"],
+    aliases: ["guildinfo", "serverstats", "guildstats"],
     category: "Bot",
     description: "Info about the server",
     usage: ""

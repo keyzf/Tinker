@@ -83,14 +83,14 @@ op.setExecute(async(client) => {
                 }
             } else {
                 const msg = await statusChannel.send(genEmbed(inc));
-                if (message.channel.type == "news") { msg.crosspost(); }
                 client.data.db.prepare("INSERT INTO discordStatus(incidentID, messageID, ignore) VALUES(?, ?, ?)").run(inc.id, msg.id, 0);
+                if (statusChannel.type == "news") { msg.crosspost(); }
             }
         }
 
-    }).catch(async(err) => {
-        client.logger.error(err)
-        return await client.operations.generateError.run(err, "Error getting/parsing Discord Incident");
+    }).catch(async({stack}) => {
+        client.logger.error(stack, {origin: __filename})
+        return await client.operations.generateError.run(stack, "Error getting/parsing Discord Incident");
     });
 });
 

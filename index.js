@@ -20,7 +20,8 @@
     TinkerClient.addData("permissionsNames", require("./data/permissionsNames.json"));
     TinkerClient.addData("tinkerReviews", require("./data/tinkerReviews.json"));
     TinkerClient.addData("changelog", require("./data/changelog.json"));
-    TinkerClient.addData("guildBadges", require("./data/guildBadges.json"));
+    TinkerClient.addData("guildBadges", require("./data/badges/guildBadges.json"));
+    TinkerClient.addData("userBadges", require("./data/badges/userBadges.json"));
 
     await TinkerClient.login(process.env.DISCORD_CLIENT_TOKEN);
 
