@@ -31,7 +31,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         loopObjArr(command, "subcommands", (elts) => {
             all = all.concat(elts);
         });
-        command = all.find((elt) => elt.info.name == args[i]);
+        command = all.find((elt) => elt.info.name == args[i] || (elt.info.aliases && elt.info.aliases.includes(args[i])));
         if (!command) return message.channel.send("Sub command not found");
         path.push(command.info.name)
     }
