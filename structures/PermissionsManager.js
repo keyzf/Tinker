@@ -1,1 +1,7 @@
-// not yet
+class PermissionsManager{
+    constructor() {
+
+    }
+}
+
+module.exports = PermissionsManager;

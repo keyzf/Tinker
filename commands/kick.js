@@ -16,7 +16,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["KICK_MEMBERS"],
-    botPermissions: ["KICK_MEMBERS"]
+    botPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS"]
 });
 
 

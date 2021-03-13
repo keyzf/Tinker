@@ -17,13 +17,14 @@ op.setExecute(async(client, text) => {
     //     type: "WATCHING"
     // });
 
-    // client.user.setActivity("with your guild", {
-    //     type: "PLAYING"
-    // });
-
     client.user.setActivity(`with ${client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} users`, {
         type: "PLAYING"
     });
+
+    // client.user.setActivity(`the quick loading challenge`, {
+    //     type: "COMPETING"
+    // });
+
 });
 
 module.exports = op;

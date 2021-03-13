@@ -19,16 +19,30 @@ command.setPerms({
     botPermissions: []
 });
 
-command.setExecute(async(client, message, args, cmd) => {
-    const userVote = await client.voteManager.getVote(message.author.id);
-    return message.channel.send(client.operations.generateEmbed.run({
-        title: "Voting",
-        description: `Voting can provide you with benefits in the future... for now it just helps us gain more publicity! You can [vote here](${client.config.config.voteLink})`,
+command.setExecute(async (client, message, args, cmd) => {
+    const m = await message.channel.send(client.operations.generateEmbed.run({
+        title: `Voting  ${client.emojiHelper.sendWith(client.data.emojis.custom.loading)}`,
+        description: `Voting can provide you with benefits in the future... for now it just helps us gain more publicity! You can vote for discordboats [here](${client.config.config.boatVoteLink}) and at top.gg [here](${client.config.config.topVoteLink})`,
         fields: [
-            { name: "Voting Benefit 1", value: "It does this cool stuff", inline: true },
-            { name: "Voting Benefit 2", value: "It does this cool stuff as well, I know so much!", inline: true }
+            {name: "Voting Benefit 1", value: "It does this cool stuff", inline: true},
+            {name: "Voting Benefit 2", value: "It does this cool stuff as well, I know so much!", inline: true}
         ],
-        footerText: `${userVote == null ? "Error getting your vote status" : userVote.voted ? "You have already voted, please vote again in 12 hours" : "You have not yet voted today" }`,
+        footerText: `Please wait, getting status`,
+        footerUrl: message.author.displayAvatarURL(),
+        colour: client.statics.colours.tinker
+    }));
+    const userVoteBoat = await client.voteManager.boat.getVote(message.author.id);
+    const voteStringBoat = `${userVoteBoat == null ? "Error getting your vote status" : userVoteBoat.voted ? "You have already voted, please vote again in 12 hours" : "You have not yet voted today"}`;
+    const userVoteTop = await client.voteManager.top.getVote(message.author.id);
+    const voteStringTop = `${userVoteTop == null ? "Error getting your vote status" : userVoteTop.voted ? "You have already voted, please vote again in 12 hours" : "You have not yet voted today"}`;
+    return m.edit(client.operations.generateEmbed.run({
+        title: "Voting",
+        description: `Voting can provide you with benefits in the future... for now it just helps us gain more publicity! You can vote for discordboats [here](${client.config.config.boatVoteLink}) and at top.gg [here](${client.config.config.topVoteLink})`,
+        fields: [
+            {name: "Voting Benefit 1", value: "It does this cool stuff", inline: true},
+            {name: "Voting Benefit 2", value: "It does this cool stuff as well, I know so much!", inline: true}
+        ],
+        footerText: `Top: ${voteStringTop} | Boat: ${voteStringBoat}`,
         footerUrl: message.author.displayAvatarURL(),
         colour: client.statics.colours.tinker
     }));

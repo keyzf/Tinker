@@ -27,7 +27,7 @@ class NLP {
     }
 
     async getResponse(message) {       
-        if (!this.trained) { return message.channel.send("One sec, im still booting up"); }
+        if (!this.trained) { return {answer:"One sec, im still booting up"}; }
         return await this.nlp.process('en', message);
     }
 }

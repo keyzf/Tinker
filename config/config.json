@@ -7,5 +7,10 @@
   "discordStatusChannel": "814815889152802846",
 
   "topLink": "https://top.gg/bot/710141775808954389",
-  "voteLink": "https://top.gg/bot/710141775808954389/vote"
+  "topVoteLink": "https://top.gg/bot/710141775808954389/vote",
+  "topVoteLinkCheck": "https://top.gg/api/bots/710141775808954389/check/?userId=:id:",
+
+  "boatLink": "https://discord.boats/bot/710141775808954389",
+  "boatVoteLink": "https://discord.boats/bot/710141775808954389/vote",
+  "boatVoteLinkCheck": "https://discord.boats/api/bot/710141775808954389/voted?userId=:id:"
 }

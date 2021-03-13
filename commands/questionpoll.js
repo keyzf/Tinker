@@ -15,8 +15,8 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: [],
-    userPermissions: []
+    botPermissions: ["MANAGE_MESSAGES"],
+    userPermissions: ["MANAGE_MESSAGES"]
 });
 
 cmd.setExecute(async(client, message, args, cmd) => {

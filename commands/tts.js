@@ -11,7 +11,8 @@ command.setInfo({
 
 command.setLimits({
     cooldown: 0,
-    limited: false
+    limited: true,
+    limitMsg: "I know a lot of you loved this but it was causing some issues on the backend. Don't worry! It will be coming back, I just need some time to sort out its issues"
 });
 
 command.setPerms({
