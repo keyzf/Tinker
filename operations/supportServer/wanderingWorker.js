@@ -25,7 +25,7 @@ op.setExecute(async(client, force) => {
                     return reaction.emoji.id === client.emojiHelper.reactWith(client.data.emojis.custom.copperCoin)
                 }, { time: 15000 })
             .on('end', collected => {
-                client.operations.deleteCatch.run()(msg, 0);
+                client.operations.deleteCatch.run(msg, 0);
                 if (!collected.first()) { return }
                 let user = collected.first().users.cache.random();
                 while (user.bot) { user = collected.first().users.cache.random(); }
