@@ -25,17 +25,17 @@ op.setExecute(async(client, force) => {
                     return reaction.emoji.id === client.emojiHelper.reactWith(client.data.emojis.custom.copperCoin)
                 }, { time: 15000 })
             .on('end', collected => {
-                msg.delete()
+                client.operations.deleteCatch(msg, 0);
                 if (!collected.first()) { return }
                 let user = collected.first().users.cache.random();
                 while (user.bot) { user = collected.first().users.cache.random(); }
 
                 const coinsToAdd = Math.floor(Math.random() * 30)
-                channel.send(`The Wandering Worker picked you ${user.username}#${user.discriminator}\nYou were rewarded with \`${coinsToAdd}\` copper coins`).then((m) => m.delete({ timeout: 5000 }))
+                channel.send(`The Wandering Worker picked you ${user.username}#${user.discriminator}\nYou were rewarded with \`${coinsToAdd}\` copper coins`).then((m) => client.operations.deleteCatch(m, 5000))
 
-                let { currencyUnit0: coins } = client.data.db.prepare(`select currencyUnit0 from currency where userID=?`).get(user.id);
+                let { currencyUnit0: coins } = client.data.db.prepare(`select currencyUnit0 from globalUser where userID=?`).get(user.id);
                 coins += coinsToAdd;
-                client.data.db.prepare(`update currency set currencyUnit0=? where userID=?`).run(coins, user.id);
+                client.data.db.prepare(`update globalUser set currencyUnit0=? where userID=?`).run(coins, user.id);
             });
     }, Math.floor(Math.random() * 1000 * 30))
     num = (Math.floor(Math.random() * 15) + 15)
