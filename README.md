@@ -1,3 +1,5 @@
+![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=LordFarquhar&show_icons=true&theme=radical)
+
 <a href="https://discord.com/invite/aymBcRP"><img src="https://discord.com/api/guilds/711189052371501107/widget.png?style=banner3" alt="Discord server" /></a>
 
 
