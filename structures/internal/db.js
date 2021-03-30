@@ -12,7 +12,7 @@ module.exports.setup = (client) => {
 
     let db;
     if (process.env.NODE_ENV == "production") {
-        db = new Database(client, options, {socketPath: "/run/mysqld/mysqld.sock", user: "root", database: "tinker"})
+        db = new Database(client, options, {socketPath: "/run/mysqld/mysqld.sock", user: "localRoot", database: "tinker"})
     } else {
         db = new Database(client, options, {
             host: "192.168.1.128",
