@@ -69,8 +69,6 @@ event.setExecute(async (client, message) => {
         conditions: [`userID='${message.author.id}'`]
     });
 
-    console.log(user);
-
     if (!user.PKEY) {
         return client.operations.addUser.run(message.author.id, message.guild.id)
     }
