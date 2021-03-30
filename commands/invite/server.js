@@ -5,7 +5,7 @@ command.setInfo({
     name: "server",
     aliases: ["guild", "supportserver"],
     category: "Bot",
-    description: "Get invite to Tinker Support Server",
+    description: "Get an invite to Tinker Support Server",
     usage: ""
 });
 

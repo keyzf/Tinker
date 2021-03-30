@@ -19,11 +19,11 @@ const { loopObjArr } = require("../../utility/recursive");
 
 cmd.setExecute(async(client, message, args, cmd) => {
 
-    if (!args[0]) return message.channel.send('That\'s not a valid command!');
+    if (!args[0]) return message.channel.send("That isn't a valid command!");
     const name = args[0].toLowerCase();
     const { commands } = client;
     let command = commands.get(name) || commands.find(c => c.info.aliases && c.info.aliases.includes(name));
-    if (!command) return message.channel.send('That\'s not a valid command!');
+    if (!command) return message.channel.send("That isn't a valid command!");
 
     let path = [command.info.name]
     for (let i = 1; i < args.length; i++) {
@@ -32,7 +32,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
             all = all.concat(elts);
         });
         command = all.find((elt) => elt.info.name == args[i] || (elt.info.aliases && elt.info.aliases.includes(args[i])));
-        if (!command) return message.channel.send("Sub command not found");
+        if (!command) return message.channel.send("Subcommand not found.");
         path.push(command.info.name)
     }
     path = path.join(" > ");

@@ -5,7 +5,7 @@ command.setInfo({
     name: "remove",
     aliases: ["rem", "delete", "del", "clear"],
     category: "Bot",
-    description: "Remove a particular error from the error entires",
+    description: "Remove a particular error from the error entries",
     usage: "<error ID>"
 });
 
@@ -33,9 +33,9 @@ command.setExecute(async (client, message, args, cmd) => {
         }
 
         if (!found.length) {
-            e.description = "No error with that code could be found"
+            e.description = "No error with that code could be found."
         } else {
-            e.description = "Error has been removed from the file"
+            e.description = "Error has been removed from the file."
         }
 
         message.channel.send(client.operations.generateEmbed.run({...e, colour: client.statics.colours.tinker}));

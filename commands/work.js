@@ -28,7 +28,7 @@ command.setExecute(async (client, message, args, cmd) => {
 
     if (client.timeManager.sameHour(new Date(), new Date(lastWork))) {
         return message.channel.send(client.operations.generateEmbed.run({
-            description: "You can't get back to work yet",
+            description: "You can't get back to work yet.",
             colour: client.statics.colours.tinker
         }));
     }
