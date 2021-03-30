@@ -19,6 +19,7 @@ module.exports = {
             ref: "origin/master",
             repo: "git@github.com:LordFarquhar/Tinker.git",
             path: "/home/pi/Documents/tinker-deploy",
+            "post-deploy": ""
         },
         restart: {
             user: "pi",
