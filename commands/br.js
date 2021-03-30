@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: ["MANAGE_MESSAGES"],
+    botPermissions: [],
     userPermissions: ["MANAGE_MESSAGES"]
 });
 

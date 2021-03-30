@@ -6,7 +6,7 @@ command.setInfo({
     aliases: [],
     category: "Moderation",
     description: "View a users infractions",
-    usage: "<@ user>"
+    usage: "[@ user]"
 });
 
 command.setLimits({
@@ -16,7 +16,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: ["ADD_REACTIONS", "MANAGE_MESSAGES"]
 });
 
 const {MessageEmbed} = require("discord.js");

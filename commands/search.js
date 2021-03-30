@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: ["ADD_REACTIONS", "MANAGE_MESSAGES"],
+    botPermissions: ["ADD_REACTIONS", "USE_EXTERNAL_EMOJI"],
     userPermissions: []
 });
 
