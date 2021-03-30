@@ -22,7 +22,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         fields: [
             { name: "Inanis#2432", value: "`Owner / Lead Dev` - Designed and programmed most of the features" },
             { name: "TechnoBiscuit#3540", value: "`Dev` - helped with development in general and came up with some ideas, Grammarly stand-in" },
-            { name: "Dukemz#7766", value: "`Dev` - helped with development in general and came up with some ideas" },
+            { name: "Dukemz#7766", value: "`Dev` - helped with development in general and came up with some ideas, Some crazy Grammar machine" },
         ],
         colour: client.statics.colours.tinker,
         ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
