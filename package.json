@@ -1,12 +1,13 @@
 {
   "name": "tinker2",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "A Discord bot written in Discord.js. Used as a general utility bot with useful commands for mods and admins as well as fun commands for users. Currency system coming soon!",
   "main": "index.js",
   "directories": {},
   "scripts": {
     "dev": "node index.js",
-    "pm2-deploy-production": "pm2 deploy ecosystem.config.js production --force"
+    "remote-pull": "pm2 deploy ecosystem.config.js pull --force",
+    "remote-restart": "pm2 deploy ecosystem.config.js restart --force"
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
@@ -42,6 +43,7 @@
     "passport-local": "^1.0.0",
     "pretty-ms": "^7.0.1",
     "serve-favicon": "^2.5.0",
+    "statuspage.js": "^1.0.17",
     "string-similarity": "^4.0.4",
     "timestring": "^6.0.0",
     "topgg-autoposter": "^1.1.6",

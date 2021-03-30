@@ -1,7 +1,7 @@
 const os = require("os");
 
 cpuIAverage = function(i) {
-    var cpu, cpus, idle, len, total, totalIdle, totalTick, type;
+    var cpu, cpus, idle, total, totalIdle, totalTick, type;
     totalIdle = 0;
     totalTick = 0;
     cpus = os.cpus();

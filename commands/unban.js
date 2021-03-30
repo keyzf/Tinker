@@ -19,16 +19,17 @@ command.setPerms({
     botPermissions: ["MANAGE_MESSAGES"]
 });
 
+const {MessageEmbed} = require("discord.js");
 
 command.setExecute(async (client, message, args, cmd) => {
-    let target = await message.guild.members.fetch(args[0]);
+    let target = await client.users.fetch(args[0]);
     if (!target) return message.reply('please specify a valid member to unban!');
 
-    const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
+    const {logsChannel} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel"], conditions: [`guildID='${message.guild.id}'`]});
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     try {
-        message.guild.members.unban(target);
+        await message.guild.members.unban(target);
     } catch ({stack}) {
         client.logger.error(stack, { channel: message.channel, content: message.content })
         const e = await client.operations.generateError.run(stack, "Failed to unban user", { channel: message.channel, content: message.content });
@@ -41,7 +42,7 @@ command.setExecute(async (client, message, args, cmd) => {
 
     if (!logs) return message.reply(`please set a logging channel to log the unbans`).then((msg) => client.operations.deleteCatch.run(msg, 5000));
 
-    let embed = new Discord.MessageEmbed()
+    let embed = new MessageEmbed()
         .setColor("#00FF00")
         .setThumbnail(target.displayAvatarURL())
         .addField('Unbanned Member', `${target.username} with an ID: ${target.id}`)

@@ -1,4 +1,4 @@
-(async() => {
+(async () => {
 
     require("dotenv").config()
     require("./structures/prototypeModification/process");
@@ -10,9 +10,7 @@
     TinkerClient.registerEventDir("./events");
     TinkerClient.registerOperationsDir("./operations");
 
-    // TinkerClient.applyConfig("config", require("./config/config.json"));
-    // TinkerClient.applyConfig("officialServer", require("./config/officialServer.json"));
-    // TinkerClient.applyConfig("devs", require("./config/devs.json"));
+    // TODO: register the config, statics etc dirs (not hardcode them)
 
     TinkerClient.addData("emojis", require("./data/emoji_list.json"));
     TinkerClient.addData("eightBall", require("./data/8ball.json"));
@@ -26,5 +24,8 @@
     await TinkerClient.login(process.env.DISCORD_CLIENT_TOKEN);
 
     // webserver
-    const server = require("./web/index").setup(TinkerClient);
+    // TODO: webserver disabled for now due to changing database
+    // if (process.env.NODE_ENV == "production") {
+    //     const server = require("./web/index").setup(TinkerClient);
+    // }
 })();

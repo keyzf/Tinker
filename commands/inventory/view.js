@@ -20,7 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async(client, message, args, cmd) => {
-    
+    message.channel.send("not yet")
 });
 
 module.exports = command;

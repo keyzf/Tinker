@@ -1,4 +1,4 @@
-const Command = require(`../structures/Command`);
+const Command = require(`../../structures/Command`);
 const cmd = new Command();
 
 cmd.setInfo({
@@ -16,7 +16,7 @@ cmd.setLimits({
 
 cmd.setPerms({
     botPermissions: ["EMBED_LINKS"],
-    userPermissions: []
+    userPermissions: ["USE_EXTERNAL_EMOJIS"]
 });
 
 cmd.setExecute(async (client, message, args, cmd) => {

@@ -1,4 +1,4 @@
-const { Permissions } = require("discord.js");
+const {Permissions} = require("discord.js");
 
 module.exports.setup = (client) => {
     var express = require('express');
@@ -8,11 +8,11 @@ module.exports.setup = (client) => {
         res.sendStatus(200).end()
     });
 
-    router.get("/:guildId", async(req, res) => {
-        const { guildId } = req.params;
-        const { token } = req.query;
+    router.get("/:guildId", async (req, res) => {
+        const {guildId} = req.params;
+        const {token} = req.query;
         // find guild
-        const user = await client.data.webuserdb.findOne({ apiToken: token });
+        const user = await client.data.webuserdb.findOne({apiToken: token});
         let userGuild = user.guilds.find((elt) => {
             return elt.id == guildId;
         });
@@ -30,15 +30,15 @@ module.exports.setup = (client) => {
             }).end();
         }
         // get data from db
-        const data = client.data.db.prepare(`SELECT * FROM guilds WHERE guildId=?`).get(guildId);
+        const data = await client.data.db.getOne({table: "guilds", fields: ["*"], conditions: [`guildID='${guildId}'`]});
         res.json(data).end();
     });
 
-    router.post("/:guildId/settings/prefix", async(req, res) => {
-        const { guildId } = req.params;
-        const { token } = req.query;
+    router.post("/:guildId/settings/prefix", async (req, res) => {
+        const {guildId} = req.params;
+        const {token} = req.query;
         // find guild
-        const user = await client.data.webuserdb.findOne({ apiToken: token });
+        const user = await client.data.webuserdb.findOne({apiToken: token});
         let userGuild = user.guilds.find((elt) => {
             return elt.id == guildId;
         });
@@ -56,14 +56,21 @@ module.exports.setup = (client) => {
             }).end();
         }
         // extract variable settings from post body data
-        const { prefix } = req.body;
+        const {prefix} = req.body;
         // get default settings for blank fields
-        const {dbPrefix} = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildId=?`).get(guildId);
+        const {dbPrefix} = await client.data.db.getOne({
+            table: "guilds",
+            fields: ["prefix"],
+            conditions: [`guildID='${guildId}'`]
+        });
         // update db with changes
-        client.data.db.prepare(`UPDATE guilds SET prefix=? WHERE guildId=?`).run(
-            prefix || dbPrefix,
-            guildId
-        );
+        await client.data.db.set({
+            table: "guilds",
+            field_data: {
+                prefix: prefix || dbPrefix
+            },
+            conditions: [`guildID='${guildId}'`]
+        });
         res.send(guildId).end();
     });
 

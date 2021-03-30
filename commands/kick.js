@@ -23,11 +23,11 @@ command.setPerms({
 command.setExecute(async (client, message, args, cmd) => {
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
     if (!target) return message.reply('please specify a member to kick!');
-    if (target.id == message.author.id) { return message.channel.send("You cannot kick yourself"); }
+    if (target.id === message.author.id) { return message.channel.send("You cannot kick yourself"); }
 
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
-    
-    const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
+
+    const {logsChannel} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel"], conditions: [`guildID='${message.guild.id}'`]});
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     client.generateInfraction.run(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
@@ -35,7 +35,7 @@ command.setExecute(async (client, message, args, cmd) => {
     await target.send(`You have been kicked from ${message.guild.name} by ${message.author.tag} for: ${reason}`);
 
     try {
-        target.kick(reason);
+        await target.kick(reason);
     } catch (err) {
         client.logger.error(err, { channel: message.channel, content: message.content })
         const e = await client.generateError.run(err, "Failed to kick user", { channel: message.channel, content: message.content });

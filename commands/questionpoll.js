@@ -30,7 +30,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     const msg = await message.channel.send(client.operations.generateEmbed.run({
         title: question,
         description: answers.reduce((accumulator, a) => {
-            return accumulator += `**${String.fromCharCode(answers.indexOf(a) + 65)}** ${a}\n`;
+            return accumulator += `\`${String.fromCharCode(answers.indexOf(a) + 65)}\` ${a}\n`;
         }, ""),
         colour: client.statics.colours.tinker,
         ...client.statics.defaultEmbed.footerUser("Poll made by", message.author, "")

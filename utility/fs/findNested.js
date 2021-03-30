@@ -3,6 +3,9 @@ const path = require("path")
 
 const find_nested = (dir, pattern) => {
     let results = [];
+    if (dir === undefined && pattern === undefined) {
+        return results;
+    }
     fs.readdirSync(dir).forEach(inner_dir => {
         inner_dir = path.resolve(dir, inner_dir);
         const stat = fs.statSync(inner_dir);

@@ -19,25 +19,33 @@ command.setPerms({
     botPermissions: []
 });
 
-function sameHour(d1, d2) {
-    return d1.getFullYear() === d2.getFullYear() &&
-        d1.getMonth() === d2.getMonth() &&
-        d1.getDate() === d2.getDate() &&
-        d1.getHours() === d2.getHours();
-}
+command.setExecute(async (client, message, args, cmd) => {
+    const {lastWork} = await client.data.db.getOne({
+        table: "globalUser",
+        fields: ["lastWork"],
+        conditions: [`userID='${message.author.id}'`]
+    });
 
-command.setExecute(async(client, message, args, cmd) => {
-    const { lastWork } = client.data.db.prepare("SELECT lastWork FROM globalUser WHERE userID=?").get(message.author.id);
-    if (sameHour(new Date(lastWork), new Date())) {
+    if (client.timeManager.sameHour(new Date(), new Date(lastWork))) {
         return message.channel.send(client.operations.generateEmbed.run({
             description: "You can't get back to work yet",
             colour: client.statics.colours.tinker
         }));
     }
     const val = client.utility.randomFromInterval(10, 30);
-    client.data.db.prepare("UPDATE globalUser SET lastWork=?, currencyUnit0=? WHERE userID=?").run(Date.now(), val, message.author.id);
+    const {currencyUnit0: oldVal} = await client.data.db.getOne({
+        table: "globalUser",
+        fields: ["currencyUnit0"],
+        conditions: [`userID='${message.author.id}'`]
+    })
+    await client.data.db.set({
+        table: "globalUser", field_data: {
+            lastWork: client.timeManager.timeToSqlDateTime(Date.now()),
+            currencyUnit0: oldVal + val
+        }, conditions: [`userID='${message.author.id}'`]
+    })
     return message.channel.send(client.operations.generateEmbed.run({
-        description: `You earned ${val} Copper Piece${val > 1 ? "s" : "" } ${client.data.emojis.custom.copperCoinStack}`,
+        description: `You earned ${val} Copper Piece${val > 1 ? "s" : ""} ${client.data.emojis.custom.copperCoinStack}`,
         colour: client.statics.colours.tinker,
     }));
 });

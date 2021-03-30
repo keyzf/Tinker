@@ -16,25 +16,36 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: ["MANAGE_ROLES"]
+    botPermissions: []
 });
 
-const { MessageEmbed } = require("discord.js");
+const {MessageEmbed} = require("discord.js");
 const moment = require("moment");
 
-command.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async (client, message, args, cmd) => {
 
     let search = message.mentions.users.first() || args[0] || message.author.id
     let target;
     try {
-        target = await message.guild.members.fetch({ user: search, withPresence: true });
-        if (!target) { throw Error("No target") }
+        target = await message.guild.members.fetch({user: search, withPresence: true});
+        if (!target) {
+            throw Error("No target")
+        }
     } catch (e) {
         return message.channel.send("Could not get member")
     }
 
-    let dbTargetUser = client.data.db.prepare(`SELECT * FROM users WHERE guildID='${message.guild.id}' AND userID=${target.id}`).get();
-    let dbTargetGlobal = client.data.db.prepare(`SELECT * FROM globalUser WHERE userID=${target.id}`).get();
+    let dbTargetUser = await client.data.db.getOne({
+        table: "users",
+        fields: ["*"],
+        conditions: [`guildID='${message.guild.id}'`, `userID='${target.id}'`]
+    });
+
+    let dbTargetGlobal = await client.data.db.getOne({
+        table: "globalUser",
+        fields: ["*"],
+        conditions: [`userID='${target.id}'`]
+    });
 
     let embed = new MessageEmbed()
     embed.setAuthor(`${target.user.username}#${target.user.discriminator} (${target.id})`, target.user.displayAvatarURL())
@@ -45,7 +56,7 @@ command.setExecute(async(client, message, args, cmd) => {
     embed.addField('Status:', target.presence.status, true);
     if (dbTargetUser) {
         embed.addField('Messages Sent:', dbTargetUser.messagesSent, true);
-        embed.addField('Infractions:', (function() {
+        embed.addField('Infractions:', (function () {
             if (!dbTargetUser.infractions) return 0
             else return dbTargetUser.infractions.split(",").length
         }()), true);
@@ -73,12 +84,14 @@ command.setExecute(async(client, message, args, cmd) => {
     if (!dbTargetUser || !dbTargetGlobal) {
         embed.addField("Database User", "This user is not yet in the database so some information will not be shown, such as messages sent and currency")
     }
-    embed.addField('Roles:', (function() {
+    embed.addField('Roles:', (function () {
         if (target.roles.cache.size <= 1) return "None"
         return target.roles.cache.sort((a, b) => {
             return b.rawPosition - a.rawPosition
         }).reduce((conc, curr) => {
-            if (curr.rawPosition == 0) { return conc }
+            if (curr.rawPosition == 0) {
+                return conc
+            }
             return conc += `${curr} | `
         }, "| ")
     }()));

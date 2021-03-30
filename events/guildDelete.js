@@ -6,13 +6,10 @@ event.setInfo({
     name: "guildDelete"
 });
 
-event.setExecute((client, guild) => {
-    client.data.db.prepare(`
-        DELETE FROM guilds
-        WHERE guildID = '${guild.id}';
-    `).run();
+event.setExecute(async (client, guild) => {
+    await client.data.db.delete({table: "guilds", conditions: [`guildID='${guild.id}'`]})
 
-    client.logger.info(`Added to ${guild.name}(${guild.id})`);
+    client.logger.info(`Removed from ${guild.name}(${guild.id})`);
 });
 
 

@@ -4,7 +4,7 @@ module.exports.setup = (client) => {
     let count = 0;
     return cron.schedule('*/60 * * * * *', () => {
         count++;
-        if (client.operations.update) { client.operations.update.run(count); }
+        if (client.operations.heartbeat) { client.operations.heartbeat.run(count); }
     }, {
         scheduled: false
     });

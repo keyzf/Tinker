@@ -10,13 +10,13 @@ op.setPerms({
 })
 
 op.setExecute(async(client, msg, timeout) => {
-    if(!op.checkPerms(msg.guild, msg.channel)) {return;}
+    if(!op.checkPerms(msg.guild)) {return;}
 
     try {
         await msg.delete({timeout: timeout || 0});
         return true;
-    } catch (e) {
-        client.logger.debug(e);
+    } catch ({stack}) {
+        client.logger.debug(stack);
         return false;
     }
 });

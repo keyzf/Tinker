@@ -16,7 +16,11 @@ command.setLimits({
 
 
 command.setExecute(async(client, message, args, cmd) => {
-    const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
+    const {prefix} = await client.data.db.getOne({
+        table: "guilds",
+        fields: ["prefix"],
+        conditions: [`guildID='${message.guild.id}'`]
+    });
 
     return message.channel.send(client.operations.generateEmbed.run({
         title: "The Usage String",

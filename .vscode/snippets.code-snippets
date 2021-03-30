@@ -29,16 +29,8 @@
 		"scope": "javascript,typescript",
 		"prefix": "dbget",
 		"body": [
-			"client.data.db.prepare(\"${1}\").get(${2});"
+			"await client.data.db.getOne({table: "${1}", fields: ["${2}"], conditions: ["${3}"]});"
 		],
 		"description": "get from the database"
-	},
-	"DB Run": {
-		"scope": "javascript,typescript",
-		"prefix": "dbrun",
-		"body": [
-			"client.data.db.prepare(\"${1}\").run(${2});"
-		],
-		"description": "run database command"
 	}
 }

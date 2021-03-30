@@ -25,18 +25,20 @@ command.setExecute(async (client, message, args, cmd) => {
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
     if (!target) return message.reply('please specify a member to mute!');
 
-    const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
+    const {logsChannel, muteRoleID: id} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel", "muteRoleID"], conditions: [`guildID='${message.guild.id}'`]});
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
-    let id = client.data.db.prepare(`SELECT muteRoleID from guilds WHERE guildID=${message.guild.id}`).get().muteRoleID
     await message.guild.roles.fetch();
     let muteRole = await message.guild.roles.fetch(id);
 
+    console.log(typeof muteRole)
+    // if(typeof muteRole != "")
+
     try {
-        target.roles.remove(muteRole);
-    } catch (err) {
-        client.logger.error(err, { channel: message.channel, content: message.content })
-        const e = await client.operations.generateError.run(err, "Failed to revoke the mute", { channel: message.channel, content: message.content });
+        await target.roles.remove(muteRole);
+    } catch ({stack}) {
+        client.logger.error(stack, { channel: message.channel, content: message.content })
+        const e = await client.operations.generateError.run(stack, "Failed to revoke the mute", { channel: message.channel, content: message.content });
         message.channel.send(e);
         return;
     }

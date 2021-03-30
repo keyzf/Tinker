@@ -22,7 +22,7 @@ command.setPerms({
 const ms = require("pretty-ms");
 
 command.setExecute(async (client, message, args, cmd) => {
-    client.timeManager.deleteTimer(args[0]);
+    client.timeoutManager.deleteTimer(args[0]);
 
 });
 

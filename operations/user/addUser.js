@@ -6,10 +6,13 @@ op.setInfo({
 });
 
 op.setExecute(async(client, userID, guildID) => {
-    client.data.db.prepare(`
-        INSERT INTO users(userID, guildID)
-        VALUES(?, ?);
-    `).run(userID, guildID);
+    await client.data.db.insert({
+        table: "users",
+        field_data: {
+            userID: userID,
+            guildID: guildID
+        }
+    });
     
 });
 

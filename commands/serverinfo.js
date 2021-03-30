@@ -21,9 +21,7 @@ cmd.setPerms({
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const { guild } = message;
-    const { description, badges } = client.data.db.prepare("SELECT description, badges FROM guilds WHERE guildID=?").get(message.guild.id);
-
-
+    const { description, badges } = await client.data.db.getOne({table: "guilds", fields: ["description", "badges"], conditions: [`guildID='${message.guild.id}'`]})
 
     message.channel.send(client.operations.generateEmbed.run({
         title: guild.name,

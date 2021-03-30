@@ -1,34 +1,38 @@
-const UpdateTimer = require("./UpdateTimer");
+module.exports = {
 
-class TimeManager {
-    constructor(client) {
-        this.client = client;
-        this.timers = new Map();
+    /**
+     *
+     * @param time {Number|Date} timestamp or date object of a time
+     * @returns {string} the Heidi sql formatting for datetime
+     */
+    timeToSqlDateTime(time) {
+        const date = new Date(time);
+        return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`
+    },
+
+    /**
+     *
+     * @param d1 {Date} compare date 1
+     * @param d2 {Date} compare date 2
+     * @returns {boolean} true when the two dates provided are on the same day
+     */
+    sameDay(d1, d2) {
+        return d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate();
+    },
+
+    /**
+     *
+     * @param d1 {Date} compare date 1
+     * @param d2 {Date} compare date 2
+     * @returns {boolean} true when the two dates provided are at the same hour
+     */
+    sameHour(d1, d2) {
+        return d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours();
     }
 
-    update() {
-        this.timers.forEach((t) => {
-            t.update();
-        });
-    }
-
-    createTimer(time) {
-        const uid = this.client.utility.createUUID("timr-*x*x*x-*x*x*x");
-        this.timers.set(uid, new UpdateTimer(time, uid));
-        return this.timers.get(uid);
-    }
-
-    getTimer(uid) {
-        return this.timers.get(uid);
-    }
-
-    deleteTimer(uid) {
-        const t = this.timers.get(uid);
-        if(t) {
-            t.cancel();
-            this.timers.delete(uid);
-        }
-    }
 }
-
-module.exports = TimeManager;

@@ -1,13 +1,13 @@
-const { Client, Collection, Intents } = require("discord.js");
+const {Client, Collection, Intents} = require("discord.js");
 const logger = require("./internal/logger");
 
 const client = new Client({
     retryLimit: Infinity,
     presence: {
-        // status: "idle",
+        status: "dnd",
         activity: {
             type: "COMPETING",
-            name: "the quick loading challenge"
+            name: "the loading challenge"
         }
     },
     ws: {
@@ -18,7 +18,7 @@ const client = new Client({
     }
 });
 
-client.cleanExit = async(exitCode) => {
+client.cleanExit = async (exitCode) => {
     if (client.user) {
         await client.user.setStatus("invisible");
         await client.destroy();
@@ -36,11 +36,14 @@ client.logger = logger.setup(client);
 // });
 // TODO: use https://www.npmjs.com/package/@top-gg/sdk for posting and for webhooks when webserver is public
 
-client.config = require("./ConfigManager.js").setup(client);
-client.statics = require("./StaticsManager.js").setup(client);
-client.utility = require("./UtilityManager.js").setup(client);
-const TimeManager = require("./TimeManager");
-client.timeManager = new TimeManager(client);
+client.config = require("../utility/dirTrawlPackageObj").setup("config", ".json");
+client.statics = require("../utility/dirTrawlPackageObj").setup("statics", ".js");
+client.utility = require("../utility/dirTrawlPackageObj").setup("utility", ".js");
+
+const TimeoutManager = require("./TimeoutManager");
+client.timeoutManager = new TimeoutManager(client);
+
+client.timeManager = require("./TimeManager");
 
 client.on('debug', m => client.logger.debug(m));
 client.on('warn', m => client.logger.warn(m));
@@ -89,7 +92,7 @@ client.voteManager = {
 // client.permissionsManager = {} // for custom perms system
 
 /**
- * 
+ *
  * @param {String} path Path to command directory
  */
 client.registerCommandDir = (path) => {
@@ -105,8 +108,8 @@ client.registerCommandDir = (path) => {
 
 const Command = require("../structures/Command");
 /**
- * 
- * @param {Command} command 
+ *
+ * @param {Command} command
  */
 client.registerCommand = (command) => {
     command._registerClient(client);
@@ -119,7 +122,9 @@ client.registerCommand = (command) => {
     // log all subcommands
     client.utility.recursive.loopObjArr(command, "subcommands", (elts) => {
         const reqPath = elts.reduce(
-            (acc, cur) => { return acc += ` > ${cur.info.name}`; },
+            (acc, cur) => {
+                return acc += ` > ${cur.info.name}`;
+            },
             `${command.info.name}`
         );
         client.logger.debug(reqPath);
@@ -129,10 +134,12 @@ client.registerCommand = (command) => {
 }
 
 client.removeCommand = (file) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const command = require(file);
-            if (!client.commands.has(command.info.name)) { reject(Error("Command does not exist")); }
+            if (!client.commands.has(command.info.name)) {
+                reject(Error("Command does not exist"));
+            }
             delete require.cache[require.resolve(file)];
             client.commands.delete(command.info.name);
             client.logger.debug(`Command ${command.info.name} removed!`);
@@ -144,7 +151,7 @@ client.removeCommand = (file) => {
 }
 
 /**
- * 
+ *
  * @param {String} path Path to events directory
  */
 client.registerEventDir = (path) => {
@@ -159,8 +166,8 @@ client.registerEventDir = (path) => {
 
 const DiscordEvent = require("../structures/DiscordEvent");
 /**
- * 
- * @param {DiscordEvent} discordEvent 
+ *
+ * @param {DiscordEvent} discordEvent
  */
 client.registerEvent = (discordEvent) => {
     discordEvent._registerClient(client);
@@ -171,7 +178,7 @@ client.registerEvent = (discordEvent) => {
 }
 
 client.removeEvent = (file) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const discordEvent = require(file)
             delete require.cache[require.resolve(file)];
@@ -185,7 +192,7 @@ client.removeEvent = (file) => {
 }
 
 /**
- * 
+ *
  * @param {String} path Path to operations directory
  */
 client.registerOperationsDir = (path) => {
@@ -200,23 +207,25 @@ client.registerOperationsDir = (path) => {
 
 const Operation = require("../structures/Operation");
 /**
- * 
- * @param {Operation} operation 
+ *
+ * @param {Operation} operation
  */
 client.registerOperation = (operation) => {
     operation._registerClient(client);
-    client.operations = ({...client.operations, [operation.info.name]: operation })
-        // client.operations.set(operation.info.name, (...args) => {
-        //     return operation.run(...args);
-        // });
+    client.operations = ({...client.operations, [operation.info.name]: operation})
+    // client.operations.set(operation.info.name, (...args) => {
+    //     return operation.run(...args);
+    // });
     client.logger.debug(`Operation ${operation.info.name} added!`);
 }
 
 client.removeOperation = (file) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const operation = require(file)
-            if (!client.operations[operation.info.name]) { reject(Error("Operation does not exist")); }
+            if (!client.operations[operation.info.name]) {
+                reject(Error("Operation does not exist"));
+            }
             delete require.cache[require.resolve(file)];
             client.operations[operation.info.name] = undefined;
             client.logger.debug(`Operation ${operation.info.name} removed!`);

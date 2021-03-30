@@ -6,7 +6,7 @@ event.setInfo({
     name: "message"
 });
 
-event.setExecute(async(client, message) => {
+event.setExecute(async (client, message) => {
     // if the message sent was from a client then completely ignore it (return)
     if (message.author.bot) {
         return;
@@ -17,17 +17,21 @@ event.setExecute(async(client, message) => {
         return;
     }
 
-    if(message.channel.id == client.config.officialServer.lounge_text) { await client.operations.wanderingWorker.run() }
+    if (message.channel.id === client.config.officialServer.lounge_text) {
+        await client.operations.wanderingWorker.run()
+    }
 
     // find the guild from the database using its id (obtained from the sent message)
-    const dbGuild = client.data.db.prepare(`Select prefix, guildID FROM guilds WHERE guildID='${message.guild.id}'`).get();
-    if (!dbGuild) {
+    const {prefix} = await client.data.db.getOne({
+        table: "guilds",
+        fields: ["prefix"],
+        conditions: [`guildID='${message.guild.id}'`]
+    });
+
+    if (!prefix) {
         client.emit("guildCreate", message.guild);
         return;
     }
-
-    // get the desired prefix for this guild
-    const prefix = dbGuild.prefix;
 
     // check if a user was mentioned and get the first one
     if (message.mentions.users && !message.mentions.everyone) {
@@ -37,7 +41,7 @@ event.setExecute(async(client, message) => {
             const mentioned = client.afk.get(user.id);
             // if they are then tell the channel that the user is afk and for the reason the user set
             if (mentioned) {
-                message.channel.send(client.operations.generateEmbed.run({ description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}` }))
+                message.channel.send(client.operations.generateEmbed.run({description: `**${mentioned.usertag}** is currently afk. Reason: ${mentioned.reason}`}))
                     .then((msg) => client.operations.deleteCatch.run(msg, 5000));
             }
         });
@@ -49,37 +53,40 @@ event.setExecute(async(client, message) => {
     if (afkcheck) {
         client.afk.delete(message.author.id);
         message.channel.send(
-                client.operations.generateEmbed.run({ description: `you have been removed from the afk list!` }))
+            client.operations.generateEmbed.run({description: `you have been removed from the afk list!`}))
             .then(msg => client.operations.deleteCatch.run(msg, 5000));
     }
 
-    const user = client.data.db.prepare(`Select * FROM users WHERE guildID='${dbGuild.guildID}' AND userID=${message.author.id}`).get();
-    const globalUser = client.data.db.prepare(`Select * FROM globalUser WHERE userID=${message.author.id}`).get();
-    if (!user) { return client.operations.addUser.run(message.author.id, message.guild.id) }
+    const user = await client.data.db.getOne({
+        table: "users",
+        fields: ["*"],
+        conditions: [`guildID='${message.guild.id}'`, `userID='${message.author.id}'`]
+    });
+
+    const globalUser = await client.data.db.getOne({
+        table: "globalUser",
+        fields: ["*"],
+        conditions: [`userID='${message.author.id}'`]
+    });
+
+    if (!user) {
+        return client.operations.addUser.run(message.author.id, message.guild.id)
+    }
 
     // if the message isn't a command then:
     if (!message.content.startsWith(prefix)) {
 
         user.messagesSent += 1;
 
-        client.data.db.prepare(`
-            UPDATE users
-            SET messagesSent='${user.messagesSent}'
-            WHERE guildID='${dbGuild.guildID}' AND userID='${user.userID}';
-        `).run();
+        await client.data.db.set({
+            table: "users", field_data: {
+                messagesSent: user.messagesSent
+            }, conditions: [`guildID='${message.guild.id}'`, `userID='${user.userID}'`]
+        });
 
-        if (message.mentions.has(client.user) && !message.mentions.everyone && message.type == "DEFAULT") {
-            message.channel.send(`The prefix for this guild is \`${prefix}\``).then((m) => m.delete({ timeout: 5000 }));
+        if (message.mentions.has(client.user) && !message.mentions.everyone && message.type === "DEFAULT") {
+            message.channel.send(`The prefix for this guild is \`${prefix}\``).then((m) => client.operations.deleteCatch.run(m, 5000));
         }
-
-        if (dbGuild.profanityFilter) {
-            const prof = await client.operations.messageProfanityCheck.run(message, dbGuild);
-            if (prof) {
-                await message.delete({ timeout: 0 })
-                message.channel.send(`${message.author} said: "${prof}"`)
-            }
-        }
-        if (dbGuild.preventSpam) { await client.operations.messageSpamCheck.run(message, dbGuild); }
 
         return;
     }
@@ -127,14 +134,17 @@ event.setExecute(async(client, message) => {
         // check if dev only command
         if (command.limits.limited && !client.config.devs.includes(message.author.id)) {
             if (command.limits.limitMessage) {
-                message.channel.send(client.operations.generateEmbed.run({ description: command.limits.limitMessage }));
+                message.channel.send(client.operations.generateEmbed.run({description: command.limits.limitMessage}));
                 return;
             }
             message.channel.send(client.operations.generateEmbed.run({
                 title: "Sorry, not for you",
                 description: "This is a developer only command \nOur dev team leave commands in the client to allow for easier testing and faster fixes, just for you!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
-                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
+                    {
+                        name: "Something wrong?",
+                        value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"
+                    }
                 ]
             }));
             return;
@@ -149,7 +159,10 @@ event.setExecute(async(client, message) => {
                 title: "This is in development",
                 description: "This command is in development and cannot currently be used in this server\nWe are constantly adding features and improving current ones. But the way we work is that the client should be available to everyone with as little downtime as possible. This means that sometimes a feature has to be taken offline to be improved / fixed but the client is still running just for you.\nIf your lucky this could be a new feature that is almost ready for release!\nThese commands don't show up in the help tab and can only be accessed by our devs so you don't need to worry about them",
                 fields: [
-                    { name: "Something wrong?", value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)" }
+                    {
+                        name: "Something wrong?",
+                        value: "If you think this is a mistake you can get in contact with us at our [Official Support Server](https://discord.gg/aymBcRP)"
+                    }
                 ]
             }));
             return;
@@ -159,8 +172,15 @@ event.setExecute(async(client, message) => {
         try {
             await command.run(message, args, cmd);
         } catch ({stack}) {
-            client.logger.critical(stack, { channel: message.channel, content: message.content, origin: "events/message.js" })
-            const e = await client.operations.generateError.run(stack, "It was a biiiggg error, cause it got all the way here in the code", { channel: message.channel, content: message.content });
+            client.logger.critical(stack, {
+                channel: message.channel,
+                content: message.content,
+                origin: "events/message.js"
+            })
+            const e = await client.operations.generateError.run(stack, "It was a biiiggg error, cause it got all the way here in the code", {
+                channel: message.channel,
+                content: message.content
+            });
             message.channel.send(e)
         }
 

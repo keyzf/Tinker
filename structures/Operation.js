@@ -11,9 +11,9 @@ class Operation {
 
 
     constructor() {
-        this.client;
-        this.info; // name, aliases, description, usage
-        this.execute; // the actual code that runs
+        this.client = null;
+        this.info = null; // name, aliases, description, usage
+        this.execute = null; // the actual code that runs
         this.botPermissions = [];
     }
 
@@ -28,18 +28,20 @@ class Operation {
     checkPerms(guild, channel) {
         // check botPerms (Discord)
         if (!guild.me.permissions.has("SEND_MESSAGES", { checkAdmin: false })) {
-            this.client.logger.warn(`Missing Permission - SEND_MESSAGES - Command: ${this.info.name}, Server: ${guild.name} (${guild.id})`)
+            this.client.logger.warn(`Missing Permission - SEND_MESSAGES - Operation: ${this.info.name}, Server: ${guild.name} (${guild.id})`)
             return false;
         }
 
         for (let i = 0; i < this.botPermissions.length; i++) {
             const perm = this.botPermissions[i];
             if (!guild.me.permissions.has(perm, { checkAdmin: false })) {
-                channel.send(this.client.operations.generateEmbed.run({
-                    title: "I need permission!",
-                    description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`
-                }));
-                this.client.logger.debug(`Bot Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${guild.name} (${guild.id})`)
+                if(channel) {
+                    channel.send(this.client.operations.generateEmbed.run({
+                        title: "I need permission!",
+                        description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this operation.\nIf you are unsure then give me administrator, it allows me to do everything I need`
+                    }));
+                }
+                this.client.logger.debug(`Bot Missing Permission - ${perm} - Operation: ${this.info.name}, Server: ${guild.name} (${guild.id})`)
                 return false;
             }
         }

@@ -1,13 +1,27 @@
 module.exports.setup = (client) => {
 
     const localDB = require("node-localdb");
-    const betterSql = require('better-sqlite3');
+    // const betterSql = require('better-sqlite3');
 
     const options = {
         verbose: client.logger.sql
     }
 
-    const db = betterSql('./data/db.sqlite', options);
+    // const db = betterSql('./data/db.sqlite', options);
+    const Database = require("../Database/Database");
+
+    let db;
+    if (process.env.NODE_ENV == "production") {
+        db = new Database(client, options, {socketPath: "/run/mysqld/mysqld.sock", user: "tinkerClient", database: "tinker"})
+    } else {
+        db = new Database(client, options, {
+            host: "192.168.1.128",
+            user: "tinkerClient",
+            password: "theAgeOfInfo",
+            database: "tinker"
+        });
+    }
+
     const quotesdb = localDB("./data/quotes.json");
     const errordb = localDB("./data/genErrors.json");
     const webuserdb = localDB("./data/webUsers.json");

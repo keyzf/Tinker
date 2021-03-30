@@ -6,28 +6,40 @@ op.setInfo({
 });
 
 
-const { v4: uuidv4 } = require("uuid")
+const {v4: uuidv4} = require("uuid")
 
-op.setExecute(async(client, userID, guildID, infractionType, infractionReason, infractorID, channelID) => {
+op.setExecute(async (client, userID, guildID, infractionType, infractionReason, infractorID, channelID) => {
     const infractionID = uuidv4();
-    client.data.db.prepare(`
-        INSERT INTO infractions(infractionUserID, infractionID, infractionGuildID, infractionType, infractionReason, infractorUserId, infractionChannelID)
-        VALUES(?, ?, ?, ?, ?, ?, ?);
-    `).run(userID, infractionID, guildID, infractionType, infractionReason, infractorID, channelID);
+    await client.data.db.insert({
+        table: "infractions", field_data: {
+            infractionUserID: userID,
+            infractionID: infractionID,
+            infractionGuildID: guildID,
+            infractionType: infractionType,
+            infractionReason: infractionReason,
+            infractorUserId: infractorID,
+            infractionChannelID: channelID
+        }
+    });
 
-    const infractedUser = client.data.db.prepare(`SELECT * FROM users WHERE guildID='${guildID}' AND userID='${userID}'`).get();
-    
+    const infractedUser = await client.data.db.getOne({
+        table: "users",
+        fields: ["*"],
+        conditions: [`guildID='${guildID}'`, `userID='${userID}'`]
+    })
+
     if (!infractedUser.infractions) infractedUser.infractions = []
     else infractedUser.infractions = infractedUser.infractions.split(",")
 
     infractedUser.infractions.push(infractionID);
     infractedUser.infractions = infractedUser.infractions.join(",");
 
-    client.data.db.prepare(`
-        UPDATE users
-        SET infractions='${infractedUser.infractions}'
-        WHERE guildID='${infractedUser.guildID}' AND userID='${infractedUser.userID}';
-    `).run()
+    await client.data.db.set({
+        table: "users",
+        field_data: {infractions: infractedUser.infractions},
+        conditions: [`guildID='${infractedUser.guildID}'`, `userID='${infractedUser.userID}'`]
+    })
+
 });
 
 module.exports = op;

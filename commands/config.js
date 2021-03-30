@@ -25,7 +25,7 @@ command.registerSubCommand(`${__dirname}/config/logchannel.js`);
 command.registerSubCommand(`${__dirname}/config/description.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
+    const { prefix } = await client.data.db.getOne({table: "guilds", fields:["prefix"], conditions:[`guildID='${message.guild.id}'`]});
     message.channel.send(client.operations.generateEmbed.run({
         title: "Configuration",
         description: `All the things you can setup and configure. Run \`${prefix}${cmd} configName\` as shown highlighted underneath to setup individual parts of the bot 

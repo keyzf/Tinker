@@ -22,7 +22,7 @@ command.setPerms({
 const ms = require("pretty-ms");
 
 command.setExecute(async (client, message, args, cmd) => {
-    const timer = client.timeManager.createTimer(1 * 60 * 1000);
+    const timer = client.timeoutManager.createTimer(1 * 60 * 1000);
     message.channel.send(timer.uid);
     timer.on("fire", (timeSince) => {
         message.channel.send(`Fired ${ms(timeSince)} after creation`);

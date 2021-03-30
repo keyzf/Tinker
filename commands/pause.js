@@ -24,7 +24,7 @@ cmd.setExecute(async (client, message, args, cmd) => {
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
     if (!serverQueue) return message.channel.send('There is no song that I could pause!');
     serverQueue.connection.dispatcher.pause(true);
-    const timer = client.timeManager.createTimer(2 * 60 * 1000); // timeout after 2 minutes
+    const timer = client.timeoutManager.createTimer(2 * 60 * 1000); // timeout after 2 minutes
     serverQueue.timeoutUid = timer.uid;
     timer.on("fire", () => {
         if (serverQueue && serverQueue.voiceChannel) {

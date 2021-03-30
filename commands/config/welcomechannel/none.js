@@ -20,8 +20,14 @@ cmd.setPerms({
 });
 
 
-cmd.setExecute(async(client, message, args, cmd) => {
-    client.data.db.prepare("UPDATE guilds SET welcomeChannel=? WHERE guildID=?").run(null, message.guild.id);
+cmd.setExecute(async (client, message, args, cmd) => {
+    await client.data.db.set({
+        table: "guilds",
+        field_data: {
+            welcomeChannel: null
+        },
+        conditions: [`guildID='${message.guild.id}'`]
+    });
     message.channel.send(client.operations.generateEmbed.run({
         description: "Welcome Channel disabled",
         colour: client.statics.colours.tinker

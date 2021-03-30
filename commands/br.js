@@ -15,11 +15,12 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: [],
+    botPermissions: ["MANAGE_MESSAGES"],
     userPermissions: ["MANAGE_MESSAGES"]
 });
 
 cmd.setExecute(async(client, message, args, cmd) => {
+    client.operations.deleteCatch.run(message);
     message.channel.send("``` ```")
 });
 

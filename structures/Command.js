@@ -20,7 +20,7 @@ const client = require("./TinkerClient");
  * 
  * @typedef {Object} CommandLimits
  * @property {Number} cooldown the period of time between which a command cannot be used by the same user
- * @property {Boolean} limited wether the command should be limited to developers only
+ * @property {Boolean} limited whether the command should be limited to developers only
  */
 
 /**

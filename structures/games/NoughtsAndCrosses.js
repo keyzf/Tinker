@@ -182,20 +182,25 @@ class NoughtsAndCrosses {
             let reaction = collection.first();
             this.player2 = reaction.users.cache.last();
             await this.gameMessage.reactions.removeAll()
+            return true;
         } catch (err) {
-            return this.gameMessage.reactions.removeAll().then(async() => {
+            this.gameMessage.reactions.removeAll().then(async() => {
                 this.gameMessage.edit(this.client.operations.generateEmbed.run({
                     title: "Nobody joined your game",
-                    colour: client.statics.colours.tinker
+                    colour: this.client.statics.colours.tinker
                 }));
                 this.client.operations.deleteCatch.run(this.gameMessage, 5000);
                 this.client.operations.deleteCatch.run(this.message, 5000);
             });
+            return false;
         }
     }
 
     async runGame() {
-        await this.getOpponent();
+        const cont = await this.getOpponent();
+        if (!cont) {
+            return;
+        }
 
         this.gameMessage.edit(this.client.operations.generateEmbed.run({
             title: "Noughts and Crosses",

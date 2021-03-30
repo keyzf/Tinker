@@ -14,11 +14,15 @@ cmd.setLimits({
     limited: false
 });
 
-const { MessageEmbed } = require("discord.js");
+const {MessageEmbed} = require("discord.js");
 
-cmd.setExecute(async(client, message, args, cmd) => {
-    const { commands } = client;
-    const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
+cmd.setExecute(async (client, message, args, cmd) => {
+    const {commands} = client;
+    const {prefix} = await client.data.db.getOne({
+        table: "guilds",
+        fields: ["prefix"],
+        conditions: [`guildID='${message.guild.id}'`]
+    });
 
     const e = new MessageEmbed();
     e.setTimestamp();
@@ -29,7 +33,9 @@ cmd.setExecute(async(client, message, args, cmd) => {
     commands.array().forEach((item) => {
         if (!item.limits.limited || client.config.devs.includes(message.author.id)) {
             let category = item.info.category;
-            if (!outCommands[category]) { outCommands[category] = []; }
+            if (!outCommands[category]) {
+                outCommands[category] = [];
+            }
             outCommands[category].push(item.info.name);
         }
     });

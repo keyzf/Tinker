@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 const { MessageEmbed } = require("discord.js")
-const { loopObjArr } = require("../../structures/utility/recursive");
+const { loopObjArr } = require("../../utility/recursive");
 
 cmd.setExecute(async(client, message, args, cmd) => {
 
@@ -37,7 +37,11 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
     path = path.join(" > ");
 
-    const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
+    const {prefix} = await client.data.db.getOne({
+        table: "guilds",
+        fields: ["prefix"],
+        conditions: [`guildID='${message.guild.id}'`]
+    });
 
     const e = new MessageEmbed();
     e.setTimestamp();

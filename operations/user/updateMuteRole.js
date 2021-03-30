@@ -5,10 +5,32 @@ op.setInfo({
     name: "updateMuteRole"
 });
 
-op.setExecute(async(client, guildID, id) => {
-    const guild = client.guilds.cache.get(guildID);
-    if (id) client.data.db.prepare(`UPDATE guilds SET muteRoleID=${id} WHERE guildID=${guildID}`).run();
-    else id = client.data.db.prepare(`SELECT muteRoleID from guilds WHERE guildID=${guildID}`).get().muteRoleID
+op.setPerms({
+    botPermissions: ["MANAGE_ROLES", "MANAGE_CHANNELS"]
+})
+
+const Discord = require("discord.js");
+
+op.setExecute(async (client, guildID, id, channel) => {
+    if (!op.checkPerms(channel.guild, channel)) {
+        return;
+    }
+
+    const guild = await client.guilds.fetch(guildID);
+    if (id) {
+        await client.data.db.set({
+            table: "guilds", field_data: {
+                muteRoleID: id
+            }, conditions: [`guildID='${guildID}'`]
+        });
+    } else {
+        const {muteRoleID} = await client.data.db.getOne({
+            table: "guilds",
+            fields: ["muteRoleID"],
+            conditions: [`guildID='${guildID}'`]
+        })
+        id = muteRoleID;
+    }
     await guild.roles.fetch();
     let muteRole = guild.roles.cache.get(id);
     if (!muteRole) {
@@ -20,9 +42,13 @@ op.setExecute(async(client, guildID, id) => {
             permissions: new Discord.Permissions(66560),
             reason: 'mute users',
         });
-        client.data.db.prepare(`UPDATE guilds SET muteRoleID=${muteRole.id} WHERE guildID=${guildID}`).run();
+        await client.data.db.set({
+            table: "guilds", field_data: {
+                muteRoleID: muteRole.id
+            }, conditions: [`guildID='${guildID}'`]
+        });
     }
-    guild.channels.cache.forEach(async(channel, channelID) => {
+    await guild.channels.cache.forEach(async (channel, channelID) => {
         await channel.updateOverwrite(muteRole, {
             SEND_MESSAGES: false,
             // MANAGE_MESSAGES: false,

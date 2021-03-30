@@ -21,21 +21,31 @@ command.setPerms({
 
 command.registerSubCommand(`${__dirname}/welcomechannel/none.js`);
 
-command.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async (client, message, args, cmd) => {
     let channel = message.mentions.channels.first();
-    if(!channel && args[0]) {
+    if (!channel && args[0]) {
         channel = await client.channels.fetch(args[0]);
     }
     if (!channel) {
-        const { welcomeChannel } = client.data.db.prepare("SELECT welcomeChannel FROM guilds where guildID=?").get(message.guild.id);
+        const {welcomeChannel} = await client.data.db.getOne({
+            table: "guilds",
+            fields: ["welcomeChannel"],
+            conditions: [`guildID='${message.guild.id}'`]
+        });
         return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a welcome channel to change it to
-            ${welcomeChannel ? `The current welcome channel is <#${welcomeChannel}>` : "Welcome channel not currently active" }`,
+            ${welcomeChannel ? `The current welcome channel is <#${welcomeChannel}>` : "Welcome channel not currently active"}`,
             colour: client.statics.colours.tinker
         }));
     }
 
-    client.data.db.prepare("UPDATE guilds SET welcomeChannel=? WHERE guildID=?").run(channel.id, message.guild.id);
+    await client.data.db.set({
+        table: "guilds",
+        field_data: {
+            welcomeChannel: channel.id
+        },
+        conditions: [`guildID='${message.guild.id}'`]
+    });
     return message.channel.send(client.operations.generateEmbed.run({
         description: `Welcome channel set to <#${channel.id}>`,
         colour: client.statics.colours.tinker

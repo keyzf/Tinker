@@ -19,7 +19,7 @@ op.setExecute(async (client, guildID, song) => {
         return;
     }
     if (serverQueue.timeoutUid) {
-        client.timeManager.deleteTimer(serverQueue.timeoutUid);
+        client.timeoutManager.deleteTimer(serverQueue.timeoutUid);
     }
     serverQueue.playing = true;
 
@@ -37,7 +37,7 @@ op.setExecute(async (client, guildID, song) => {
             return;
         }
 
-        const timer = client.timeManager.createTimer(2 * 60 * 1000); // timeout after 2 minutes
+        const timer = client.timeoutManager.createTimer(2 * 60 * 1000); // timeout after 2 minutes
         serverQueue.timeoutUid = timer.uid;
         timer.on("fire", () => {
             serverQueue.textChannel.send(client.operations.generateEmbed.run({
@@ -74,7 +74,7 @@ op.setExecute(async (client, guildID, song) => {
     serverQueue.connection.on("disconnect", async () => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
         if (serverQueue.timeoutUid) {
-            client.timeManager.deleteTimer(serverQueue.timeoutUid);
+            client.timeoutManager.deleteTimer(serverQueue.timeoutUid);
         }
         if (!serverQueue.playing) {
             return client.audioQueue.delete(guildID);

@@ -17,11 +17,11 @@ op.setExecute(async(client, text) => {
     //     type: "WATCHING"
     // });
 
-    client.user.setActivity(`with ${client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} users`, {
+    client.user.setActivity(`with ${client.guilds.cache.reduce((a, g) => a + g.memberCount, 0).toLocaleString()} users`, {
         type: "PLAYING"
     });
 
-    // client.user.setActivity(`the quick loading challenge`, {
+    // client.user.setActivity(`the loading challenge`, {
     //     type: "COMPETING"
     // });
 

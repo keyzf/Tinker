@@ -24,11 +24,12 @@ const { MessageEmbed } = require("discord.js");
 command.setExecute(async(client, message, args, cmd) => {
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
     if (!target) return message.channel.send('please specify a member to ban!');
-    if (target.id == message.author.id) { return message.channel.send("You cannot ban yourself"); }
+    if (target.id === message.author.id) { return message.channel.send("You cannot ban yourself"); }
 
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
 
-    const {logsChannel} = client.data.db.prepare("SELECT logsChannel FROM guilds where guildID=?").get(message.guild.id);
+    const {logsChannel} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel"], conditions: [`guildID='${message.guild.id}'`]});
+    
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     client.operations.generateInfraction.run(target.user.id, message.guild.id, "BAN", reason, message.author.id, message.channel.id)

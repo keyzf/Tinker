@@ -26,7 +26,7 @@ const preResponses = [
 ]
 
 command.setExecute(async (client, message, args, cmd) => {
-    let dbTargetCurrency = client.data.db.prepare(`SELECT * FROM globalUser WHERE userID=${message.author.id}`).get();
+    let dbTargetCurrency = await client.data.db.getOne({table: "globalUser", fields: ["currencyUnit0", "currencyUnit1", "currencyUnit2"], conditions: [`userID='${message.author.id}'`]})
     message.channel.send(client.operations.generateEmbed.run({
         author: `${message.author.username}'s Pouch`,
         authorUrl: message.author.displayAvatarURL(),
