@@ -10,7 +10,9 @@ op.setPerms({
 })
 
 op.setExecute(async(client, msg, timeout) => {
-    if(!op.checkPerms(msg.guild)) {return;}
+    if(msg.author.id !== client.user.id) {
+        if(!op.checkPerms(msg.guild)) {return;}
+    }
 
     try {
         await msg.delete({timeout: timeout || 0});
