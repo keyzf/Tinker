@@ -22,7 +22,7 @@ cmd.setPerms({
 const yts = require("yt-search")
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    if(!args || !args.length) {return message.channel.send("Please provide something to search")}
+    if (!args || !args.length) { return message.channel.send("Please provide something to search") }
 
     const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info`, colour: client.statics.colours.tinker }))
 
@@ -77,24 +77,20 @@ cmd.setExecute(async(client, message, args, cmd) => {
         .then(async(collection) => {
             let reaction = collection.first();
             // remove the existing reactions
-            msg.reactions.removeAll().then(async() => {
-                let link;
-                // increase/decrease index
-                if (reaction.emoji.name === "1️⃣") { link = videos[0].url }
-                if (reaction.emoji.name === "2️⃣") { link = videos[1].url }
-                if (reaction.emoji.name === "3️⃣") { link = videos[2].url }
-                client.commands.get("play").run(message, [link], cmd);
-                // remove selection embed
-                await client.operations.deleteCatch.run(msg, 0);
-            })
+            let link;
+            // increase/decrease index
+            if (reaction.emoji.name === "1️⃣") { link = videos[0].url }
+            if (reaction.emoji.name === "2️⃣") { link = videos[1].url }
+            if (reaction.emoji.name === "3️⃣") { link = videos[2].url }
+            client.commands.get("play").run(message, [link], cmd);
+            // remove selection embed
+            await client.operations.deleteCatch.run(msg, 0);
         })
         .catch(() => {
             // console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
-            msg.reactions.removeAll().then(() => {
-                msg.edit(client.operations.generateEmbed.run({ title: "You took too long to make a decision", colour: client.statics.colours.tinker }));
-                client.operations.deleteCatch.run(msg, 8000);
-                client.operations.deleteCatch.run(message, 8000);
-            })
+            msg.edit(client.operations.generateEmbed.run({ title: "You took too long to make a decision", colour: client.statics.colours.tinker }));
+            client.operations.deleteCatch.run(msg, 8000);
+            client.operations.deleteCatch.run(message, 8000);
         });
 });
 
