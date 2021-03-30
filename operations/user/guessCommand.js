@@ -55,7 +55,7 @@ op.setExecute(async(client, message, args, cmd) => {
                     }
 
                     try {
-                        await command.run(message, args, command);
+                        await command.run(message, args, bestMatch);
                     } catch (err) {
                         client.logger.error(err.stack)
                         const e = await client.operations.generateError.run(err, "This is what I get for suggesting a command correction. I know nothing!");

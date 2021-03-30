@@ -8,19 +8,15 @@
     },
     {
       "name": "Version",
-      "value": "2.0.1"
-    },
-    {
-      "name": "Recent Changes",
-      "value": "Flashback to 2012! Tinker now has an actual chatbot feature, DM to try it out."
+      "value": "2.1.0"
     },
     {
       "name": "Developers",
       "value": "Author & Lead Dev: Inanis#2432, Devs: TechnoBiscuit#3540, Dukemz#7766"
     },
     {
-      "name": "Support Server",
-      "value": "[Official Tinker Server](https://discord.gg/aymBcRP)"
+      "name": "Information and Support",
+      "value": "[Official Tinker Server](https://discord.gg/aymBcRP) \n[Tinker Trello Board](https://trello.com/b/Pg6aO3Wd/tinker-bot)"
     },
     {
       "name": "Just one click away",

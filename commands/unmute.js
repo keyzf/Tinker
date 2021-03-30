@@ -16,7 +16,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MUTE_MEMBERS"],
-    botPermissions: ["MUTE_MEMBERS", "MANAGE_ROLES"]
+    botPermissions: ["MANAGE_MESSAGES", "MUTE_MEMBERS", "MANAGE_ROLES"]
 });
 
 const { MessageEmbed } = require("discord.js");

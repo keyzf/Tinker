@@ -20,7 +20,6 @@ command.setPerms({
 });
 
 command.setExecute(async(client, message, args, cmd) => {
-    const voted = await client.operations.checkVote.run(message.author.id);
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Premium",
         description: `Premium can provide you with benefits in the future...`,

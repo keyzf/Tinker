@@ -16,7 +16,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES"],
-    botPermissions: ["MANAGE_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS"]
+    botPermissions: ["MANAGE_MESSAGES", "USE_EXTERNAL_EMOJIS"]
 });
 
 command.registerSubCommand(`${__dirname}/supportservermessage/supportchannel.js`);

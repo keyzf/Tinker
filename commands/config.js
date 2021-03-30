@@ -5,7 +5,7 @@ command.setInfo({
     name: "config",
     aliases: ["setup"],
     category: "Config",
-    description: "Setup the bot",
+    description: "Configure the bot",
     usage: ""
 });
 
@@ -25,9 +25,10 @@ command.registerSubCommand(`${__dirname}/config/logchannel.js`);
 command.registerSubCommand(`${__dirname}/config/description.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
+    const { prefix } = client.data.db.prepare(`SELECT prefix FROM guilds WHERE guildID=?`).get(message.guild.id);
     message.channel.send(client.operations.generateEmbed.run({
         title: "Configuration",
-        description: `All the things you can setup and configure
+        description: `All the things you can setup and configure. Run \`${prefix}${cmd} configName\` as shown highlighted underneath to setup individual parts of the bot 
 
         **Coming... at some point:** Tinker Dashboard, a website that you can access anywhere for quick and easy config`,
         fields: [

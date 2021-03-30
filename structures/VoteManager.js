@@ -2,22 +2,43 @@ const { Client, Collection } = require("discord.js");
 const axios = require("axios");
 
 /**
- * @typedef UserVote
+ * @typedef {Object} UserVote
  * @property {string} id user ID of the voter
  * @property {number} timestamp of the last time the user voted
  * @property {boolean} voted whether they have a valid vote
  */
 
-const baseUrl = "https://top.gg/api/bots/710141775808954389/check/"
+/**
+ * @typedef {string} VoteUrl is the URL used to check the vote against, contains phrase ":id:" where the userID should be placed
+ */
 
 class VoteManager {
     /**
-     * 
-     * @param {Client} client 
+     *
+     * @param {Client} client
+     * @param {VoteUrl} voteUrl
+     * @param {string} apiToken
      */
-    constructor(client) {
+    constructor(client, voteUrl, apiToken) {
         this.client = client;
         this.cache = new Collection();
+
+        const {base, end} = this.parseVoteUrl(voteUrl);
+        this.baseUrl = base;
+        this.endUrl = end;
+
+        this.apiToken = apiToken;
+    }
+
+    parseVoteUrl(url) {
+        const matches = url.match(/([ -~]+):([a-z]+):([ -~]+)?/);
+        if(!matches || matches.length < 2){
+            throw new Error("Invalid vote string given, e.g. 'https://website.com/user/:id:/checkvote'")
+        }
+        return {
+            base: matches[1],
+            end: matches[3] || ""
+        }
     }
 
     /**
@@ -42,18 +63,18 @@ class VoteManager {
         try {
             const { data } = await axios.default({
                 method: "get",
-                url: `${baseUrl}?userId=${id}`,
-                headers: { accept: "application/json", Authorization: process.env.TOP_TOKEN }
+                url: `${this.baseUrl}${id}${this.endUrl}`,
+                headers: { accept: "application/json", Authorization: this.apiToken }
             });
             if (data.error) {
                 return null;
             }
-            const result = data.voted ? true : false
+            const result = !!data.voted
             this._cacheVote(id, result);
             return result;
         } catch ({ stack }) {
             this.client.logger.error(stack, { origin: __filename });
-            await this.client.operations.generateError.run(stack, "Error getting/parsing Top.gg vote", { origin: __filename });
+            await this.client.operations.generateError.run(stack, "Error getting/parsing vote vote", { origin: __filename });
             return null;
         }
     }
@@ -69,7 +90,7 @@ class VoteManager {
             id,
             voted,
             timestamp: Date.now()
-        }); // TODO: WARNING this will assume the point of checking was also the point of voting, this can allow up to 24 hours of vote rewards if the user is cached 11hr 59mins after they voted. Most of the time this is not an issue as a user is asleep for the other 12 hours
+        }); // FIXME: WARNING this will assume the point of checking was also the point of voting, this can allow up to 24 hours of vote rewards if the user is cached 11hr 59mins after they voted. Most of the time this is not an issue as a user is asleep for the other 12 hours
         return null;
     }
 

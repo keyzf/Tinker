@@ -107,10 +107,10 @@ class Command {
         if (!message.guild.me.permissions.has("SEND_MESSAGES", { checkAdmin: false })) {
             return this.client.logger.warn(`Missing Permission - SEND_MESSAGES - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id})`)
         }
-        if (!message.guild.me.permissions.has("MANAGE_MESSAGES", { checkAdmin: false })) {
-            message.channel.send(`${this.client.data.emojis.custom.TinkerExclamation_red} I need base permissions to function. Please make sure I have ${this.client.data.permissionsNames["MANAGE_MESSAGES"]}`)
-            return this.client.logger.warn(`Missing Permission - MANAGE_MESSAGES - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id})`)
-        }
+        // if (!message.guild.me.permissions.has("MANAGE_MESSAGES", { checkAdmin: false })) {
+        //     message.channel.send(`${this.client.data.emojis.custom.TinkerExclamation_red} I need base permissions to function. Please make sure I have ${this.client.data.permissionsNames["MANAGE_MESSAGES"]}`)
+        //     return this.client.logger.warn(`Missing Permission - MANAGE_MESSAGES - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id})`)
+        // }
 
         for (let i = 0; i < this.botPermissions.length; i++) {
             const perm = this.botPermissions[i];

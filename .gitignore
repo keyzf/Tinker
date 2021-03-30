@@ -9,12 +9,14 @@ lerna-debug.log*
 *.db
 *.sqlite
 
-genErrors.json
+data/genErrors.json
 
 model.nlp
 
 # please just ignore this stuff
 ignore/
+
+.idea/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

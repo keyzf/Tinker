@@ -4,7 +4,11 @@ const logger = require("./internal/logger");
 const client = new Client({
     retryLimit: Infinity,
     presence: {
-        status: "idle",
+        // status: "idle",
+        activity: {
+            type: "COMPETING",
+            name: "the quick loading challenge"
+        }
     },
     ws: {
         intents: new Intents([
@@ -32,8 +36,11 @@ client.logger = logger.setup(client);
 // });
 // TODO: use https://www.npmjs.com/package/@top-gg/sdk for posting and for webhooks when webserver is public
 
+client.config = require("./ConfigManager.js").setup(client);
 client.statics = require("./StaticsManager.js").setup(client);
 client.utility = require("./UtilityManager.js").setup(client);
+const TimeManager = require("./TimeManager");
+client.timeManager = new TimeManager(client);
 
 client.on('debug', m => client.logger.debug(m));
 client.on('warn', m => client.logger.warn(m));
@@ -60,12 +67,8 @@ client.cooldowns = new Collection();
 client.operations = new Collection();
 client.afk = new Map();
 
-const VoteManager = require("./VoteManager");
-client.voteManager = new VoteManager(client);
 // fun stuff
 client.audioQueue = new Map();
-
-client.config = {};
 
 client.logger.debug("Setup database");
 client.data = require("./internal/db").setup(client);
@@ -75,6 +78,13 @@ client.updater = require("./internal/updater").setup(client);
 
 client.logger.debug("Setup Emoji Helper");
 client.emojiHelper = require("./internal/emojiHelper").setup(client);
+
+client.logger.info("Setting up voting");
+const VoteManager = require("../structures/VoteManager");
+client.voteManager = {
+    top: new VoteManager(client, client.config.config.topVoteLinkCheck, process.env.TOP_TOKEN),
+    boat: new VoteManager(client, client.config.config.boatVoteLinkCheck, process.env.BOAT_TOKEN)
+};
 
 // client.permissionsManager = {} // for custom perms system
 

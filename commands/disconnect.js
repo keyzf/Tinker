@@ -1,32 +1,35 @@
-const Command = require("../structures/Command");
+const Command = require(`../structures/Command`);
 const command = new Command();
 
 command.setInfo({
-    name: "stop",
-    aliases: [],
+    name: "disconnect",
+    aliases: ["dc"],
     category: "Music",
-    description: "Stop the track and clear the queue",
+    description: "Force disconnect from VC",
     usage: ""
 });
 
 command.setLimits({
-    cooldown: 2,
-    limited: false
+    cooldown: 0,
+    limited: true
 });
 
 command.setPerms({
-    botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    botPermissions: []
 });
 
 command.setExecute(async (client, message, args, cmd) => {
     const serverQueue = client.audioQueue.get(message.guild.id);
-    if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
-    if (!serverQueue) {
-        return message.channel.send("There is nothing to stop playing")
+    if (!serverQueue || !serverQueue.voiceChannel) {
+        return message.channel.send(client.operations.generateEmbed.run({
+            title: "No VC to disconnect from",
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
+        }));
     }
     message.channel.send(client.operations.generateEmbed.run({
-        title: "Stopped", description: `${serverQueue.songs[0].title} stopped and queue cleared`,
+        title: "Disconnected",
         author: "Tinker's Tunes",
         authorUrl: "./res/TinkerMusic-purple.png",
         colour: client.statics.colours.tinker,

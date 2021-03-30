@@ -14,6 +14,7 @@ module.exports.setup = (client) => {
             this.webhookToken = opts.webhookToken
             this.defaultMeta = opts.defaultMeta;
             this.colours = opts.colours;
+            this.pingMap = opts.notify;
             this.client = new WebhookClient(this.webhookID, this.webhookToken)
         }
 
@@ -35,16 +36,20 @@ module.exports.setup = (client) => {
             if (info.content) {
                 embed.addFields({ name: "Content", value: `\`\`\`${info.content}\`\`\`` });
             }
-            if(info.origin) {
+            if (info.origin) {
                 embed.addFields({ name: "Origin", value: `\`\`\`${info.origin}\`\`\`` });
             }
 
             embed.setColor(this.colours[info.level]);
-            embed.setTitle(info.level)
+            embed.setTitle(info.level);
+
+            const message = (() => {
+                if (this.pingMap[info.level]) { return `||<@&${this.pingMap[info.level]}>||`; } else { return ""; }
+            })();
 
             try {
                 if (process.env.NODE_ENV == "production") {
-                    await this.client.send("", {
+                    await this.client.send(message, {
                         username: 'DevUpdates',
                         embeds: [embed]
                     });
@@ -91,6 +96,16 @@ module.exports.setup = (client) => {
             warn: "#fff540",
             error: "#ff4040",
             critical: "#c20000"
+        },
+        pingMap: {
+            debug: "",
+            sql: "",
+            web: "",
+            info: "",
+            automated: "",
+            warn: "817806177508655115",
+            error: "817806372909482075",
+            critical: "817806547907903539"
         }
     };
 
@@ -131,6 +146,7 @@ module.exports.setup = (client) => {
                 webhookID: process.env.LOGGER_WEBHOOK_ID,
                 webhookToken: process.env.LOGGER_WEBHOOK_TOKEN,
                 colours: myCustomLevels.hexcolors,
+                notify: myCustomLevels.pingMap,
                 level: "warn"
             })
         ]

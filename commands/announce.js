@@ -17,7 +17,7 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES", "MANAGE_WEBHOOKS"],
-    botPermissions: ["MANAGE_WEBHOOKS"]
+    botPermissions: ["MANAGE_MESSAGES", "MANAGE_WEBHOOKS"]
 });
 
 const ts = require('timestring');

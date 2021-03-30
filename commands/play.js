@@ -60,7 +60,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
             connection: null,
             songs: [],
             volume: 50,
-            playing: true
+            playing: true,
+            timeoutUid: null
         };
 
         client.audioQueue.set(message.guild.id, queueConstruct);
