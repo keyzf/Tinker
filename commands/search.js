@@ -11,7 +11,8 @@ cmd.setInfo({
 
 cmd.setLimits({
     cooldown: 2,
-    limited: false
+    limited: true,
+    limitMessage: "Something has gone horribly wrong with a 3rd party module. We have no idea when this will be fixed but rest assured we are looking into the issue"
 });
 
 cmd.setPerms({
@@ -19,15 +20,23 @@ cmd.setPerms({
     userPermissions: []
 });
 
-const yts = require("yt-search")
+const yts = require("yt-search");
+const { logger } = require("../structures/TinkerClient");
 
 cmd.setExecute(async(client, message, args, cmd) => {
     if (!args || !args.length) { return message.channel.send("Please provide something to search") }
 
-    const msg = await message.channel.send(await client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info`, colour: client.statics.colours.tinker }))
+    const msg = await message.channel.send(client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info`, colour: client.statics.colours.tinker }))
 
     const searchCriteria = args.join(" ");
-    const r = await yts(searchCriteria);
+    let r;
+    try{
+        r = await yts.search(searchCriteria);//
+    }catch(e) {
+        logger.error(e)
+        return await msg.edit(client.operations.generateEmbed.run({ title: `That failed... really badly`, colour: client.statics.colours.tinker }));
+    }
+
 
     const videos = r.videos.slice(0, 3);
     let vids = [];

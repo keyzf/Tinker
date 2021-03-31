@@ -28,8 +28,10 @@ cmd.setExecute(async(client, message, args, cmd) => {
 
     let argsMatch = args[0].match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/);
     if (!argsMatch) {
-        message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({ timeout: 5000 }))
-        return client.commands.get("search").run(message, args, cmd)
+        return message.channel.send("Something has gone horribly wrong with a 3rd party module. We have no idea when this will be fixed but rest assured we are looking into the issue. You can still use the play command with valid youtube links")
+        // message.channel.send("Invalid YouTube URL, searching YouTube instead").then((m) => m.delete({ timeout: 5000 }));
+        // return client.commands.get("search").run(message, args, cmd)
+        // <--- NORMAL USAGE, disabled due to package error
     }
 
     let songInfo;
