@@ -11,8 +11,7 @@ cmd.setInfo({
 
 cmd.setLimits({
     cooldown: 2,
-    limited: true,
-    limitMessage: "Something has gone horribly wrong with a 3rd party module. We have no idea when this will be fixed but rest assured we are looking into the issue"
+    limited: false
 });
 
 cmd.setPerms({
