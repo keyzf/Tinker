@@ -22,7 +22,7 @@ cmd.setPerms({
 cmd.setExecute(async(client, message, args, cmd) => {
     const serverQueue = client.audioQueue.get(message.guild.id);
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
-    if (!serverQueue) return message.channel.send('There is no song that I could skip!');
+    if (!serverQueue || !serverQueue.songs.length) return message.channel.send('There is no song that I could skip!');
     serverQueue.connection.dispatcher.end();
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Song Skipped",
