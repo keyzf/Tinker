@@ -40,6 +40,7 @@ const statusTypeToEmojiName = {
 const axios = require("axios");
 
 op.setExecute(async (client) => {
+    return;
     const genEmbed = (inc) => {
         let fields = []
         if (inc.incident_updates) {
@@ -68,7 +69,7 @@ op.setExecute(async (client) => {
     }).then(async ({data}) => {
 
         const incidents = data.incidents;
-        for (let i = 0; i < incidents.length; i++) {
+        for (let i = 0; i < Math.min(incidents.length, 3); i++) {
             const inc = incidents[i];
             const dbIncident = await client.data.db.getOne({
                 table: "discordStatus",
@@ -76,12 +77,15 @@ op.setExecute(async (client) => {
                 conditions: [`incidentID='${inc.id}'`]
             });
 
-            if (dbIncident != null && dbIncident.ignoreInc) {
+            console.log(inc);
+            console.log(dbIncident)
+
+            if (dbIncident && dbIncident.ignoreInc) {
                 break;
             }
 
             const statusChannel = await client.channels.fetch(client.config.config.discordStatusChannel);
-            if (dbIncident != null && dbIncident.messageID) {
+            if (dbIncident && dbIncident.messageID) {
                 const message = await statusChannel.messages.fetch(dbIncident.messageID);
                 await message.edit(genEmbed(inc));
                 // check if resolved and update ignore
