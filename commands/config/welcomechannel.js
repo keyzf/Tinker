@@ -27,11 +27,7 @@ command.setExecute(async (client, message, args, cmd) => {
         channel = await client.channels.fetch(args[0]);
     }
     if (!channel) {
-        const {welcomeChannel} = await client.data.db.getOne({
-            table: "guilds",
-            fields: ["welcomeChannel"],
-            conditions: [`guildID='${message.guild.id}'`]
-        });
+        const [{welcomeChannel}] = await client.data.db.query(`select welcomeChannel from guilds where guildID='${message.guild.id}'`);
         return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a welcome channel to change it to
             ${welcomeChannel ? `The current welcome channel is <#${welcomeChannel}>` : "Welcome channel not currently active"}`,
@@ -39,13 +35,7 @@ command.setExecute(async (client, message, args, cmd) => {
         }));
     }
 
-    await client.data.db.set({
-        table: "guilds",
-        field_data: {
-            welcomeChannel: channel.id
-        },
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    await client.data.db.query(`update guilds set welcomeChannel='${channel.id}' where guildID='${message.guild.id}'`);
     return message.channel.send(client.operations.generateEmbed.run({
         description: `Welcome channel set to <#${channel.id}>`,
         colour: client.statics.colours.tinker

@@ -13,7 +13,7 @@ event.setExecute(async (client, message) => {
     }
     // if the message was sent to the client through a dm (direct message) send a response to head to the server
     if (message.channel.type === "dm") {
-        client.operations.dmConversation.run(message)
+        // client.operations.dmConversation.run(message)
         return;
     }
 
@@ -22,11 +22,7 @@ event.setExecute(async (client, message) => {
     }
 
     // find the guild from the database using its id (obtained from the sent message)
-    const {prefix} = await client.data.db.getOne({
-        table: "guilds",
-        fields: ["prefix"],
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     if (!prefix) {
         client.emit("guildCreate", message.guild);
@@ -57,17 +53,9 @@ event.setExecute(async (client, message) => {
             .then(msg => client.operations.deleteCatch.run(msg, 5000));
     }
 
-    const user = await client.data.db.getOne({
-        table: "users",
-        fields: ["*"],
-        conditions: [`guildID='${message.guild.id}'`, `userID='${message.author.id}'`]
-    });
+    const [user] = await client.data.db.query(`select * from users where guildID='${message.guild.id}' and userID='${message.author.id}'`);
 
-    const globalUser = await client.data.db.getOne({
-        table: "globalUser",
-        fields: ["*"],
-        conditions: [`userID='${message.author.id}'`]
-    });
+    const [globalUser] = await client.data.db.query(`select * from globalUser where userID='${message.author.id}'`);
 
     if (!user.PKEY) {
         return client.operations.addUser.run(message.author.id, message.guild.id)
@@ -78,11 +66,7 @@ event.setExecute(async (client, message) => {
 
         user.messagesSent += 1;
 
-        await client.data.db.set({
-            table: "users", field_data: {
-                messagesSent: user.messagesSent
-            }, conditions: [`guildID='${message.guild.id}'`, `userID='${user.userID}'`]
-        });
+        await client.data.db.query(`update users set messagesSent='${user.messagesSent}' where guildID='${message.guild.id}' and userID='${message.author.id}'`);
 
         if (message.mentions.has(client.user) && !message.mentions.everyone && message.type === "DEFAULT") {
             message.channel.send(`The prefix for this guild is \`${prefix}\``).then((m) => client.operations.deleteCatch.run(m, 5000));
@@ -131,6 +115,7 @@ event.setExecute(async (client, message) => {
     // if the command was found (or any of its aliases)
     if (command) {
 
+        // TODO: move this checking into command object
         // check if dev only command
         if (command.limits.limited && !client.config.devs.includes(message.author.id)) {
             if (command.limits.limitMessage) {

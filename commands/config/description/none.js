@@ -21,7 +21,7 @@ cmd.setPerms({
 
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    await client.data.db.set({table: "guilds", field_data: {description: null}, conditions:[`guildID='${message.guild.id}'`]})
+    await client.data.db.query(`update guilds set description='' where guildID='${message.guild.id}'`);
     message.channel.send(client.operations.generateEmbed.run({
         description: "Description removed",
         colour: client.statics.colours.tinker

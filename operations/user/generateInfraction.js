@@ -10,23 +10,11 @@ const {v4: uuidv4} = require("uuid")
 
 op.setExecute(async (client, userID, guildID, infractionType, infractionReason, infractorID, channelID) => {
     const infractionID = uuidv4();
-    await client.data.db.insert({
-        table: "infractions", field_data: {
-            infractionUserID: userID,
-            infractionID: infractionID,
-            infractionGuildID: guildID,
-            infractionType: infractionType,
-            infractionReason: infractionReason,
-            infractorUserId: infractorID,
-            infractionChannelID: channelID
-        }
-    });
+    await client.data.db.query(`insert into 
+    infractions(infractionUserID, infractionID, infractionGuildID, infractionType, infractionReason, infractorUserId, infractionChannelID) 
+    values(?, ?, ?, ?, ?, ?, ?)`, [userID, infractionID, guildID, infractionType, infractionReason, infractorID, channelID])
 
-    const infractedUser = await client.data.db.getOne({
-        table: "users",
-        fields: ["*"],
-        conditions: [`guildID='${guildID}'`, `userID='${userID}'`]
-    })
+    const [infractedUser] = await client.data.db.query(`select * from users where userId='${userID}' and guildId='${guildID}'`);
 
     if (!infractedUser.infractions) infractedUser.infractions = []
     else infractedUser.infractions = infractedUser.infractions.split(",")

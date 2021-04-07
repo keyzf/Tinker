@@ -63,12 +63,7 @@ command.setExecute(async (client, message, args, cmd) => {
         authorImage: false
     }));
 
-    const allInfractions = await client.data.db.get({
-        table: "infractions",
-        fields: ["*"],
-        conditions: [`infractionUserID='${target.user.id}'`, `infractionGuildID='${message.guild.id}'`],
-    });
-
+    const allInfractions = await client.data.db.query(`select * from infractions where infractionUserID='${target.user.id}' and infractionGuildID='${message.guild.id}'`);
 
     if(!allInfractions || !allInfractions.length) {
         return m.edit(client.operations.generateEmbed.run({

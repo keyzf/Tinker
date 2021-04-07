@@ -25,7 +25,7 @@ command.setExecute(async (client, message, args, cmd) => {
     let target = await client.users.fetch(args[0]);
     if (!target) return message.reply('please specify a valid member to unban!');
 
-    const {logsChannel} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel"], conditions: [`guildID='${message.guild.id}'`]});
+    const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     try {

@@ -20,12 +20,8 @@ command.setPerms({
 });
 
 
-command.setExecute(async (client, message, args, cmd) => {
-    const {lastDaily} = await client.data.db.getOne({
-        table: "globalUser",
-        fields: ["lastDaily"],
-        conditions: [`userID='${message.author.id}'`]
-    })
+command.setExecute(async(client, message, args, cmd) => {
+    const [{ lastDaily }] = await client.data.db.query(`select lastDaily from globalUser where userID='${message.author.id}'`);
     if (client.timeManager.sameDay(new Date(lastDaily), new Date())) {
         return message.channel.send(client.operations.generateEmbed.run({
             description: "Nice try but you've had your daily allowance",
@@ -33,19 +29,8 @@ command.setExecute(async (client, message, args, cmd) => {
         }));
     }
     const val = client.utility.randomFromInterval(1, 5);
-    const {currencyUnit1: oldVal} = await client.data.db.getOne({
-        table: "globalUser",
-        fields: ["currencyUnit1"],
-        conditions: [`userID='${message.author.id}'`]
-    })
-    await client.data.db.set({
-        table: "globalUser",
-        field_data: {
-            lastDaily: client.timeManager.timeToSqlDateTime(Date.now()),
-            currencyUnit1: oldVal + val
-        },
-        conditions: [`userID='${message.author.id}'`]
-    });
+    const [{ currencyUnit1: oldVal }] = await client.data.db.query(`select currencyUnit1 from globalUser where userID='${message.author.id}'`);
+    await client.data.db.query(`update globalUser set lastDaily=?, currencyUnit1=? where userID='${message.author.id}'`, [client.timeManager.timeToSqlDateTime(Date.now()), oldVal + val]);
     return message.channel.send(client.operations.generateEmbed.run({
         description: `You earned ${val} Silver Piece${val > 1 ? "s" : ""} ${client.data.emojis.custom.silverCoin}`,
         colour: client.statics.colours.tinker

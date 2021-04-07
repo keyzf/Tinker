@@ -8,7 +8,7 @@ op.setInfo({
 const NLP = require("../../structures/NLP");
 
 const nlpProcessor = new NLP("./data/NLP/corpus-en.json");
-process.env.NODE_ENV === "production" ? nlpProcessor.train() : null;
+// process.env.NODE_ENV === "production" ? nlpProcessor.train() : null; // TODO: Fix this and re-enable
 
 op.setExecute(async(client, message) => {
     // todo: strip mentions (and possibly markdown)

@@ -23,7 +23,7 @@ const ms = require("pretty-ms")
 
 cmd.setExecute(async(client, message, args, cmd) => {
     try {
-        const { totalUptime } = await client.data.db.getOne({table: "bot", fields: ["totalUptime"]})
+        const [{ totalUptime }] = await client.data.db.query(`select totalUptime from bot where env='${process.env.NODE_ENV}'`);
         await message.channel.send(client.operations.generateEmbed.run({
             description: `Since last restart: ${ms(client.uptime)}\nFrom the very beginning of its existence: ${ms(new Date(totalUptime).getTime())}`,
             colour: client.statics.colours.tinker,

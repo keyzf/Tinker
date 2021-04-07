@@ -25,11 +25,10 @@ command.setExecute(async (client, message, args, cmd) => {
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
     if (!target) return message.reply('please specify a member to mute!');
 
-    const {logsChannel, muteRoleID: id} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel", "muteRoleID"], conditions: [`guildID='${message.guild.id}'`]});
+    const [{logsChannel, muteRoleID}] = await client.data.db.query(`select logsChannel, muteRoleID from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
-    await message.guild.roles.fetch();
-    let muteRole = await message.guild.roles.fetch(id);
+    let muteRole = await message.guild.roles.fetch(muteRoleID);
 
     console.log(typeof muteRole)
     // if(typeof muteRole != "")

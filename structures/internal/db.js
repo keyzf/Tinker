@@ -1,20 +1,15 @@
-module.exports.setup = (client) => {
+module.exports.setup = async(client) => {
 
     const localDB = require("node-localdb");
-    // const betterSql = require('better-sqlite3');
+    const mariadb = require("mariadb");
 
-    const options = {
-        verbose: client.logger.sql
-    }
 
-    // const db = betterSql('./data/db.sqlite', options);
-    const Database = require("../Database/Database");
 
     let db;
     if (process.env.NODE_ENV == "production") {
-        db = new Database(client, options, {socketPath: "/run/mysqld/mysqld.sock", user: "localRoot", database: "tinker"})
+        db = await mariadb.createConnection({ socketPath: "/run/mysqld/mysqld.sock", user: "localRoot", database: "tinker" });
     } else {
-        db = new Database(client, options, {
+        db = await mariadb.createConnection({
             host: "192.168.1.128",
             user: "tinkerClient",
             password: "theAgeOfInfo",

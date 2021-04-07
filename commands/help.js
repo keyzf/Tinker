@@ -28,11 +28,7 @@ command.setExecute(async(client, message, args, cmd) => {
     if (args.length) {
         return command.findSubcommand("command").run(message, args, cmd);
     }
-    const {prefix} = await client.data.db.getOne({
-        table: "guilds",
-        fields: ["prefix"],
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Here to help!",

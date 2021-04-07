@@ -6,13 +6,7 @@ op.setInfo({
 });
 
 op.setExecute(async (client, userID) => {
-    await client.data.db.insert({
-        table: "globalUser",
-        field_data: {
-            userID: userID,
-            dateJoined: client.timeManager.timeToSqlDateTime(new Date())
-        }
-    });
+    await client.data.db.query(`insert into globalUser(userId, dateJoined) values(${userID}, ${client.timeManager.timeToSqlDateTime(new Date())})`)
 });
 
 module.exports = op;

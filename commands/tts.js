@@ -11,8 +11,7 @@ command.setInfo({
 
 command.setLimits({
     cooldown: 0,
-    limited: true,
-    limitMessage: "I know a lot of you loved this but it was causing some issues on the backend. Don't worry! It will be coming back, I just need some time to sort out its issues"
+    limited: false
 });
 
 command.setPerms({
@@ -20,46 +19,77 @@ command.setPerms({
     botPermissions: []
 });
 
+const gtts = require('node-gtts')('en');
+const path = require('path');
 
 command.setExecute(async(client, message, args, cmd) => {
-    const gtts = require('node-gtts')('en');
-    const path = require('path');
-    const filepath = path.join(__dirname, "..", "temp", `${client.utility.createUUID("tts-xxx-xxx")}.wav`);
-    const fs = require("fs/promises");
+
+    const filepath = path.join(__dirname, "..", "temp", `${client.utility.createUUID("tts-*x*x*x-*x*x*x")}.wav`);
 
     if (!args || !args.length) { return message.channel.send("I need something to say..."); }
-    if (client.audioQueue.get(message.guild.id)) { return message.channel.send("You are already playing some music, stop that to continue"); }
+    // if (client.audioQueue.get(message.guild.id)) { return message.channel.send("You are already playing some music, stop that to continue"); }
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.channel.send("Gotta be in a vc");
 
     const speech = args.join(" ");
 
-    message.channel.send(client.operations.generateEmbed.run({
-        title: "Now Saying",
-        description: speech,
-        colour: client.statics.colours.tinker,
-        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
-    }));
-
     await client.utility.promisify.promisifyLastCallback(gtts.save, filepath, speech);
     client.logger.debug(`Source saved at ${filepath}`);
     client.logger.debug(`[TTS]: Guild: ${message.guild.id}`);
 
-    const connection = await voiceChannel.join();
-    const dispatcher = connection
-        .play(filepath)
-        .on("finish", async() => {
-            client.logger.debug(`[TTS]: Guild: ${message.guild.id} finished`);
-            await fs.unlink(filepath);
-            voiceChannel.leave();
-        })
-        .on("error", async(error) => {
-            client.logger.debug(`[TTS]: Guild: ${message.guild.id} disconnected`);
-            client.logger.error(err, { channel: message.channel, content: message.content });
-            await message.channel.send(await client.operations.generateError.run(err, `Error occurred playing tts`));
-            await fs.unlink(filepath);
-            voiceChannel.leave();
-        });
+
+    const song = {
+        content: speech,
+        requestedBy: {
+            usertag: message.author.tag,
+            avatar: message.author.displayAvatarURL()
+        },
+        url: filepath,
+        audioType: "tts"
+    };
+
+    const serverQueue = client.audioQueue.get(message.guild.id);
+    if (!serverQueue) {
+        const queueConstruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 50,
+            playing: true,
+            timeoutUid: null
+        };
+
+        client.audioQueue.set(message.guild.id, queueConstruct);
+
+        queueConstruct.songs.push(song);
+
+        try {
+            queueConstruct.connection = await voiceChannel.join();
+        } catch ({ stack }) {
+            client.logger.error(stack);
+            client.audioQueue.delete(message.guild.id);
+            return message.channel.send(await client.operations.generateError.run(stack));
+        }
+
+        client.operations.audioPlay.run(message.guild.id, queueConstruct.songs[0]);
+
+    } else {
+        serverQueue.songs.push(song);
+
+        if (serverQueue.playing) {
+            return message.channel.send(await client.operations.generateEmbed.run({
+                title: "TTS added to queue",
+                description: `${speech}`,
+                author: "Tinker's Tunes",
+                authorUrl: "./res/TinkerTts.png",
+                colour: client.statics.colours.tinker,
+                ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
+            }));
+        } else {
+            client.operations.audioPlay.run(message.guild.id, serverQueue.songs[0]);
+        }
+    }
 });
 
 module.exports = command;

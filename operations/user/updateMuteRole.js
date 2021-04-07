@@ -18,21 +18,13 @@ op.setExecute(async (client, guildID, id, channel) => {
 
     const guild = await client.guilds.fetch(guildID);
     if (id) {
-        await client.data.db.set({
-            table: "guilds", field_data: {
-                muteRoleID: id
-            }, conditions: [`guildID='${guildID}'`]
-        });
+        await client.data.db.query(`update guilds set muteRoleID='${id}' where guildID='${guildID}'`);
     } else {
-        const {muteRoleID} = await client.data.db.getOne({
-            table: "guilds",
-            fields: ["muteRoleID"],
-            conditions: [`guildID='${guildID}'`]
-        })
+        const [{muteRoleID}] = await client.data.db.query(`select muteRoleID from guilds where guildID='${guildID}'`);
         id = muteRoleID;
     }
-    await guild.roles.fetch();
-    let muteRole = guild.roles.cache.get(id);
+    let muteRole = await guild.roles.fetch(id || "stand-in");
+
     if (!muteRole) {
         muteRole = await guild.roles.create({
             data: {
@@ -42,11 +34,7 @@ op.setExecute(async (client, guildID, id, channel) => {
             permissions: new Discord.Permissions(66560),
             reason: 'mute users',
         });
-        await client.data.db.set({
-            table: "guilds", field_data: {
-                muteRoleID: muteRole.id
-            }, conditions: [`guildID='${guildID}'`]
-        });
+        await client.data.db.query(`update guilds set muteRoleID='${muteRole.id}' where guildID='${guildID}'`);
     }
     await guild.channels.cache.forEach(async (channel, channelID) => {
         await channel.updateOverwrite(muteRole, {
@@ -58,7 +46,7 @@ op.setExecute(async (client, guildID, id, channel) => {
         });
     });
 
-    return (muteRole)
+    return muteRole
 });
 
 module.exports = op;

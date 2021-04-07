@@ -24,11 +24,7 @@ Canvas.loadImage('./res/join-card/user-card2.png').then((b) => {
 });
 
 event.setExecute(async (client, member) => {
-    const {welcomeChannel} = await client.data.db.getOne({
-        table: "guilds",
-        fields: ["welcomeChannel"],
-        conditions: [`guildID='${member.guild.id}'`]
-    });
+    const [{welcomeChannel}] = await client.data.db.query(`select welcomeChannel from guilds where guildID='${member.guild.id}'`);
     client.operations.addUser.run(member.id, member.guild.id);
 
     if (!welcomeChannel) {

@@ -27,11 +27,7 @@ command.setExecute(async (client, message, args, cmd) => {
         channel = await client.channels.fetch(args[0]);
     }
     if (!channel) {
-        const {logsChannel} = await client.data.db.getOne({
-            table: "guilds",
-            fields: ["logsChannel"],
-            conditions: [`guildID='${message.guild.id}'`]
-        });
+        const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
         return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a log channel to change it to
             ${logsChannel ? `The current log channel is <#${logsChannel}>` : "Log channel not currently active"}`,
@@ -39,13 +35,7 @@ command.setExecute(async (client, message, args, cmd) => {
         }));
     }
 
-    await client.data.db.set({
-        table: "guilds",
-        field_data: {
-            logsChannel: channel.id
-        },
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    await client.data.db.query(`update guilds set logsChannel='${channel.id}' where guildID='${message.guild.id}'`);
     return message.channel.send(client.operations.generateEmbed.run({
         description: `Log channel set to <#${channel.id}>`,
         colour: client.statics.colours.tinker

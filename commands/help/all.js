@@ -18,11 +18,7 @@ const {MessageEmbed} = require("discord.js");
 
 cmd.setExecute(async (client, message, args, cmd) => {
     const {commands} = client;
-    const {prefix} = await client.data.db.getOne({
-        table: "guilds",
-        fields: ["prefix"],
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     const e = new MessageEmbed();
     e.setTimestamp();

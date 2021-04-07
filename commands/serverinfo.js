@@ -21,7 +21,7 @@ cmd.setPerms({
 
 cmd.setExecute(async(client, message, args, cmd) => {
     const { guild } = message;
-    const { description, badges } = await client.data.db.getOne({table: "guilds", fields: ["description", "badges"], conditions: [`guildID='${message.guild.id}'`]})
+    const [{ description, badges }] = await client.data.db.query(`select description, badges from guilds where guildID='${message.guild.id}'`);
 
     message.channel.send(client.operations.generateEmbed.run({
         title: guild.name,
@@ -29,7 +29,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
         fields: [
             { name: "Owner", value: guild.owner.user.tag, inline: true },
             { name: "Created At", value: new Date(guild.createdTimestamp).toLocaleString(), inline: true },
-            { name: "Premium Tier", value: guild.premiumTier, inline: true },
+            { name: "Discord Boost Tier", value: guild.premiumTier, inline: true },
             { name: "Members", value: guild.memberCount, inline: true },
             { name: "Roles", value: guild.roles.cache.size, inline: true },
             { name: "Channels", value: guild.channels.cache.size, inline: true },

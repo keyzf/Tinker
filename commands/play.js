@@ -50,7 +50,8 @@ cmd.setExecute(async(client, message, args, cmd) => {
         requestedBy: {
             usertag: message.author.tag,
             avatar: message.author.displayAvatarURL()
-        }
+        },
+        audioType: "yt"
     };
 
     const serverQueue = client.audioQueue.get(message.guild.id);

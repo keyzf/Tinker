@@ -1,10 +1,9 @@
 (async () => {
-
     require("dotenv").config()
     require("./structures/prototypeModification/process");
 
     // bot
-    const TinkerClient = require("./structures/TinkerClient");
+    const TinkerClient = await require("./structures/TinkerClient")();
 
     TinkerClient.registerCommandDir("./commands");
     TinkerClient.registerEventDir("./events");

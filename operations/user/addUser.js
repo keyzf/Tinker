@@ -6,14 +6,7 @@ op.setInfo({
 });
 
 op.setExecute(async(client, userID, guildID) => {
-    await client.data.db.insert({
-        table: "users",
-        field_data: {
-            userID: userID,
-            guildID: guildID
-        }
-    });
-    
+    await client.data.db.query(`insert into users(userId, guildId) values(${userID}, ${guildID})`);
 });
 
 module.exports = op;

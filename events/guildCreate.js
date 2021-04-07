@@ -14,7 +14,8 @@ event.setExecute(async (client, guild) => {
             dateJoined: client.timeManager.timeToSqlDateTime(new Date())
         }
     });
-
+    await client.data.db.query(`insert into guilds(guildID, prefix, dateJoined) values(${guild.id}, ${client.config.config.defaultEmbed}, ${client.timeManager.timeToSqlDateTime(Date.now())})`);
+    
     client.logger.info(`Added to ${guild.name}(${guild.id})`);
 
     // tell user how to get started

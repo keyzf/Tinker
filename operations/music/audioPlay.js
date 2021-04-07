@@ -10,9 +10,12 @@ op.setPerms({
 });
 
 const ytdl = require("ytdl-core");
+const ytdlDiscord = require('ytdl-core-discord');
 const ms = require("pretty-ms");
 
-op.setExecute(async (client, guildID, song) => {
+const fs = require("fs/promises");
+
+op.setExecute(async(client, guildID, song) => {
     const serverQueue = client.audioQueue.get(guildID);
 
     if (!op.checkPerms(serverQueue.textChannel.guild, serverQueue.textChannel)) {
@@ -52,26 +55,41 @@ op.setExecute(async (client, guildID, song) => {
         return;
     }
 
-    client.logger.debug(`[Audio]: Guild: ${guildID} playing track ${song.title}`)
-    const dispatcher = serverQueue.connection
-        .play(ytdl(song.url, {filter: "audioonly"}))
-        .on("finish", () => {
+    let dispatcher;
+    if(song.audioType == "yt") {
+        client.logger.debug(`[Audio]: Guild: ${guildID} playing track ${song.title}`);
+        // dispatcher = serverQueue.connection.play(ytdl(song.url, { filter: "audioonly" }));
+        dispatcher = serverQueue.connection.play(await ytdlDiscord(song.url), { highWaterMark: 50, type: "opus" });
+    } else if(song.audioType == "tts") {
+        client.logger.debug(`[Audio]: Guild: ${guildID} playing tts`);
+        dispatcher = serverQueue.connection.play(song.url);
+    }
+    
+    dispatcher.on("finish", async () => {
+            if(song.audioType == "tts") {
+                await fs.unlink(song.url);
+            }
             serverQueue.songs.shift();
             op.run(guildID, serverQueue.songs[0]);
         })
-        .on("error", async (error) => {
-            client.logger.error(error);
+        dispatcher.on("error", async(error) => {
+            client.logger.error(error.stack);
             client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
-            serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+            if(song.audioType == "tts") {
+                await fs.unlink(song.url);
+            }
+            serverQueue.textChannel.send(client.operations.generateEmbed.run({
                 title: "Error Occurred",
+                description: error,
                 author: "Tinker's Tunes",
                 authorUrl: "./res/TinkerMusic-purple.png",
                 colour: client.statics.colours.tinker
             }));
+            serverQueue.playing = false;
             serverQueue.voiceChannel.leave();
             return client.audioQueue.delete(guildID);
         });
-    serverQueue.connection.on("disconnect", async () => {
+    serverQueue.connection.on("disconnect", async() => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
         if (serverQueue.timeoutUid) {
             client.timeoutManager.deleteTimer(serverQueue.timeoutUid);
@@ -79,6 +97,11 @@ op.setExecute(async (client, guildID, song) => {
         if (!serverQueue.playing) {
             return client.audioQueue.delete(guildID);
         }
+
+        if(song.audioType == "tts") {
+            fs.unlink(song.url);
+        }
+
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Forcefully Disconnected by user",
             author: "Tinker's Tunes",
@@ -89,16 +112,37 @@ op.setExecute(async (client, guildID, song) => {
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
 
-    serverQueue.textChannel.send(await client.operations.generateEmbed.run({
-        title: "Now Playing",
-        description: `[${serverQueue.songs[0].title}: ${serverQueue.songs[0].author} (${ms(parseInt(serverQueue.songs[0].lengthSeconds) * 1000)})](${serverQueue.songs[0].url})`,
-        imageUrl: serverQueue.songs[0].thumbnail.url,
-        author: "Tinker's Tunes",
-        authorUrl: "./res/TinkerMusic-purple.png",
-        colour: client.statics.colours.tinker,
-        footerText: `Song requested by ${serverQueue.songs[0].requestedBy.usertag}`,
-        footerUrl: serverQueue.songs[0].requestedBy.avatar
-    }));
+    if (song.audioType == "yt") {
+        serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+            title: "Now Playing",
+            description: `[${song.title ? song.title : ""}${song.author ? `: ${song.author}` : ""} ${song.lengthSeconds ? `(${ms(parseInt(song.lengthSeconds) * 1000)})` : "" } ](${song.url})`,
+            imageUrl: song.thumbnail.url,
+            author: "Tinker's Tunes",
+            authorUrl: "./res/TinkerMusic-purple.png",
+            colour: client.statics.colours.tinker,
+            footerText: `Song requested by ${song.requestedBy.usertag}`,
+            footerUrl: song.requestedBy.avatar
+        }));
+    } else if (song.audioType == "tts") {
+        serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+            title: "Now Saying",
+            description: song.content,
+            author: "Tinker TTS",
+            authorUrl: "./res/TinkerTts.png",
+            colour: client.statics.colours.tinker,
+            footerText: `Spoken by ${song.requestedBy.usertag}`,
+            footerUrl: song.requestedBy.avatar
+        }));
+    } else {
+        serverQueue.textChannel.send(await client.operations.generateEmbed.run({
+            description: `Unknown audioType ${song.audioType}`,
+            author: "Tinker's Tunes",
+            authorUrl: "./res/TinkerExclamation-red.png",
+            colour: client.statics.colours.tinker,
+            footerText: `Requested by ${song.requestedBy.usertag}`,
+            footerUrl: song.requestedBy.avatar
+        }));
+    }
 });
 
 module.exports = op;

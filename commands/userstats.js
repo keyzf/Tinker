@@ -35,17 +35,9 @@ command.setExecute(async (client, message, args, cmd) => {
         return message.channel.send("Could not get member")
     }
 
-    let dbTargetUser = await client.data.db.getOne({
-        table: "users",
-        fields: ["*"],
-        conditions: [`guildID='${message.guild.id}'`, `userID='${target.id}'`]
-    });
+    const [dbTargetUser] = await client.data.db.query(`select * from users where userID='${target.id}' and guildID='${message.guild.id}'`);
 
-    let dbTargetGlobal = await client.data.db.getOne({
-        table: "globalUser",
-        fields: ["*"],
-        conditions: [`userID='${target.id}'`]
-    });
+    const [dbTargetGlobal] = await client.data.db.query(`select * from globalUser where userID='${target.id}'`);
 
     let embed = new MessageEmbed()
     embed.setAuthor(`${target.user.username}#${target.user.discriminator} (${target.id})`, target.user.displayAvatarURL())

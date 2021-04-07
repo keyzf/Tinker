@@ -23,11 +23,7 @@ const Discord = require("discord.js");
 const util = require("util");
 
 command.setExecute(async (client, message, args, cmd) => {
-    const {prefix} = await client.data.db.getOne({
-        table: "guilds",
-        fields: ["prefix"],
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     const send = (data) => {
         message.channel.send(data)

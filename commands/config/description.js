@@ -23,11 +23,7 @@ command.registerSubCommand(`${__dirname}/description/none.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
     if (!args || !args.length) {
-        const {description} = await client.data.db.getOne({
-            table: "guilds",
-            fields: ["description"],
-            conditions: [`guildID='${message.guild.id}'`]
-        })
+        const [{description}] = await await client.data.db.query(`select description from guilds where guildID='${message.guild.id}'`);
         return message.channel.send(client.operations.generateEmbed.run({
             description: `Please provide a description to change it to
             ${description ? `The current description is \`${description}\`` : "Description not currently set"}`,
@@ -35,13 +31,7 @@ command.setExecute(async (client, message, args, cmd) => {
         }));
     }
 
-    await client.data.db.set({
-        table: "guilds",
-        field_data: {
-            description: args.join(" ")
-        },
-        conditions: [`guildID='${message.guild.id}'`]
-    });
+    await client.data.db.query(`update guilds set description=? where guildID='${message.guild.id}'`, [args.join(" ")]);
     return message.channel.send(client.operations.generateEmbed.run({
         description: `Description set to \`${args.join(" ")}\``,
         colour: client.statics.colours.tinker

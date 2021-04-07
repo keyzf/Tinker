@@ -28,7 +28,7 @@ command.setExecute(async(client, message, args, cmd) => {
 
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
 
-    const {logsChannel} = await client.data.db.getOne({table: "guilds", fields: ["logsChannel"], conditions: [`guildID='${message.guild.id}'`]});
+    const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
     
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
