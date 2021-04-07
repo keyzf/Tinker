@@ -26,7 +26,7 @@ command.setExecute(async (client, message, args, cmd) => {
         return message.channel.send("There is nothing to stop playing")
     }
     message.channel.send(client.operations.generateEmbed.run({
-        title: "Stopped", description: `${serverQueue.songs[0].title} stopped and queue cleared`,
+        title: "Stopped", description: `${serverQueue.songs[0].audioType == "yt" ? serverQueue.songs[0].title : "tts"} stopped and queue cleared`,
         author: "Tinker's Tunes",
         authorUrl: "./res/TinkerMusic-purple.png",
         colour: client.statics.colours.tinker,

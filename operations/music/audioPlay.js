@@ -94,13 +94,16 @@ op.setExecute(async(client, guildID, song) => {
         if (serverQueue.timeoutUid) {
             client.timeoutManager.deleteTimer(serverQueue.timeoutUid);
         }
-        if (!serverQueue.playing) {
-            return client.audioQueue.delete(guildID);
-        }
 
         if(song.audioType == "tts") {
             fs.unlink(song.url);
         }
+
+        if (!serverQueue.playing) {
+            return client.audioQueue.delete(guildID);
+        }
+
+        
 
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Forcefully Disconnected by user",

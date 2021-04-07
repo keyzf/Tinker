@@ -20,6 +20,7 @@ command.setPerms({
 });
 
 command.setExecute(async (client, message, args, cmd) => {
+    if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
     const serverQueue = client.audioQueue.get(message.guild.id);
     if (!serverQueue || !serverQueue.voiceChannel) {
         return message.channel.send(client.operations.generateEmbed.run({

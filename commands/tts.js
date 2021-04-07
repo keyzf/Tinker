@@ -4,13 +4,13 @@ const command = new Command();
 command.setInfo({
     name: "tts",
     aliases: [],
-    category: "DevOnly",
+    category: "Music",
     description: "",
     usage: ""
 });
 
 command.setLimits({
-    cooldown: 0,
+    cooldown: 3,
     limited: false
 });
 
