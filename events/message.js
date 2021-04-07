@@ -57,7 +57,7 @@ event.setExecute(async (client, message) => {
 
     const [globalUser] = await client.data.db.query(`select * from globalUser where userID='${message.author.id}'`);
 
-    if (!user.PKEY) {
+    if (!user) {
         return client.operations.addUser.run(message.author.id, message.guild.id)
     }
 
@@ -75,7 +75,7 @@ event.setExecute(async (client, message) => {
         return;
     }
 
-    if (!globalUser.PKEY) {
+    if (!globalUser) {
         message.channel.send(client.operations.generateEmbed.run({
             title: "First Time?",
             description: `Looks like this is your first time with me, Tinker! I have loads of helpful, fun and cool commands. Start out by running \`${prefix}help\` in a suitable channel`,
