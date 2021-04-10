@@ -28,13 +28,14 @@ const setup = async() => {
         }
     });
 
-    client.statcord = new Statcord.Client({
-        client,
-        key: process.env.STATCORD_KEY,
-        postCpuStatistics: true,
-        postMemStatistics: true,
-        postNetworkStatistics: true,
-    });
+    // TODO: report statcord beta bug
+    // client.statcord = new Statcord.Client({
+    //     client,
+    //     key: process.env.STATCORD_KEY,
+    //     postCpuStatistics: true,
+    //     postMemStatistics: true,
+    //     postNetworkStatistics: true,
+    // });
 
     client.cleanExit = async(exitCode) => {
         if (client.user) {
@@ -47,17 +48,17 @@ const setup = async() => {
     client.logger = logger.setup(client);
 
     if (process.env.NODE_ENV === "production") {
-        client.statcord.on("autopost-start", () => {
-            // Emitted when statcord autopost starts
-            client.logger.debug("Started autopost");
-        });
+        // client.statcord.on("autopost-start", () => {
+        //     // Emitted when statcord autopost starts
+        //     client.logger.debug("Started autopost");
+        // });
 
-        client.statcord.on("post", status => {
-            // status = false if the post was successful
-            // status = "Error message" or status = Error if there was an error
-            if (!status) client.logger.debug("Successful post");
-            else client.logger.error(status);
-        });
+        // client.statcord.on("post", status => {
+        //     // status = false if the post was successful
+        //     // status = "Error message" or status = Error if there was an error
+        //     if (!status) client.logger.debug("Successful post");
+        //     else client.logger.error(status);
+        // });
     }
 
     // const AutoPoster = require('topgg-autoposter');
