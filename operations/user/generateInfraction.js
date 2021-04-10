@@ -22,11 +22,7 @@ op.setExecute(async (client, userID, guildID, infractionType, infractionReason, 
     infractedUser.infractions.push(infractionID);
     infractedUser.infractions = infractedUser.infractions.join(",");
 
-    await client.data.db.set({
-        table: "users",
-        field_data: {infractions: infractedUser.infractions},
-        conditions: [`guildID='${infractedUser.guildID}'`, `userID='${infractedUser.userID}'`]
-    })
+    await client.data.db.query(`update users set infractions=? where guildID='${infractedUser.guildID}' and userID='${infractedUser.userID}'`, [infractedUser.infractions])
 
 });
 
