@@ -15,7 +15,7 @@ command.setLimits({
 });
 
 command.setPerms({
-    userPermissions: [],
+    userPermissions: ["SEND_TTS_MESSAGES", "CONNECT", "SPEAK"],
     botPermissions: []
 });
 

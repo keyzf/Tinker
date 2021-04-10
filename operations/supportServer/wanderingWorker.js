@@ -33,9 +33,9 @@ op.setExecute(async(client, force) => {
                 const coinsToAdd = Math.floor(Math.random() * 30)
                 channel.send(`The Wandering Worker picked you ${user.username}#${user.discriminator}\nYou were rewarded with \`${coinsToAdd}\` copper coins`).then((m) => client.operations.deleteCatch.run(m, 5000))
 
-                let { currencyUnit0: coins } = await client.data.db.getOne("globalUser", ["currencyUnit0"], [`userID=${user.id}`]);
+                let [{currencyUnit0: coins}] = await client.data.db.query(`select currencyUnit0 from globalUser where userID='${user.id}'`);
                 coins += coinsToAdd;
-                await client.data.db.set("globalUser", {currencyUnit0: coins}, [`userID=${user.id}`]);
+                await client.data.db.query(`update globalUser set currencyUnit0=? where userID=${user.id}`, [coins]);
             });
     }, Math.floor(Math.random() * 1000 * 30))
     num = (Math.floor(Math.random() * 15) + 15)

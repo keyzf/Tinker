@@ -1,0 +1,7 @@
+{
+    "limit": 1,
+    "premiumLimit": 2,
+
+    "maxNameLength": 20,
+    "minNameLength": 3
+}

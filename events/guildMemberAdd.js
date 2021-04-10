@@ -6,25 +6,19 @@ event.setInfo({
     name: "guildMemberAdd"
 });
 
-const {MessageAttachment} = require("discord.js")
+const { MessageAttachment } = require("discord.js")
 
 const Canvas = require('canvas');
 // get the register font method
 const registerFont = Canvas.registerFont;
 // register all the necessary fonts (DO NOT CHANGE THE family ATTRIBUTE, ONLY THE FILEPATH)
-registerFont('./res/join-card/Montserrat-Bold.ttf', {family: 'mont-bold'})
-registerFont('./res/join-card/Montserrat-Medium.ttf', {family: 'mont-med'})
-registerFont('./res/join-card/Montserrat-Regular.ttf', {family: 'mont-reg'})
-registerFont('./res/join-card/Montserrat-SemiBold.ttf', {family: 'mont-semibold'})
+registerFont('./res/join-card/Montserrat-Bold.ttf', { family: 'mont-bold' })
+registerFont('./res/join-card/Montserrat-Medium.ttf', { family: 'mont-med' })
+registerFont('./res/join-card/Montserrat-Regular.ttf', { family: 'mont-reg' })
+registerFont('./res/join-card/Montserrat-SemiBold.ttf', { family: 'mont-semibold' })
 
-const canvas = Canvas.createCanvas(400, 660);
-let background;
-Canvas.loadImage('./res/join-card/user-card2.png').then((b) => {
-    background = b;
-});
-
-event.setExecute(async (client, member) => {
-    const [{welcomeChannel}] = await client.data.db.query(`select welcomeChannel from guilds where guildID='${member.guild.id}'`);
+event.setExecute(async(client, member) => {
+    const [{ welcomeChannel }] = await client.data.db.query(`select welcomeChannel from guilds where guildID='${member.guild.id}'`);
     client.operations.addUser.run(member.id, member.guild.id);
 
     if (!welcomeChannel) {
@@ -34,9 +28,9 @@ event.setExecute(async (client, member) => {
     if (!channel) {
         return;
     }
-
+    const canvas = Canvas.createCanvas(400, 660);
     const ctx = canvas.getContext('2d');
-
+    const background = await Canvas.loadImage('./res/join-card/user-card2.png');
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.textAlign = "center";
     ctx.fillStyle = '#ffffff';
@@ -53,7 +47,7 @@ event.setExecute(async (client, member) => {
     ctx.arc((canvas.width / 2), 175, 65, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.clip();
-    const avatar = await Canvas.loadImage(member.user.displayAvatarURL({format: "jpg"}));
+    const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: "jpg" }));
     ctx.drawImage(avatar, (canvas.width / 2) - 65, 110, 130, 130);
     const attachment = new MessageAttachment(canvas.toBuffer(), "welcome-image.png");
 

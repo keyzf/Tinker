@@ -1,6 +1,6 @@
 [
     {
-        "id": "weap-664-a1b",
+        "id": "weap-664a1b",
         "name": "Dagger",
         "size": "small",
         "description": "A thin, short blade wielded with a shaped handle",
@@ -20,7 +20,7 @@
         ]
     },
     {
-        "id": "weap-40a-db1",
+        "id": "weap-40adb1",
         "name": "Shortsword",
         "size": "small",
         "description": "A thin blade wielded with a handle and wide guard",
@@ -40,7 +40,7 @@
         ]
     },
     {
-        "id": "weap-ea5-80a",
+        "id": "weap-ea580a",
         "name": "Longsword",
         "size": "medium",
         "description": "A long blade wielded with a handle, wide guard and intricate pommel",
@@ -60,7 +60,7 @@
         ]
     },
     {
-        "id": "weap-9a5-ef7",
+        "id": "weap-9a5ef7",
         "name": "Greatsword",
         "size": "large",
         "description": "A large blade wielded with a handle. An intricate guard and pommel and a large grip for two hands",

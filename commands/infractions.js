@@ -69,7 +69,7 @@ command.setExecute(async (client, message, args, cmd) => {
         return m.edit(client.operations.generateEmbed.run({
             description: "There are no infractions against this user",
             thumbnailUrl: target.user.displayAvatarURL(),
-            ... client.statics.defaultEmbed.footerUser,
+            ...client.statics.defaultEmbed.footerUser("Requested by", message.author, ""),
             colour: client.statics.colours.tinker
         }));
     }

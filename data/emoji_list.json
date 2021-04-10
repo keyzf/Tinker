@@ -4928,6 +4928,10 @@
         "O": "🇴",
         "X": "🇽"
     },
+    "ticks": {
+        "greenTick": "✅",
+        "redCross": "<:cross:829736070542786610>"
+    },
     "custom": {
         "loading": "<a:loading:797529107004129280>",
         "TinkerPremium": "<:TinkerPremium:813383484252487681>",

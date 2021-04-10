@@ -54,10 +54,6 @@ command.setExecute(async (client, message, args, cmd) => {
         }()), true);
     }
     if (dbTargetGlobal) {
-        embed.addField("Level", dbTargetGlobal.currencyUnit2, true)
-        embed.addField('Gold:', dbTargetGlobal.currencyUnit2, true);
-        embed.addField('Silver:', dbTargetGlobal.currencyUnit1, true);
-        embed.addField('Copper:', dbTargetGlobal.currencyUnit0, true);
         embed.addFields({
             name: "Badges",
             value: (() => {
@@ -71,7 +67,10 @@ command.setExecute(async (client, message, args, cmd) => {
                 return "None"
             })(),
             inline: true
-        })
+        });
+        embed.addField('Gold:', dbTargetGlobal.currencyUnit2, true);
+        embed.addField('Silver:', dbTargetGlobal.currencyUnit1, true);
+        embed.addField('Copper:', dbTargetGlobal.currencyUnit0, true);
     }
     if (!dbTargetUser || !dbTargetGlobal) {
         embed.addField("Database User", "This user is not yet in the database so some information will not be shown, such as messages sent and currency")

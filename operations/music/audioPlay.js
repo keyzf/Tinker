@@ -13,6 +13,7 @@ const ytdl = require("ytdl-core");
 const ytdlDiscord = require('ytdl-core-discord');
 const ms = require("pretty-ms");
 
+const fsSync = require("fs");
 const fs = require("fs/promises");
 
 op.setExecute(async(client, guildID, song) => {
@@ -96,7 +97,9 @@ op.setExecute(async(client, guildID, song) => {
         }
 
         if(song.audioType == "tts") {
-            fs.unlink(song.url);
+            if (fsSync.existsSync(song.url)) {
+                fs.unlink(song.url);
+            }
         }
 
         if (!serverQueue.playing) {

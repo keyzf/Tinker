@@ -137,7 +137,7 @@ event.setExecute(async (client, message) => {
         // check if in dev command
         if (command.limits.inDev && !client.config.devs.includes(message.author.id)) {
             if (command.limits.inDevMessage) {
-                message.channel.send(client.operations.generateEmbed.run(command.limits.inDevMessage));
+                message.channel.send(client.operations.generateEmbed.run({description: command.limits.inDevMessage}));
                 return;
             }
             message.channel.send(client.operations.generateEmbed.run({

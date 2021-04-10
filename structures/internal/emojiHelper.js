@@ -31,6 +31,18 @@ module.exports.setup = (client) => {
             if (match && match[0]) { return match[0]; }
 
             return undefined;
+        },
+
+        getName(emojiString) {
+            let emoji = getUnicodeEmoji(emojiString);
+            if (emoji) { return emoji; }
+
+            if (!isNaN(emojiString)) { return client.emojis.get(emojiString).name; }
+
+            let match = emojiString.match(/<a?:(.+?):\d+>/);
+            if (match && match[0]) { return match[1]; }
+
+            return undefined;
         }
     }
 

@@ -9,7 +9,7 @@ const setup = async() => {
 
     const logger = require("./internal/logger");
 
-    const Statcord = require("statcord.js");
+    const Statcord = require("statcord.js-beta");
 
     const client = new Client({
         retryLimit: Infinity,
@@ -46,17 +46,19 @@ const setup = async() => {
 
     client.logger = logger.setup(client);
 
-    client.statcord.on("autopost-start", () => {
-        // Emitted when statcord autopost starts
-        client.logger.debug("Started autopost");
-    });
+    if (process.env.NODE_ENV === "production") {
+        client.statcord.on("autopost-start", () => {
+            // Emitted when statcord autopost starts
+            client.logger.debug("Started autopost");
+        });
 
-    client.statcord.on("post", status => {
-        // status = false if the post was successful
-        // status = "Error message" or status = Error if there was an error
-        if (!status) client.logger.debug("Successful post");
-        else client.logger.error(status);
-    });
+        client.statcord.on("post", status => {
+            // status = false if the post was successful
+            // status = "Error message" or status = Error if there was an error
+            if (!status) client.logger.debug("Successful post");
+            else client.logger.error(status);
+        });
+    }
 
     // const AutoPoster = require('topgg-autoposter');
 
@@ -69,7 +71,6 @@ const setup = async() => {
     client.config = require("../utility/dirTrawlPackageObj").setup("config", ".json");
     client.statics = require("../utility/dirTrawlPackageObj").setup("statics", ".js");
     client.utility = require("../utility/dirTrawlPackageObj").setup("utility", ".js");
-
 
     client.timeoutManager = new TimeoutManager(client);
 
@@ -102,7 +103,7 @@ const setup = async() => {
 
     // fun stuff
     client.audioQueue = new Map();
-    client.activeAdventures = new Collection();
+    client.activeAdventures = new Map();
 
     client.logger.debug("Setup database");
     client.data = await require("./internal/db").setup(client)

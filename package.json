@@ -43,6 +43,7 @@
     "pretty-ms": "^7.0.1",
     "serve-favicon": "^2.5.0",
     "statcord.js": "^3.1.7",
+    "statcord.js-beta": "^3.1.2",
     "statuspage.js": "^1.0.17",
     "string-similarity": "^4.0.4",
     "timestring": "^6.0.0",
