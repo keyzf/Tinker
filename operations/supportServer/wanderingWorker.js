@@ -6,7 +6,7 @@ op.setInfo({
 });
 
 let count = 0
-let num = (Math.floor(Math.random() * 15) + 15)
+let num = (Math.floor(Math.random() * 50) + 50)
 
 op.setExecute(async(client, force) => {
     if (!force) {
@@ -38,7 +38,7 @@ op.setExecute(async(client, force) => {
                 await client.data.db.query(`update globalUser set currencyUnit0=? where userID=${user.id}`, [coins]);
             });
     }, Math.floor(Math.random() * 1000 * 30))
-    num = (Math.floor(Math.random() * 15) + 15)
+    num = (Math.floor(Math.random() * 50) + 50)
 });
 
 module.exports = op;
