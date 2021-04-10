@@ -21,9 +21,7 @@ command.setPerms({
 
 command.setExecute(async(client, message, args, cmd) => {
     const [{ lastWork }] = await client.data.db.query(`select lastWork from globalUser where userID='${message.author.id}'`);
-console.log(new Date(lastWork).toLocaleString());
-console.log(new Date().toLocaleString());
-console.log(client.timeManager.sameHour(new Date(), new Date(lastWork)))
+
     if (client.timeManager.sameHour(new Date(), new Date(lastWork))) {
         return message.channel.send(client.operations.generateEmbed.run({
             description: "You can't get back to work yet.",
