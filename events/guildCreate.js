@@ -7,7 +7,7 @@ event.setInfo({
 });
 
 event.setExecute(async (client, guild) => {
-    await client.data.db.query(`insert into guilds(guildID, prefix, dateJoined) values(${guild.id}, ${client.config.config.defaultEmbed}, ${client.timeManager.timeToSqlDateTime(Date.now())})`);
+    await client.data.db.query(`insert into guilds(guildID, prefix, dateJoined) values(${guild.id}, ?, ?)`, [client.config.config.defaultPrefix, client.timeManager.timeToSqlDateTime(Date.now())]);
     
     client.logger.info(`Added to ${guild.name}(${guild.id})`);
 

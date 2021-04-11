@@ -22,12 +22,13 @@ event.setExecute(async (client, message) => {
     }
 
     // find the guild from the database using its id (obtained from the sent message)
-    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
+    const [guild] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
-    if (!prefix) {
+    if (!guild) {
         client.emit("guildCreate", message.guild);
         return;
     }
+    const prefix = guild.prefix;
 
     // check if a user was mentioned and get the first one
     if (message.mentions.users && !message.mentions.everyone) {
