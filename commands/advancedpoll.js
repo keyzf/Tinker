@@ -11,7 +11,7 @@ cmd.setInfo({
 
 cmd.setLimits({
     cooldown: 5,
-    limit: true,
+    inDev: true,
     limitedMsg: "If you think I can finish this and get it stable anytime soon, lmaooo. No way"
 });
 
