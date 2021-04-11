@@ -15,7 +15,7 @@ cmd.setLimits({
 });
 
 cmd.setPerms({
-    botPermissions: ["MANAGE_MESSAGES"],
+    botPermissions: [],
     userPermissions: ["MANAGE_MESSAGES"]
 });
 
@@ -33,7 +33,9 @@ cmd.setExecute(async(client, message, args, cmd) => {
         return await message.channel.send(await client.operations.generateError.run(e, "Could not generate Ascii text", { channel: message.channel, content: message.content, origin: __filename }));
     }
     if (!out) { return message.channel.send("Your message consists of entirely unsupported characters") }
-    client.operations.deleteCatch.run(message);
+    if (message.guild.me.permissions.has("MANAGE_MESSAGES")) {
+        client.operations.deleteCatch.run(message);
+    }
     return message.channel.send("```" + out + "```");
 });
 

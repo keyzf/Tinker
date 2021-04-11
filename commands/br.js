@@ -20,7 +20,9 @@ cmd.setPerms({
 });
 
 cmd.setExecute(async(client, message, args, cmd) => {
-    client.operations.deleteCatch.run(message);
+    if (message.guild.me.permissions.has("MANAGE_MESSAGES")) {
+        client.operations.deleteCatch.run(message);
+    }
     message.channel.send("``` ```")
 });
 
