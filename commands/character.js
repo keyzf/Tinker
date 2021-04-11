@@ -10,7 +10,7 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 5,
+    cooldown: 2,
     inDev: true,
 });
 

@@ -4,7 +4,7 @@ const cmd = new Command();
 cmd.setInfo({
     name: "adventure",
     aliases: [],
-    category: "Fun",
+    category: "Adventuring",
     description: "",
     usage: ""
 });
@@ -28,7 +28,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
     if (activeGame) {
         return message.channel.send(client.operations.generateEmbed.run({
             title: `Active game`,
-            description: `Game already being played in ${activeGame.message.channel} [here](${activeGame.message.url})`,
+            description: `Game already being played in ${activeGame.channel}`,
             author: "Tinker's Adventures",
             authorUrl: "./res/TinkerExclamation-red.png",
             colour: client.statics.colours.tinker,
@@ -60,17 +60,37 @@ cmd.setExecute(async(client, message, args, cmd) => {
     // Get active character object
     const [character] = await client.data.db.query(`Select * from characters where id=?`, [activeCharacter]);
 
-    new Adventure(client, message.channel, message.author, character).on("start", () => {
+    const adventure = new Adventure(client, message.channel, message.author, character);
+    // set active adventuring game (prevent multiple games running)
+    client.activeAdventures.set(message.author.id, adventure);
+    adventure.on("start", () => {
         client.operations.deleteCatch.run(m);
-    }).on("end", (stats) => {
-        message.channel.send(client.operations.generateEmbed.run({
-            title: "Adventure ended",
+    }).on("end", async (stats) => {
+        // Finished message (with saving to DB part)
+        const msg = await message.channel.send(client.operations.generateEmbed.run({
+            title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.custom.loading)} Saving to DB`,
             description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
             thumbnailUrl: "./res/TinkerAdventure.png",
             colour: client.statics.colours.tinker,
             ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
         }));
+        
+        // make changes to DB
+
+        // update message
+        msg.edit(client.operations.generateEmbed.run({
+            title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.ticks.greenTick)} Saved to DB`,
+            description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
+            thumbnailUrl: "./res/TinkerAdventure.png",
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
+        }));
+
+        // remove active adventuring game
+        client.activeAdventures.delete(message.author.id);
     });
+
+    adventure.run();
 
 });
 

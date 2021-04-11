@@ -9,7 +9,7 @@ const setup = async() => {
 
     const logger = require("./internal/logger");
 
-    const Statcord = require("statcord.js-beta");
+    // const Statcord = require("statcord.js-beta");
 
     const client = new Client({
         retryLimit: Infinity,
@@ -40,7 +40,7 @@ const setup = async() => {
     client.cleanExit = async(exitCode) => {
         if (client.user) {
             await client.user.setStatus("invisible");
-            await client.destroy();
+            client.destroy();
         }
         process.exit(exitCode);
     }
@@ -73,9 +73,7 @@ const setup = async() => {
     client.statics = require("../utility/dirTrawlPackageObj").setup("statics", ".js");
     client.utility = require("../utility/dirTrawlPackageObj").setup("utility", ".js");
 
-    client.timeoutManager = new TimeoutManager(client);
-
-    client.timeManager = require("./TimeManager");
+    process.on("SIGINT", client.cleanExit);
 
     client.on('debug', m => client.logger.debug(m));
     client.on('warn', m => client.logger.warn(m));
@@ -89,8 +87,6 @@ const setup = async() => {
     client.on("shardReconnecting", (id) => client.logger.info(`Shard #${id} Attempting Reconnect`));
     client.on("shardResume", (replayed) => client.logger.info(`Connection resumed, replaying ${client.utility.inspect(replayed)} events`));
     client.on("shardDisconnect", (event, id) => client.logger.info(`Shard #${id} Disconnected`));
-
-    process.on("SIGINT", client.cleanExit);
 
     client.on("rateLimit", m => client.logger.info(`Hit rate limit ${client.utility.inspect(m)}`));
 
@@ -106,6 +102,11 @@ const setup = async() => {
     client.audioQueue = new Map();
     client.activeAdventures = new Map();
 
+    client.logger.debug("Setting up managers");
+
+    client.timeoutManager = new TimeoutManager(client);
+    client.timeManager = require("./TimeManager");
+
     client.logger.debug("Setup database");
     client.data = await require("./internal/db").setup(client)
 
@@ -114,6 +115,8 @@ const setup = async() => {
 
     client.logger.debug("Setup Emoji Helper");
     client.emojiHelper = require("./internal/emojiHelper").setup(client);
+
+    client.premiumManager = require("./PremiumManager").setup(client);
 
     client.logger.info("Setting up voting");
     client.voteManager = {

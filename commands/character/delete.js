@@ -6,11 +6,11 @@ cmd.setInfo({
     aliases: ["del", "remove"],
     category: "Fun",
     description: "Delete a character",
-    usage: "<character ID>"
+    usage: "<character name>"
 });
 
 cmd.setLimits({
-    cooldown: 3
+    cooldown: 5
 });
 
 cmd.setPerms({
@@ -20,15 +20,12 @@ cmd.setPerms({
 
 cmd.setExecute(async(client, message, args) => {
     if (!args || !args.length) {
-        return message.channel.send("Please provide a character ID");
-    }
-    if (!args[0].startsWith("char-")) {
-        return message.channel.send("Please provide a valid character ID (starts with `char-`)");
+        return message.channel.send("Please provide a character name");
     }
 
     const [{ prefix }] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
-    const [character] = await client.data.db.query(`select * from characters where ownerID=${message.author.id} and id=?`, [args[0]]);
+    const [character] = await client.data.db.query(`select * from characters where ownerID=${message.author.id} and name=?`, [args.join(" ")]);
 
     if (!character) {
         return message.channel.send(client.operations.generateEmbed.run({
@@ -87,7 +84,7 @@ cmd.setExecute(async(client, message, args) => {
     }
 
     await client.data.db.query(`update globalUser set activeCharacter=? where userID=${message.author.id}`, [null]);
-    await client.data.db.query(`delete from characters where id=?`, [args[0]]);
+    await client.data.db.query(`delete from characters where name=?`, [args.join(" ")]);
 
     m.edit(client.operations.generateEmbed.run({
         title: `${character.name} (${character.id}) - Deleted`,

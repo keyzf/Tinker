@@ -21,18 +21,32 @@ cmd.setPerms({
 cmd.setExecute(async(client, message, args) => {
     const [{ prefix }] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
-    const numCharacters = await client.data.db.query(`select count(id) from characters where ownerID='${message.author.id}'`);
-    // TODO: check the user is premium and check the premium limit too
-    if (numCharacters >= client.config.characters.limit) {
-        message.channel.send(client.operations.generateEmbed.run({
-            title: `Character Creator - Step 1 - Name`,
-            description: "Please send the name of the your character. Only use the characters a-z, A-Z and keep the name shorter than 20 characters.",
-            author: "Tinker's Characters",
-            authorUrl: "./res/TinkerCharacter.png",
-            colour: client.statics.colours.tinker,
-            ...client.statics.defaultEmbed.footerUser("Created by", message.author, "")
-        }));
-        return;
+    const characters = await client.data.db.query(`select * from characters where ownerID='${message.author.id}'`);
+
+    if (client.premiumManager.userHasPremium(message.author.id)) {
+        if (characters.length >= client.config.characters.premiumLimit) {
+            message.channel.send(client.operations.generateEmbed.run({
+                title: `Character Creator - Denied`,
+                description: `You have reached the premium character creation limit of ${client.config.characters.premiumLimit}\n`,
+                author: "Tinker's Characters",
+                authorUrl: "./res/TinkerCharacter.png",
+                colour: client.statics.colours.tinker,
+                ...client.statics.defaultEmbed.footerUser("Created by", message.author, "")
+            }));
+            return;
+        }
+    } else {
+        if (characters.length >= client.config.characters.limit) {
+            message.channel.send(client.operations.generateEmbed.run({
+                title: `Character Creator - Denied`,
+                description: `You have reached the standard character creation limit of ${client.config.characters.limit}\nYou can increase this limit by purchasing premium`,
+                author: "Tinker's Characters",
+                authorUrl: "./res/TinkerCharacter.png",
+                colour: client.statics.colours.tinker,
+                ...client.statics.defaultEmbed.footerUser("Created by", message.author, "")
+            }));
+            return;
+        }
     }
 
     const m = await message.channel.send(client.operations.generateEmbed.run({
@@ -72,6 +86,16 @@ cmd.setExecute(async(client, message, args) => {
             ...client.statics.defaultEmbed.footerUser("Created by", message.author, "")
         }));
     }
+    if (characters.map((char) => char.name).includes(name)) {
+        return m.edit(client.operations.generateEmbed.run({
+            title: "Character Creator - Step 1 - Name - Failed",
+            description: "A character by this name already exists",
+            author: "Tinker's Characters",
+            authorUrl: "./res/TinkerExclamation-red.png",
+            colour: client.statics.colours.tinker,
+            ...client.statics.defaultEmbed.footerUser("Created by", message.author, "")
+        }));
+    }
 
     m.edit(client.operations.generateEmbed.run({
         title: "Character Creator - Complete!",
@@ -105,7 +129,7 @@ cmd.setExecute(async(client, message, args) => {
 
     m.edit(client.operations.generateEmbed.run({
         title: "Character Creator - Complete!",
-        description: `Congratulations, you have created ${name}\n${client.emojiHelper.sendWith(client.data.emojis.ticks.greenTick)} Save complete, you can now set your active character using \`${prefix}character select ${characterID}\``,
+        description: `Congratulations, you have created ${name}\n${client.emojiHelper.sendWith(client.data.emojis.ticks.greenTick)} Save complete, you can now set your active character using \`${prefix}character select ${name}\``,
         author: "Tinker's Characters",
         authorUrl: "./res/TinkerCharacter.png",
         colour: client.statics.colours.tinker,

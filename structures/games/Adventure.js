@@ -16,17 +16,17 @@ class Adventure extends EventEmitter {
         this.channel = channel;
         this.user = user;
         this.character = character;
-
-        this.prepareStart().then(async() => {
-            await this.start();
-            await this.gameLoop();
-            await this.end();
-        });
     }
 
-    async prepareStart() {
-        // mark active adventuring game
-        this.client.activeAdventures.set(this.user.id, this);
+    async run() {
+        const m = await this.start();
+        console.log(m)
+        if (m) {
+            await this.gameLoop(m);
+            await this.end(true);
+        } else {
+            await this.end(false);
+        }
     }
 
     async start() {
@@ -42,6 +42,7 @@ class Adventure extends EventEmitter {
         await m.react(this.client.emojiHelper.reactWith(this.client.data.emojis.ticks.greenTick));
         await m.react(this.client.emojiHelper.reactWith(this.client.data.emojis.ticks.redCross));
 
+        let collection;
         try {
             collection = await m.awaitReactions((reaction, user) => {
                 return [this.client.emojiHelper.getName(this.client.data.emojis.ticks.greenTick),
@@ -53,24 +54,45 @@ class Adventure extends EventEmitter {
             return;
         }
 
-        reaction = collection.first();
+        let reaction = collection.first();
         if (reaction.emoji.name === this.client.emojiHelper.getName(this.client.data.emojis.ticks.redCross)) {
             this.client.operations.deleteCatch.run(m);
             return;
         }
         await m.reactions.removeAll();
+        return m;
     }
 
-    async gameLoop() {
+    async gameLoop(m) {
+
+
+        // advance
+        const advMsg = await this.channel.send("Please write `advance` to continue");
+        let advMsgCollection;
+        try {
+            advMsgCollection = await this.channel.awaitMessages(msg => msg.author.id == this.user.id, { max: 1, time: 30000, errors: ['time'] });
+        } catch (e) {
+            this.client.operations.deleteCatch.run(advMsg);
+            return;
+        }
+
+        const advUserMsg = advMsgCollection.first();
+        this.client.operations.deleteCatch.run(advMsg);
+        if (advUserMsg.content.toLowerCase() == "advance") { // TODO: add advancing aliases
+            this.client.operations.deleteCatch.run(advUserMsg);
+            await this.gameLoop(m);
+        }
+
+        this.client.operations.deleteCatch.run(m);
 
     }
 
     async end() {
-        
-        // remove active adventuring game mark
-        this.client.activeAdventures.delete(this.user.id);
 
-        this.emit("end", {message: "stats"}); // TODO: return some stats about the adventure (e.g. no enemies killed, xp earned, health lost etc)
+        // collect some stats
+
+        // send those stats back to the place the command was run
+        this.emit("end", { message: "stats" }); // TODO: return some stats about the adventure (e.g. no enemies killed, xp earned, health lost, changes to inventory etc)
     }
 }
 

@@ -79,12 +79,7 @@ command.setExecute(async (client, message, args, cmd) => {
         if (target.roles.cache.size <= 1) return "None"
         return target.roles.cache.sort((a, b) => {
             return b.rawPosition - a.rawPosition
-        }).reduce((conc, curr) => {
-            if (curr.rawPosition == 0) {
-                return conc
-            }
-            return conc += `${curr} | `
-        }, "| ")
+        }).map((r) => `${r}`).slice(0, target.roles.cache.size-1).join(" | ")
     }()));
     embed.setFooter(`Requested by ${message.author.username}`);
     embed.setTimestamp();

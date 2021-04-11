@@ -27,7 +27,7 @@ cmd.setExecute(async(client, message, args) => {
     if (!activeCharacter) {
         return message.channel.send(client.operations.generateEmbed.run({
             title: `No character selected`,
-            description: `You must select a character before you can begin by running \`${prefix}character select [characterID]\``,
+            description: `You must select a character before you can begin by running \`${prefix}character select [name]\``,
             author: "Tinker's Character",
             authorUrl: "./res/TinkerExclamation-red.png",
             colour: client.statics.colours.tinker,
@@ -38,7 +38,7 @@ cmd.setExecute(async(client, message, args) => {
     const [character] = await client.data.db.query(`Select * from characters where id=?`, [activeCharacter]);
 
     message.channel.send(client.operations.generateEmbed.run({
-        title: `${character.name} (${character.id})`,
+        title: `${character.name}`,
         // description: "other stats and info and stuff",
         fields: [
             {name: "Health", value: character.health, inline: true},
@@ -48,7 +48,7 @@ cmd.setExecute(async(client, message, args) => {
         author: "Tinker's Characters",
         authorUrl: "./res/TinkerCharacter.png",
         colour: client.statics.colours.tinker,
-        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, "")
+        ...client.statics.defaultEmbed.footerUser("Requested by", message.author, ` • ID: ${character.id}`)
     }));
 });
 
