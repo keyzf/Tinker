@@ -52,7 +52,7 @@ class DotPerm {
             }
         }
 
-
+        // if length of perm chain is longer than the requested perm chain it must be a child and therefore irrelevant
         relevantPerms = relevantPerms.filter((elt) => {
             // -1 for flags index
             if (elt.length - 1 > splitPerms.length) {

@@ -40,11 +40,11 @@ command.setExecute(async(client, message, args, cmd) => {
                 embed.setTitle(`Covid Stats - ${json.country}`)
                 embed.addFields({ name: "Population", value: json.population ? json.population.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "\u200B", value: "\u200B", inline: true }, { name: "\u200B", value: "\u200B", inline: true },
 
-                    { name: "Cases", value: json.cases ? json.cases.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Todays Cases", value: json.todayCases ? json.todayCases.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "\u200B", value: "\u200B", inline: true },
+                    { name: "Cases", value: json.cases ? json.cases.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Today's Cases", value: json.todayCases ? json.todayCases.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "\u200B", value: "\u200B", inline: true },
 
-                    { name: "Deaths", value: json.deaths ? json.deaths.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Todays Deaths", value: json.todayDeaths ? json.todayDeaths.toLocaleString() : "No data could be found for this stat", inline: true }, { name: '\u200B', value: '\u200B', inline: true },
+                    { name: "Deaths", value: json.deaths ? json.deaths.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Today's Deaths", value: json.todayDeaths ? json.todayDeaths.toLocaleString() : "No data could be found for this stat", inline: true }, { name: '\u200B', value: '\u200B', inline: true },
 
-                    { name: "Recovered", value: json.recovered ? json.recovered.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Todays Recovered", value: json.todayRecovered ? json.todayRecovered.toLocaleString() : "No data could be found for this stat", inline: true }, { name: '\u200B', value: '\u200B', inline: true }
+                    { name: "Recovered", value: json.recovered ? json.recovered.toLocaleString() : "No data could be found for this stat", inline: true }, { name: "Today's Recovered", value: json.todayRecovered ? json.todayRecovered.toLocaleString() : "No data could be found for this stat", inline: true }, { name: '\u200B', value: '\u200B', inline: true }
                 )
                 embed.setFooter(`Last updated: ${json.updated ? new Date(json.updated).toLocaleString() : "No data could be found for this stat"}`)
                 message.channel.send(embed)

@@ -139,7 +139,7 @@ class Adventure extends EventEmitter {
         // collect some stats
 
         // send those stats back to the place the command was run
-        this.emit("end", { message: "stats" }); // TODO: return some stats about the adventure (e.g. no enemies killed, xp earned, health lost, changes to inventory etc)
+        this.emit("end", { premature: !correctly, message: "stats" }); // TODO: return some stats about the adventure (e.g. no enemies killed, xp earned, health lost, changes to inventory etc)
     }
 }
 
