@@ -155,8 +155,8 @@ class Command {
                 message.channel.send(this.client.operations.generateEmbed.run({
                     title: "My Permissions Were Denied",
                     description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`,
-                    ...client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
-                    colour: client.statics.colours.permissions.denied
+                    ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
+                    colour: this.client.statics.colours.permissions.denied
                 }));
                 return this.client.logger.debug(`Bot Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
             }
