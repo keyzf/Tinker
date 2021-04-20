@@ -10,18 +10,17 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true,
-    limitMessage: "What do you think you are testing..."
+    cooldown: 1
 });
 
 command.setPerms({
+    botPermissions: [],
     userPermissions: [],
-    botPermissions: []
+    globalUserPermissions: ["admin.command.test"],
+    memberPermissions: ["command.test"]
 });
 
-command.registerSubCommand(`${__dirname}/test/timer`);
-command.registerSubCommand(`${__dirname}/test/canceltimer`);
+command.registerSubCommand(`${__dirname}/test/perms`);
 
 command.setExecute(async(client, message, args, cmd) => {
     return message.channel.send("Welcome to the default handler! You are incompetent enough to not use a subcommand. Whoo!");

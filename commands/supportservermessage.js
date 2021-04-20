@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES"],
-    botPermissions: ["MANAGE_MESSAGES", "USE_EXTERNAL_EMOJIS"]
+    botPermissions: ["MANAGE_MESSAGES", "USE_EXTERNAL_EMOJIS"],
+    globalUserPermissions: ["support.command.supportservermessage"],
+    memberPermissions: ["command.supportservermessage"]
 });
 
 command.registerSubCommand(`${__dirname}/supportservermessage/supportchannel.js`);

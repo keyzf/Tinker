@@ -15,7 +15,9 @@ cmd.setLimits({
 
 cmd.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.fun.character.select"],
+    memberPermissions: ["command.fun.character.select"]
 });
 
 cmd.setExecute(async(client, message, args) => {

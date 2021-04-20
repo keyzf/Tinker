@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_GUILD"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.config.prefix"],
+    memberPermissions: ["command.config.prefix"]
 });
 
 

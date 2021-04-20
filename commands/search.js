@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "search",
     aliases: [],
     category: "Music",
@@ -9,20 +9,21 @@ cmd.setInfo({
     usage: "<search criteria>"
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["ADD_REACTIONS", "USE_EXTERNAL_EMOJIS"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.music.search"],
+    memberPermissions: ["command.music.search"]
 });
 
 const yts = require("yt-search");
 const { logger } = require("../structures/TinkerClient");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     if (!args || !args.length) { return message.channel.send("Please provide something to search") }
 
     const msg = await message.channel.send(client.operations.generateEmbed.run({ title: `${client.data.emojis.custom.loading} Fetching Video Info`, colour: client.statics.colours.tinker }))
@@ -102,4 +103,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
         });
 });
 
-module.exports = cmd;
+module.exports = command;

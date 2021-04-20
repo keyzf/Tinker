@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 2,
-    inDev: true,
+    cooldown: 2
 });
 
 command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.fun.character"],
+    memberPermissions: ["command.fun.character"]
 });
 
 command.registerSubCommand(`${__dirname}/character/view`);

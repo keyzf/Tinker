@@ -6,7 +6,7 @@ op.setInfo({
 });
 
 op.setExecute(async(client, userID, guildID) => {
-    await client.data.db.query(`insert into users(userId, guildId) values(${userID}, ${guildID})`);
+    await client.data.db.query(`insert into users(userId, guildId, perms) values(${userID}, ${guildID}, ?)`, ["command.*"]);
 });
 
 module.exports = op;

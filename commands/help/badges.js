@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "badges",
     aliases: ["badge"],
     category: "Bot",
@@ -9,13 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.badges"],
+    memberPermissions: ["command.bot.help.badges"]
+});
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Badges",
         description: "Badges are shown for both users and servers. They are used by the bot to represent status, features, or identities of the user/server.\nBadges are managed solely by the bot and its developers, users cannot change or manage badges for themselves, others or guilds\nHowever users and guilds can earn themselves special badges in events, minigames, challenges, etc",
@@ -24,4 +29,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

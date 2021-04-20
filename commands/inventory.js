@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.adventuring.inventory"],
+    memberPermissions: ["command.adventuring.inventory"]
 });
 
 command.registerSubCommand(`${__dirname}/inventory/view`);

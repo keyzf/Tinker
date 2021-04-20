@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true
+    cooldown: 0
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.music.disconnect"],
+    memberPermissions: ["command.music.disconnect"]
 });
 
 command.setExecute(async (client, message, args, cmd) => {

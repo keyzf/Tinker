@@ -15,10 +15,11 @@ cmd.setLimits({
 
 cmd.setPerms({
     botPermissions: ["MANAGE_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.fun.character.all"],
+    memberPermissions: ["command.fun.character.all"]
 });
 
-const { MessageEmbed } = require("discord.js");
 
 cmd.setExecute(async(client, message, args) => {
     let noPerPage = 3;

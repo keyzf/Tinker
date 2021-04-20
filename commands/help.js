@@ -15,7 +15,9 @@ command.setLimits({
 
 command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.bot.help"],
+    memberPermissions: ["command.bot.help"]
 });
 
 command.registerSubCommand(`${__dirname}/help/all`);

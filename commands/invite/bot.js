@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 3,
-    limited: false
+    cooldown: 3
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.invite.bot"],
+    memberPermissions: ["command.bot.invite.bot"]
 });
 
 command.setExecute(async (client, message, args, cmd) => {

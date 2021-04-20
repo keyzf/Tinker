@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "operation",
     aliases: ["op"],
     category: "DevOnly",
@@ -9,17 +9,23 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.registerSubCommand(`${__dirname}/operation/add`);
-cmd.registerSubCommand(`${__dirname}/operation/remove`);
-cmd.registerSubCommand(`${__dirname}/operation/reload`);
+command.setPerms({
+    botPermissions: [],
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage.operation"],
+    memberPermissions: ["command.livemanage.operation"]
+});
 
-cmd.setExecute(async (client, message, args, cmd) => {
+command.registerSubCommand(`${__dirname}/operation/add`);
+command.registerSubCommand(`${__dirname}/operation/remove`);
+command.registerSubCommand(`${__dirname}/operation/reload`);
+
+command.setExecute(async (client, message, args, cmd) => {
    message.channel.send("Please specify, `add` `remove` or `reload`");
 });
 
-module.exports = cmd;
+module.exports = command;

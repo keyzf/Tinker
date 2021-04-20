@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.moderation.userstats"],
+    memberPermissions: ["command.moderation.userstats"]
 });
 
 const {MessageEmbed} = require("discord.js");

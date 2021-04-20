@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "devs",
     aliases: ["developers"],
     category: "Bot",
@@ -9,13 +9,19 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
+command.setLimits({
     cooldown: 1,
     limited: false
 });
 
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.devs"],
+    memberPermissions: ["command.bot.help.devs"]
+});
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     return message.channel.send(client.operations.generateEmbed.run({
         title: "The Tinker Team",
         description: "Here are all of the people involved in my development",
@@ -29,4 +35,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

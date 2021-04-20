@@ -1,7 +1,7 @@
 const Command = require("../../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "remove",
     aliases: [],
     category: "DevOnly",
@@ -9,14 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: true
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    botPermissions: [],
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage.event.remove"],
+    memberPermissions: ["command.livemanage.event.remove"]
 });
 
 const path = require("path");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const eventName = args[0];
     let cmd_files = client.utility.find(client.eventDir, `.js`);
 
@@ -30,4 +36,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     message.channel.send(`Remove event ${eventName}`)
 });
 
-module.exports = cmd;
+module.exports = command;

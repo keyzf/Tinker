@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "livemanage",
     aliases: ["lm"],
     category: "DevOnly",
@@ -9,22 +9,23 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 0,
-    limited: true
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage"],
+    memberPermissions: ["command.livemanage"]
 });
 
-cmd.registerSubCommand(`${__dirname}/livemanage/command`);
-cmd.registerSubCommand(`${__dirname}/livemanage/event`);
-cmd.registerSubCommand(`${__dirname}/livemanage/operation`);
+command.registerSubCommand(`${__dirname}/livemanage/command`);
+command.registerSubCommand(`${__dirname}/livemanage/event`);
+command.registerSubCommand(`${__dirname}/livemanage/operation`);
 
-cmd.setExecute(async (client, message, args, cmd) => {
+command.setExecute(async (client, message, args, cmd) => {
     return message.channel.send("Type should equal `command`, `event` or `operation`");
 });
 
-module.exports = cmd;
+module.exports = command;

@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "command",
     aliases: ["com"],
     category: "DevOnly",
@@ -9,17 +9,23 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.registerSubCommand(`${__dirname}/command/add.js`);
-cmd.registerSubCommand(`${__dirname}/command/remove.js`);
-cmd.registerSubCommand(`${__dirname}/command/reload.js`);
+command.setPerms({
+    botPermissions: [],
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage.command"],
+    memberPermissions: ["command.livemanage.command"]
+});
 
-cmd.setExecute(async (client, message, args, cmd) => {
+command.registerSubCommand(`${__dirname}/command/add.js`);
+command.registerSubCommand(`${__dirname}/command/remove.js`);
+command.registerSubCommand(`${__dirname}/command/reload.js`);
+
+command.setExecute(async (client, message, args, cmd) => {
    message.channel.send("Please specify, `add` `remove` or `reload`");
 });
 
-module.exports = cmd;
+module.exports = command;

@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true
+    cooldown: 0
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["indev.command.bot.vote"],
+    memberPermissions: ["command.bot.vote"]
 });
 
 command.setExecute(async (client, message, args, cmd) => {

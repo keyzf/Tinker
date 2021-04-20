@@ -15,7 +15,9 @@ cmd.setLimits({
 
 cmd.setPerms({
     botPermissions: ["MANAGE_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.fun.character.create"],
+    memberPermissions: ["command.fun.character.create"]
 });
 
 cmd.setExecute(async(client, message, args) => {

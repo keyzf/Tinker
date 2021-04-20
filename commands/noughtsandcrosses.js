@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "noughtsandcrosses",
     aliases: ["tictactoe"],
     category: "Fun",
@@ -9,19 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 10,
-    limited: false
+command.setLimits({
+    cooldown: 10
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["MANAGE_MESSAGES", "ADD_REACTIONS"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.fun.noughtsandcrosses"],
+    memberPermissions: ["command.fun.noughtsandcrosses"]
 });
 
 const NoughtsAndCrosses = require("../structures/games/NoughtsAndCrosses");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const msg = await message.channel.send(client.operations.generateEmbed.run({
         title: "Noughts and Crosses",
         description: `Please wait, setting up`,
@@ -36,4 +37,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
 });
 
-module.exports = cmd;
+module.exports = command;

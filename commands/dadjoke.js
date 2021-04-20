@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "dadjoke",
     aliases: [],
     category: "Fun",
@@ -9,20 +9,21 @@ cmd.setInfo({
     usage: "[joke ID]"
 });
 
-cmd.setLimits({
-    cooldown: 0,
-    limited: false
+command.setLimits({
+    cooldown: 0
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.fun.dadjoke"],
+    memberPermissions: ["command.fun.dadjoke"]
 });
 
 const axios = require("axios");
 const { MessageEmbed } = require("discord.js");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     message.channel.startTyping();
 
     if (args[0]) {
@@ -69,4 +70,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     message.channel.stopTyping();
 });
 
-module.exports = cmd;
+module.exports = command;

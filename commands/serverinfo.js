@@ -1,25 +1,26 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "serverinfo",
     aliases: ["guildinfo", "serverstats", "guildstats"],
-    category: "Bot",
+    category: "Guild",
     description: "Info about the server",
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.guild.serverinfo"],
+    memberPermissions: ["command.guild.serverinfo"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const { guild } = message;
     const [{ description, badges }] = await client.data.db.query(`select description, badges from guilds where guildID='${message.guild.id}'`);
 
@@ -55,4 +56,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

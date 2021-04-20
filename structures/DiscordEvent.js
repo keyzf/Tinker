@@ -1,17 +1,15 @@
-
-
 /**
  * 
  * @typedef {Object} DiscordEventInfo
  * @property {String} name a Discord event
  */
 
- /**
-  * Representing a Discord event, run when a Discord#Client calls it
-  */
+/**
+ * Representing a Discord event, run when a Discord#Client calls it
+ */
 class DiscordEvent {
 
-  
+
     constructor() {
         this.client;
         this.info; // name, aliases, description, usage
@@ -35,7 +33,7 @@ class DiscordEvent {
         if (typeof options.name != "string") {
             throw new TypeError("INVALID_DISCORD_EVENT_INFO_OPTION - 'name' must be of type String");
         }
-        
+
         this.info = options;
     }
 

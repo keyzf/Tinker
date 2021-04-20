@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["admin.command.error.remove.all"],
+    memberPermissions: ["command.error.remove.all"]
 });
 
 command.setExecute(async (client, message, args, cmd) => {

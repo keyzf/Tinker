@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "asciitext",
     aliases: [],
     category: "Fun",
@@ -9,20 +9,20 @@ cmd.setInfo({
     usage: "<text to display>"
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: ["MANAGE_MESSAGES"]
+    userPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["user.command.fun.asciitext"],
+    memberPermissions: ["command.fun.asciitext"]
 });
-
 
 const figlet = require("figlet")
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const text = args.join(" ");
     if (text.length == 0) { return message.channel.send("Provide something to say - if I could read your brain, do you think I'd be a Discord bot? No, me neither!") } else if (text.length > 15) { return message.channel.send("Really, you've got that much to say... just put it in a normal message") }
     let out;
@@ -39,4 +39,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     return message.channel.send("```" + out + "```");
 });
 
-module.exports = cmd;
+module.exports = command;

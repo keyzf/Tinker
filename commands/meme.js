@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "meme",
     aliases: [],
     category: "Fun",
@@ -9,14 +9,15 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.fun.meme"],
+    memberPermissions: ["command.fun.meme"]
 });
 
 const fetch = require("node-fetch")
@@ -36,7 +37,7 @@ const url = `https://www.reddit.com/r/`;
 const urlEnd = `.json?limit=100`;
 const { MessageEmbed } = require("discord.js");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     message.channel.startTyping();
 
     let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
@@ -62,4 +63,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
         });
 });
 
-module.exports = cmd;
+module.exports = command;

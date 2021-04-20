@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: false
+    cooldown: 0
 });
 
 command.setPerms({
     userPermissions: ["MANAGE_GUILD"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.config.config"],
+    memberPermissions: ["command.config.config"]
 });
 
 command.registerSubCommand(`${__dirname}/config/prefix.js`);

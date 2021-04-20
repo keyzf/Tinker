@@ -10,34 +10,32 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["owner.command.eval"],
+    memberPermissions: ["command.eval"]
 });
 
 const Discord = require("discord.js");
 const util = require("util");
 
-command.setExecute(async (client, message, args, cmd) => {
-    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
+command.setExecute(async(client, message, args, cmd) => {
+    return message.channel.send("I re-wrote permissions and dont trust myself. If you see this I swear to god you better contact me IMMEDIATELY");
+    const [{ prefix }] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     const send = (data) => {
         message.channel.send(data)
     }
 
-    const asyncCode = (code) => {
-        return `(async function(){${code}}())`
-    }
-
     const clean = (res) => {
-        if(typeof res != "string") {
+        if (typeof res != "string") {
             return res;
         }
-        res.replace(process.env.DISCORD_CLIENT_TOKEN, "CLIENT_TOKEN");
+        res = res.replace(process.env.DISCORD_CLIENT_TOKEN, "CLIENT_TOKEN");
         return res;
     }
 
@@ -47,9 +45,15 @@ command.setExecute(async (client, message, args, cmd) => {
     }
     try {
         const data = clean(await eval(code));
-        message.channel.send(util.inspect(data, {showHidden: false, depth: null}), {code: "js"});
-    } catch ({stack}) {
-        message.channel.send(stack, {code: "js"});
+        const output = util.inspect(data, { showHidden: false, depth: null });
+        if (output) {
+            message.channel.send(output, { code: "js", split: true });
+        }
+    } catch (err) {
+        console.log(err)
+        if (err.stack) {
+            message.channel.send(err.stack, { code: "js" });
+        }
     }
 });
 

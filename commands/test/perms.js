@@ -2,7 +2,7 @@ const Command = require(`../../structures/Command`);
 const command = new Command();
 
 command.setInfo({
-    name: "canceltimer",
+    name: "perms",
     aliases: [],
     category: "DevOnly",
     description: "",
@@ -10,19 +10,17 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
+    botPermissions: [],
     userPermissions: [],
-    botPermissions: []
+    globalUserPermissions: ["admin.command.test.perms"],
+    memberPermissions: ["command.test.perms"]
 });
 
-const ms = require("pretty-ms");
-
 command.setExecute(async (client, message, args, cmd) => {
-    client.timeoutManager.deleteTimer(args[0]);
 
 });
 

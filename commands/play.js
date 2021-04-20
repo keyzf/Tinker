@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "play",
     aliases: [],
     category: "Music",
@@ -9,19 +9,20 @@ cmd.setInfo({
     usage: "<link>"
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.music.play"],
+    memberPermissions: ["command.music.play"]
 });
 
 const ytdl = require("ytdl-core");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.channel.send("Gotta be in a vc");
     if (!args[0]) return client.commands.get("resume").run(message, args, cmd)
@@ -99,4 +100,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
 });
 
-module.exports = cmd;
+module.exports = command;

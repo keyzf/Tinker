@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 3,
-    limited: false
+    cooldown: 3
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.invite"],
+    memberPermissions: ["command.bot.invite"]
 });
 
 command.registerSubCommand(`${__dirname}/invite/bot`);

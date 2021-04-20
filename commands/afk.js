@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "afk",
     aliases: [],
     category: "User",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: "<reason for afk>"
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.user.afk"],
+    memberPermissions: ["command.user.afk"]
 });
 
-cmd.setExecute(async (client, message, args, cmd) => {
+command.setExecute(async (client, message, args, cmd) => {
     let reason = args.join(' ') ? args.join(' ') : 'I am currently afk, I will reply as soon possible.';
     let afklist = client.afk.get(message.author.id);
 
@@ -38,4 +39,4 @@ cmd.setExecute(async (client, message, args, cmd) => {
     }    
 });
 
-module.exports = cmd;
+module.exports = command;

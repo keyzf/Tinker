@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "command",
     aliases: [],
     category: "Bot",
@@ -9,15 +9,21 @@ cmd.setInfo({
     usage: "<command / command path>"
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.command"],
+    memberPermissions: ["command.bot.help.command"]
 });
 
 const { MessageEmbed } = require("discord.js")
 const { loopObjArr } = require("../../utility/recursive");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
 
     if (!args[0]) return message.channel.send("That isn't a valid command!");
     const name = args[0].toLowerCase();
@@ -37,13 +43,13 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
     path = path.join(" > ");
 
-    const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
+    const [{ prefix }] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     const e = new MessageEmbed();
     e.setTimestamp();
     e.setTitle(path)
     e.setDescription(command.info.description || "No description set")
-    e.addFields({ name: "Aliases", value: `${command.info.aliases.join(", ") || "No aliases set"}`, inline: true }, { name: "Usage", value: `${(command.info.usage) ? prefix + command.info.name + " " + command.info.usage : "No usage advice"}`, inline: true }, { name: "Cooldown", value: `${command.limits.cooldown || 0}s`, inline: true }, { name: "Subcommands", value: `${command.subcommands.length ? command.subcommands.map((cmd) => { return cmd.info.name }).join(", ") : "No subcommands"}` });
+    e.addFields({ name: "Aliases", value: `${command.info.aliases.join(", ") || "No aliases set"}`, inline: true }, { name: "Usage", value: `${(command.info.usage) ? prefix + command.info.name + " " + command.info.usage : "No usage advice"}`, inline: true }, { name: "Cooldown", value: `${command.limits.cooldown || 0}s`, inline: true }, { name: "Subcommands", value: `${command.subcommands.length ? command.subcommands.map((command) => { return command.info.name }).join(", ") : "No subcommands"}` });
     return message.channel.send(client.operations.generateEmbed.run({
         ...e,
         colour: client.statics.colours.tinker,
@@ -51,4 +57,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

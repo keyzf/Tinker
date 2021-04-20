@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 5,
-    limited: false
+    cooldown: 5
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.stats.covid"],
+    memberPermissions: ["command.stats.covid"]
 });
 
 command.registerSubCommand(`${__dirname}/covid/all`);

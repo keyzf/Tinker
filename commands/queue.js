@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "queue",
     aliases: [],
     category: "Music",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.music.queue"],
+    memberPermissions: ["command.music.queue"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const serverQueue = client.audioQueue.get(message.guild.id);
     if (!serverQueue) return message.channel.send('There is no queue');
 
@@ -39,4 +40,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }))
 });
 
-module.exports = cmd;
+module.exports = command;

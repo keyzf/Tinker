@@ -23,11 +23,7 @@ op.setExecute(async(client, message, args, cmd) => {
     const matches = stringSimilarity.findBestMatch(cmd, all);
 
     if (matches.bestMatch.rating < 0.3) {
-        const {prefix} = await client.data.db.getOne({
-            table: "guilds",
-            fields: ["prefix"],
-            conditions: [`guildID='${message.guild.id}'`]
-        });
+        const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
         message.react("🤦‍♂️")
         message.channel.send(`Need a hand? Type \`${prefix}help\``)
             .then((msg) => {

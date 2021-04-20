@@ -6,6 +6,7 @@ const setup = async() => {
     const TimeoutManager = require("./TimeoutManager");
     const VoteManager = require("../structures/VoteManager");
     const CurrencyManager = require("./CurrencyManager");
+    const PermissionsManager = require("./PermissionsManager");
 
     const logger = require("./internal/logger");
 
@@ -134,7 +135,7 @@ const setup = async() => {
         ]
     });
 
-    // client.permissionsManager = {} // for custom perms system
+    client.permissionsManager = PermissionsManager.setup(client);
 
     /**
      *

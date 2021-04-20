@@ -10,13 +10,14 @@ cmd.setInfo({
 });
 
 cmd.setLimits({
-    cooldown: 5,
-    limited: false
+    cooldown: 5
 });
 
 cmd.setPerms({
     botPermissions: ["EMBED_LINKS"],
-    userPermissions: ["USE_EXTERNAL_EMOJIS"]
+    userPermissions: ["USE_EXTERNAL_EMOJIS"],
+    globalUserPermissions: ["user.command.emoji.bongocat"],
+    memberPermissions: ["command.emoji.bongocat"]
 });
 
 cmd.setExecute(async (client, message, args, cmd) => {

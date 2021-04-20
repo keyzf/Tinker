@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "uptime",
     aliases: ["ut"],
     category: "Bot",
@@ -9,19 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.bot.uptime"],
+    memberPermissions: ["command.bot.uptime"]
 });
 
 const ms = require("pretty-ms")
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     try {
         const [{ totalUptime }] = await client.data.db.query(`select totalUptime from bot where env='${process.env.NODE_ENV}'`);
         await message.channel.send(client.operations.generateEmbed.run({
@@ -35,4 +36,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }
 });
 
-module.exports = cmd;
+module.exports = command;

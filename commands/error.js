@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.error"],
+    memberPermissions: ["command.bot.error"]
 });
 
 command.registerSubCommand(`${__dirname}/error/remove`);

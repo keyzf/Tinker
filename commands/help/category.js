@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "category",
     aliases: ["categories"],
     category: "Bot",
@@ -9,14 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.category"],
+    memberPermissions: ["command.bot.help.category"]
 });
 
 const { MessageEmbed } = require("discord.js");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     if (!args[0]) {
         return message.channel.send("Please provide a category")
     }
@@ -29,12 +35,10 @@ cmd.setExecute(async(client, message, args, cmd) => {
 
     let outCommands = {};
     commands.array().forEach((item) => {
-        if (!item.limits.limited || client.config.devs.includes(message.author.id)) {
-            let category = item.info.category;
-            if (category.toLowerCase() == args.join(" ").toLowerCase()) {
-                if (!outCommands[item.info.name]) { outCommands[item.info.name] = []; }
-                outCommands[item.info.name].push(item.info.description);
-            }
+        let category = item.info.category;
+        if (category.toLowerCase() == args.join(" ").toLowerCase()) {
+            if (!outCommands[item.info.name]) { outCommands[item.info.name] = []; }
+            outCommands[item.info.name].push(item.info.description || "No description");
         }
     });
     let keys = Object.keys(outCommands);
@@ -55,4 +59,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     // return message.channel.send(`Use \`${prefix}help command [Command Name]\` to get help with a specific command`);
 });
 
-module.exports = cmd;
+module.exports = command;

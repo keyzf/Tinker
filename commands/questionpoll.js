@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "questionpoll",
     aliases: ["qpoll"],
     category: "Poll",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["MANAGE_MESSAGES"],
-    userPermissions: ["MANAGE_MESSAGES"]
+    userPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["user.command.poll.questionpoll"],
+    memberPermissions: ["command.poll.questionpoll"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
 
     const question = args[0];
     if (!question) { return message.channel.send(`You did not specify a question!`); }
@@ -43,4 +44,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     client.operations.deleteCatch.run(message);
 });
 
-module.exports = cmd;
+module.exports = command;

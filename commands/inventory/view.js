@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
+    userPermissions: [],
     botPermissions: [],
-    userPermissions: []
+    globalUserPermissions: ["indev.command.adventuring.inventory.view"],
+    memberPermissions: ["command.adventuring.inventory.view"]
 });
 
 command.setExecute(async(client, message, args, cmd) => {

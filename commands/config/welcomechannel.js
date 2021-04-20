@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_GUILD"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.config.welcomechannel."],
+    memberPermissions: ["command.config.welcomechannel."]
 });
 
 command.registerSubCommand(`${__dirname}/welcomechannel/none.js`);

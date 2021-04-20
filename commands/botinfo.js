@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "botinfo",
     aliases: ["info"],
     category: "Bot",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.bot.botinfo"],
+    memberPermissions: ["command.bot.botinfo"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const botInfo = client.data.botInfo;
     message.channel.send(client.operations.generateEmbed.run({
         ...botInfo,
@@ -27,4 +28,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_GUILD"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.config.logchannel"],
+    memberPermissions: ["command.config.logchannel"]
 });
 
 command.registerSubCommand(`${__dirname}/logchannel/none.js`);

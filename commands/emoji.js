@@ -10,14 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 5,
-    limited: true,
-    limitMessage: "This is a cool new emoji / gif system that is coming soon, be patient!"
+    cooldown: 5
 });
 
 command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.fun.emoji"],
+    memberPermissions: ["command.fun.emoji"]
 });
 
 // TODO: move away from subcommand system as writing out all subcommands for all emojis/gifs would be tedious and repeated code

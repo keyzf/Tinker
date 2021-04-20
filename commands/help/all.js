@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "all",
     aliases: [],
     category: "Bot",
@@ -9,14 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: false
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.all"],
+    memberPermissions: ["command.bot.help.all"]
 });
 
 const {MessageEmbed} = require("discord.js");
 
-cmd.setExecute(async (client, message, args, cmd) => {
+command.setExecute(async (client, message, args, cmd) => {
     const {commands} = client;
     const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
@@ -47,4 +53,4 @@ cmd.setExecute(async (client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

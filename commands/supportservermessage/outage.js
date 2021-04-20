@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: true
+    cooldown: 0
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: ["MANAGE_MESSAGES"]
+    botPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["support.command.supportservermessage.outage"],
+    memberPermissions: ["command.supportservermessage.outage"]
 });
 
 command.setExecute(async (client, message, args, cmd) => {

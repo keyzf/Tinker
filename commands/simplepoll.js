@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "simplepoll",
     aliases: ["poll"],
     category: "Poll",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: "<question>"
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["MANAGE_MESSAGES"],
-    userPermissions: ["MANAGE_MESSAGES"]
+    userPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["user.command.poll.simplepoll"],
+    memberPermissions: ["command.poll.simplepoll"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     let question = args.join(" ");
     if (!question) { return message.channel.send(`You did not specify a question!`); }
 
@@ -35,4 +36,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     client.operations.deleteCatch.run(message);
 });
 
-module.exports = cmd;
+module.exports = command;

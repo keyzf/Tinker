@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "advancedpoll",
     aliases: ["apoll"],
     category: "Poll",
@@ -9,18 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 5,
-    inDev: true,
-    limitedMsg: "If you think I can finish this and get it stable anytime soon, lmaooo. No way"
+command.setLimits({
+    cooldown: 5
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["MANAGE_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.poll.advancedpoll"],
+    memberPermissions: ["command.poll.advancedpoll"]
 });
 
-cmd.setExecute(async(client, message, args) => {
+command.setExecute(async(client, message, args) => {
 
 
     const generateDefaultEmbed = require("../../util/generateDefaultEmbed");
@@ -265,4 +265,4 @@ cmd.setExecute(async(client, message, args) => {
 
 });
 
-module.exports = cmd;
+module.exports = command;

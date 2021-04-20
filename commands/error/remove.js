@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["admin.command.error.remove"],
+    memberPermissions: ["command.error.remove"]
 });
 
 command.registerSubCommand(`${__dirname}/remove/all`);

@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 3,
-    limited: false
+    cooldown: 3
 });
 
 command.setPerms({
     userPermissions: ["SEND_TTS_MESSAGES", "CONNECT", "SPEAK"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.music.tts"],
+    memberPermissions: ["command.music.tts"]
 });
 
 const gtts = require('node-gtts')('en');

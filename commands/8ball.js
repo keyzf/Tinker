@@ -10,9 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
+
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.fun.8ball"],
+    memberPermissions: ["command.fun.8ball"]
+})
 
 command.setExecute(async(client, message, args, cmd) => {
     let question = args.join(" ")

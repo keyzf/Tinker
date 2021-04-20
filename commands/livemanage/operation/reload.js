@@ -1,7 +1,7 @@
 const Command = require("../../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "reload",
     aliases: [],
     category: "DevOnly",
@@ -9,14 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: true
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    botPermissions: [],
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage.operation.reload"],
+    memberPermissions: ["command.livemanage.operation.reload"]
 });
 
 const path = require("path");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const operationName = args[0];
     let cmd_files = client.utility.findNested(client.operationsDir, `.js`);
 
@@ -31,4 +37,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     message.channel.send(`Reloaded operation ${operationName}`)
 });
 
-module.exports = cmd;
+module.exports = command;

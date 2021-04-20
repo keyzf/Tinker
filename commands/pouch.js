@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.adventuring.pouch"],
+    memberPermissions: ["command.adventuring.pouch"]
 });
 
 const preResponses = [

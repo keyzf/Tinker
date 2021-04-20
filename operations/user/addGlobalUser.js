@@ -6,7 +6,7 @@ op.setInfo({
 });
 
 op.setExecute(async (client, userID) => {
-    await client.data.db.query(`insert into globalUser(userId, dateJoined) values(?, ?)`, [userID, client.timeManager.timeToSqlDateTime(new Date())])
+    await client.data.db.query(`insert into globalUser(userId, dateJoined, perms) values(?, ?, ?)`, [userID, client.timeManager.timeToSqlDateTime(new Date()), "user.*"])
 });
 
 module.exports = op;

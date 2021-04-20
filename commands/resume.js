@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "resume",
     aliases: [],
     category: "Music",
@@ -9,17 +9,18 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.music.resume"],
+    memberPermissions: ["command.music.resume"]
 });
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const serverQueue = client.audioQueue.get(message.guild.id);
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
     if (!serverQueue) return message.channel.send('There is no song that I could resume!');
@@ -34,4 +35,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

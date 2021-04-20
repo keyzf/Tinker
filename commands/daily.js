@@ -10,15 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0,
-    limited: false
+    cooldown: 0
 });
 
 command.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.adventuring.daily"],
+    memberPermissions: ["command.adventuring.daily"]
 });
-
 
 command.setExecute(async(client, message, args, cmd) => {
     const [{ lastDaily }] = await client.data.db.query(`select lastDaily from globalUser where userID='${message.author.id}'`);

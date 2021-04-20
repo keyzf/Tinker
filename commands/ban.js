@@ -10,13 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: ["BAN_MEMBERS"],
-    botPermissions: ["MANAGE_MESSAGES", "BAN_MEMBERS"]
+    botPermissions: ["MANAGE_MESSAGES", "BAN_MEMBERS"],
+    globalUserPermissions: ["user.command.moderation.ban"],
+    memberPermissions: ["command.moderation.ban"]
 });
 
 const { MessageEmbed } = require("discord.js");

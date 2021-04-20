@@ -1,7 +1,7 @@
 const Command = require("../../../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "reload",
     aliases: [],
     category: "DevOnly",
@@ -9,14 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 1,
-    limited: true
+command.setLimits({
+    cooldown: 1
+});
+
+command.setPerms({
+    botPermissions: [],
+    userPermissions: [],
+    globalUserPermissions: ["admin.command.livemanage.command.reload"],
+    memberPermissions: ["command.livemanage.command.reload"]
 });
 
 const path = require("path");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const commandName = args[0];
     let cmd_files = client.utility.find(client.commandDir, `.js`);
 
@@ -31,4 +37,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     message.channel.send(`Reloaded command ${commandName}`)
 });
 
-module.exports = cmd;
+module.exports = command;

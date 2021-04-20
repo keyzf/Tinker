@@ -10,15 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 2,
-    limited: false
+    cooldown: 2
 });
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES"],
-    botPermissions: ["MANAGE_MESSAGES"]
+    botPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["user.command.moderation.clear"],
+    memberPermissions: ["command.moderation.clear"]
 });
-
 
 command.setExecute(async(client, message, args, cmd) => {
     try { count = parseInt(args[0]); } catch { count = 1 }

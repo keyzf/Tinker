@@ -10,10 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
+command.setPerms({
+    userPermissions: [],
+    botPermissions: [],
+    globalUserPermissions: ["user.command.bot.help.usage"],
+    memberPermissions: ["command.bot.help.usage"]
+});
 
 command.setExecute(async(client, message, args, cmd) => {
     const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);

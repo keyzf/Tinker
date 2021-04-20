@@ -10,13 +10,14 @@ cmd.setInfo({
 });
 
 cmd.setLimits({
-    cooldown: 5,
-    limited: false
+    cooldown: 5
 });
 
 cmd.setPerms({
     botPermissions: [],
-    userPermissions: ["MANAGE_MESSAGES"]
+    userPermissions: ["MANAGE_MESSAGES"],
+    globalUserPermissions: ["user.command.moderation.br"],
+    memberPermissions: ["command.moderation.br"]
 });
 
 cmd.setExecute(async(client, message, args, cmd) => {

@@ -3,10 +3,29 @@ const Character = require("./Character");
 
 const { EventEmitter } = require("events");
 
+/**
+ * @typedef {Object} AdventureEvent
+ * @property {String} name
+ * @property {Number} chance
+ */
+
+/**
+ * @enum {AdventureEvent} AdventureEvents
+ * @readonly
+ */
+const AdventureEvents = {
+    travel: { name: "travel", chance: 4 },
+    rest: { name: "rest", chance: 4 },
+    ambush: { name: "ambush", chance: 2 },
+    monster: { name: "monster", chance: 7 },
+    trader: { name: "trader", chance: 1 }
+}
+
 class Adventure extends EventEmitter {
     /**
      * 
      * @param {Discord.Client} client 
+     * @param {Discord.Channel} channel
      * @param {Discord.User} user
      * @param {Character} character
      */
@@ -20,7 +39,6 @@ class Adventure extends EventEmitter {
 
     async run() {
         const m = await this.start();
-        console.log(m)
         if (m) {
             await this.gameLoop(m);
             await this.end(true);
@@ -65,6 +83,31 @@ class Adventure extends EventEmitter {
 
     async gameLoop(m) {
 
+        // get one event from weighted chance
+        const ev = function() {
+            const evs = Object.keys(AdventureEvents).map(key => {
+                return AdventureEvents[key];
+            });
+            const totalChance = evs.reduce((acc, curr) => acc + curr.chance, 0);
+            const rand = Math.floor(Math.random() * totalChance);
+            let amt = 0;
+            for (const ev of evs) {
+                amt += ev.chance;
+                if (amt > rand) {
+                    return ev;
+                }
+            }
+        }();
+
+        // do event logic
+
+        switch(ev.name) {
+            case "travel":
+                await msg.edit(client.operations.generateEmbed.run({
+                    description: "You travel for a day.... yes that means you go further"
+                }));
+                break;
+        }
 
         // advance
         const advMsg = await this.channel.send("Please write `advance` to continue");
@@ -87,7 +130,11 @@ class Adventure extends EventEmitter {
 
     }
 
-    async end() {
+    /**
+     * 
+     * @param {Boolean} correctly true when adventure ended as expected, false after timeout or error
+     */
+    async end(correctly) {
 
         // collect some stats
 

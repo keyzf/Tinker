@@ -16,7 +16,9 @@ cmd.setLimits({
 
 cmd.setPerms({
     userPermissions: [],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.covid.all"],
+    memberPermissions: ["command.covid.all"]
 });
 
 const fetch = require("node-fetch");

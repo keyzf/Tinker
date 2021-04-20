@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "stats",
     aliases: [],
     category: "Bot",
@@ -9,14 +9,15 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 2,
-    limited: false
+command.setLimits({
+    cooldown: 2
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: [],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["user.command.bot.stats"],
+    memberPermissions: ["command.bot.stats"]
 });
 
 const si = require("systeminformation");
@@ -30,7 +31,7 @@ function readableBytes(bytes) {
 
 let used_bytes = 0;
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
     const m = await message.channel.send(client.operations.generateEmbed.run({
         title: `${client.emojiHelper.sendWith(client.data.emojis.custom.loading)} Tinker Stats`,
         description: `Please wait while the information is gathered`,
@@ -71,4 +72,4 @@ cmd.setExecute(async(client, message, args, cmd) => {
     }));
 });
 
-module.exports = cmd;
+module.exports = command;

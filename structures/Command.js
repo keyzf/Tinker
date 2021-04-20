@@ -32,6 +32,8 @@ const client = require("./TinkerClient");
  * @typedef {Object} PermissionsInfo
  * @property {PermissionsList} userPermissions permissions the user must have to perform this command
  * @property {PermissionsList} botPermissions permissions the bot must have to perform this command
+ * @property {PermissionList} memberPermissions permissions the user must have (set by bot) to perform this command 
+ * @property {PermissionList} globalUserPermissions permissions the user must have (set by bot) to perform this command
  */
 
 /**
@@ -73,7 +75,7 @@ class Command {
         }
     }
 
-    run(message, args, cmd, parents) {
+    async run(message, args, cmd, parents) {
         if (!parents) { parents = [] }
         let subcmd = this.findSubcommand(args[0]);
         if (subcmd) {
@@ -91,33 +93,70 @@ class Command {
         const cooldownAmount = (this.limits.cooldown || 0) * 1000;
 
         if (timestamps.has(message.author.id)) {
-            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+            const timestamp = timestamps.get(message.author.id)
+            const expirationTime = timestamp.time + cooldownAmount;
 
             if (now < expirationTime) {
-                // const timeLeft = (expirationTime - now) / 1000;
-                // const path = parents.reduce((acc, cur) => {return acc += `${cur.info.name} > `}, "") + this.info.name;
-                // message.channel.send(`Woah woah there! Hold onto that thought for \`${timeLeft.toFixed(1)}s\`, then you can use \`${path}\` again.`);
+                if (!timestamp.userNotified) {
+                    const timeLeft = (expirationTime - now) / 1000;
+                    const path = parents.reduce((acc, cur) => { return acc += `${cur.info.name} > ` }, "") + this.info.name;
+                    message.channel.send(`Woah woah there! Hold onto that thought for \`${timeLeft.toFixed(1)}s\`, then you can use \`${path}\` again.`);
+                    timestamps.set(message.author.id, { time: timestamp.time, userNotified: true });
+                }
                 return;
             }
+            timestamps.delete(message.author.id);
         }
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+        timestamps.set(message.author.id, { time: now, userNotified: false });
 
         // check botPerms (Discord)
         if (!message.guild.me.permissions.has("SEND_MESSAGES", { checkAdmin: false })) {
             return this.client.logger.warn(`Missing Permission - SEND_MESSAGES - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id})`)
         }
-        // if (!message.guild.me.permissions.has("MANAGE_MESSAGES", { checkAdmin: false })) {
-        //     message.channel.send(`${this.client.data.emojis.custom.TinkerExclamation_red} I need base permissions to function. Please make sure I have ${this.client.data.permissionsNames["MANAGE_MESSAGES"]}`)
-        //     return this.client.logger.warn(`Missing Permission - MANAGE_MESSAGES - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id})`)
-        // }
 
+        //Check globalUser perms
+        if (this.globalUserPermissions) {
+            const globalUserPerms = await this.client.permissionsManager.getGlobalBotUserPerms(message.author);
+            for (let i = 0; i < this.globalUserPermissions.length; i++) {
+                const perm = this.globalUserPermissions[i];
+                if (!globalUserPerms.has(perm)) {
+                    message.channel.send(this.client.operations.generateEmbed.run({
+                        title: "Permissions Denied",
+                        description: `You are required to have bot-global \`${perm}\` to use this command`,
+                        ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact us at support"),
+                        colour: this.client.statics.colours.permissions.denied
+                    }))
+                    return this.client.logger.debug(`Global User Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
+                }
+            }
+        }
+
+        //Check per guild perms
+        if (this.memberPermissions) {
+            const memberPermissions = await this.client.permissionsManager.getBotUserPerms(message.guild, message.author);
+            for (let i = 0; i < this.memberPermissions.length; i++) {
+                const perm = this.memberPermissions[i];
+                if (!memberPermissions.has(perm)) {
+                    message.channel.send(this.client.operations.generateEmbed.run({
+                        title: "Permissions Denied",
+                        description: `You are required to have bot-member \`${perm}\` to use this command`,
+                        ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
+                        colour: this.client.statics.colours.permissions.denied
+                    }))
+                    return this.client.logger.debug(`Per Guild User Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
+                }
+            }
+        }
+
+        // check bot perms (Discord)
         for (let i = 0; i < this.botPermissions.length; i++) {
             const perm = this.botPermissions[i];
             if (!message.guild.me.permissions.has(perm, { checkAdmin: false })) {
                 message.channel.send(this.client.operations.generateEmbed.run({
-                    title: "I need permission!",
-                    description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`
+                    title: "My Permissions Were Denied",
+                    description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`,
+                    ...client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
+                    colour: client.statics.colours.permissions.denied
                 }));
                 return this.client.logger.debug(`Bot Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
             }
@@ -133,17 +172,18 @@ class Command {
                         continue;
                     }
                     message.channel.send(this.client.operations.generateEmbed.run({
-                        title: "You need permission!",
-                        description: `You need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.`
+                        title: "Permissions Denied",
+                        description: `You are required to have discord-member \`${this.client.data.permissionsNames[perm] || perm}\` to use this command.`,
+                        ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
+                        colour: this.client.statics.colours.permissions.denied
                     }));
                     return this.client.logger.debug(`User Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
                 }
             }
         }
 
-        // TODO: Check custom user perms
 
-        this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`)
+        this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`);
         // this.client.statcord.postCommand(this.info.name, message.author.id);
         return this.execute(this.client, message, args, cmd);
     }
@@ -190,6 +230,8 @@ class Command {
         // TODO: check data types and valid permissions
         this.userPermissions = options.userPermissions;
         this.botPermissions = options.botPermissions;
+        this.globalUserPermissions = options.globalUserPermissions;
+        this.memberPermissions = options.memberPermissions;
     }
 
     /**

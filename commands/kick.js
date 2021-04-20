@@ -10,15 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: false
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: ["KICK_MEMBERS"],
-    botPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS"]
+    botPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS"],
+    globalUserPermissions: ["user.command.moderation.kick"],
+    memberPermissions: ["command.moderation.kick"]
 });
-
 
 command.setExecute(async (client, message, args, cmd) => {
     let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));

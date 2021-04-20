@@ -10,15 +10,15 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: true
+    cooldown: 1
 });
 
 command.setPerms({
+    botPermissions: [],
     userPermissions: [],
-    botPermissions: []
+    globalUserPermissions: ["admin.command.causecrash"],
+    memberPermissions: ["command.causecrash"]
 });
-
 
 command.setExecute(async(client, message, args, cmd) => {
     try {

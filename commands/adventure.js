@@ -1,7 +1,7 @@
 const Command = require("../structures/Command");
-const cmd = new Command();
+const command = new Command();
 
-cmd.setInfo({
+command.setInfo({
     name: "adventure",
     aliases: [],
     category: "Adventuring",
@@ -9,19 +9,20 @@ cmd.setInfo({
     usage: ""
 });
 
-cmd.setLimits({
-    cooldown: 5,
-    inDev: true
+command.setLimits({
+    cooldown: 5
 });
 
-cmd.setPerms({
+command.setPerms({
     botPermissions: ["MANAGE_MESSAGES"],
-    userPermissions: []
+    userPermissions: [],
+    globalUserPermissions: ["indev.command.adventuring.adventure"],
+    memberPermissions: ["command.adventuring.adventure"]
 });
 
 const Adventure = require("../structures/games/Adventure");
 
-cmd.setExecute(async(client, message, args, cmd) => {
+command.setExecute(async(client, message, args, cmd) => {
 
     // If they are already playing in another channel, stop them starting another (could cause conflicting hp, inventories, etc)
     const activeGame = client.activeAdventures.get(message.author.id);
@@ -94,7 +95,7 @@ cmd.setExecute(async(client, message, args, cmd) => {
 
 });
 
-module.exports = cmd;
+module.exports = command;
 
 /*
 async updateInstance() {

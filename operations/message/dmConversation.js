@@ -8,14 +8,14 @@ op.setInfo({
 const NLP = require("../../structures/NLP");
 
 const nlpProcessor = new NLP("./data/NLP/corpus-en.json");
-// process.env.NODE_ENV === "production" ? nlpProcessor.train() : null; // TODO: Fix this and re-enable
+process.env.NODE_ENV === "production" ? nlpProcessor.train() : null;
 
 op.setExecute(async(client, message) => {
-    // todo: strip mentions (and possibly markdown)
+    // TODO: strip mentions (and possibly markdown)
     message.channel.startTyping();
     const now = process.hrtime()[0];
     const messageText = await nlpProcessor.rebuildWithLemma(message.content);
-    // message.channel.send(messageText);
+
     const responseObj = await nlpProcessor.getResponse(messageText);
     const after = process.hrtime()[0];
     let time = responseObj.answer.length * 0.08;

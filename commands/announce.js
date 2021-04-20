@@ -10,14 +10,14 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 1,
-    limited: true,
-    limitMessage: "I know this was a feature of Tinker before the major update, however Im sure you'd much rather have a running bot!"
+    cooldown: 1
 });
 
 command.setPerms({
     userPermissions: ["MANAGE_MESSAGES", "MANAGE_WEBHOOKS"],
-    botPermissions: ["MANAGE_MESSAGES", "MANAGE_WEBHOOKS"]
+    botPermissions: ["MANAGE_MESSAGES", "MANAGE_WEBHOOKS"],
+    globalUserPermissions: ["indev.command.moderation.announce"],
+    memberPermissions: ["command.moderation.announce"]
 });
 
 const ts = require('timestring');

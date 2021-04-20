@@ -16,7 +16,9 @@ command.setLimits({
 
 command.setPerms({
     userPermissions: ["MANAGE_GUILD"],
-    botPermissions: []
+    botPermissions: [],
+    globalUserPermissions: ["user.command.config.description"],
+    memberPermissions: ["command.config.description"]
 });
 
 command.registerSubCommand(`${__dirname}/description/none.js`);
