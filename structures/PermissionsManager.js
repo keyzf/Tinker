@@ -181,14 +181,22 @@ module.exports.setup = (client) => {
         async getBotUserPerms(guild, user) {
             guild = await getGuildID(guild);
             user = await getUserID(user);
-            const { perms } = await getDbUser(guild, user);
-            return new DotPerm(DotPerm.deserialize(perms));
+            try {
+                const { perms } = await getDbUser(guild, user);
+                return new DotPerm(DotPerm.deserialize(perms));
+            } catch {
+                return new DotPerm();
+            }
         },
 
         async getGlobalBotUserPerms(user) {
             user = await getUserID(user);
-            const { perms } = await getDbGlobalUser(user);
-            return new DotPerm(DotPerm.deserialize(perms));
+            try {
+                const { perms } = await getDbGlobalUser(user);
+                return new DotPerm(DotPerm.deserialize(perms));
+            } catch {
+                return new DotPerm();
+            }
         }
     }
 }
