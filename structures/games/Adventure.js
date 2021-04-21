@@ -103,7 +103,7 @@ class Adventure extends EventEmitter {
 
         switch(ev.name) {
             case "travel":
-                await msg.edit(client.operations.generateEmbed.run({
+                await m.edit(client.operations.generateEmbed.run({
                     description: "You travel for a day.... yes that means you go further"
                 }));
                 break;

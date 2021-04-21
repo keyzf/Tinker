@@ -67,6 +67,8 @@ command.setExecute(async(client, message, args, cmd) => {
     adventure.on("start", () => {
         client.operations.deleteCatch.run(m);
     }).on("end", async (stats) => {
+        // TODO: stats.premature returns true if a full game was not made therefore reduced stats and no change to the DB required, false if all ran as expected
+
         // Finished message (with saving to DB part)
         const msg = await message.channel.send(client.operations.generateEmbed.run({
             title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.custom.loading)} Saving to DB`,

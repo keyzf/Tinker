@@ -79,7 +79,19 @@ class NoughtsAndCrosses {
 
                 if (!collected.first()) { return null; }
                 const responseChars = collected.first().content.toLowerCase().trim().split("");
-                gameObj.client.operations.deleteCatch.run(collected.first())
+                gameObj.client.operations.deleteCatch.run(collected.first());
+                if(responseChars.join("") == "resend") {
+                    const m = await gameObj.gameMessage.channel.send(gameObj.client.operations.generateEmbed.run({
+                        title: "Noughts and Crosses",
+                        description: `Player ${player.username}'s turn ${gameObj.client.data.emojis.noughtsAndCrosses[symbol]}`,
+                        fields: [
+                            { name: "Board", value: gameObj.renderBoard() }
+                        ]
+                    }));
+                    await gameObj.client.operations.deleteCatch.run(gameObj.gameMessage);
+                    gameObj.gameMessage = m;
+                    return null
+                }
                 if (!responseChars.length == 2 || !gameObj.choices[responseChars[0]] || !gameObj.choices[responseChars[0]][responseChars[1]]) {
                     gameObj.gameMessage.edit(gameObj.client.operations.generateEmbed.run({
                         title: "Noughts and Crosses",
