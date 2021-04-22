@@ -32,7 +32,7 @@ const setup = async() => {
     client.statcord = new Statcord.Client({
         client,
         key: process.env.STATCORD_KEY,
-        postCpuStatistics: false,
+        postCpuStatistics: true,
         postMemStatistics: true,
         postNetworkStatistics: true,
     });
