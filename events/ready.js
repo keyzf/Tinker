@@ -14,7 +14,7 @@ event.setExecute((client) => {
     client.updater.start();
 
     // Start auto posting
-    // client.statcord.autopost();
+    client.statcord.autopost();
 
     client.operations.updateActivity.run();
     client.logger.info("Setup complete and functional");

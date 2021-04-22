@@ -11,7 +11,7 @@ op.setPerms({
 
 const Discord = require("discord.js");
 
-op.setExecute(async (client, guildID, id, channel) => {
+op.setExecute(async(client, guildID, id, channel) => {
     if (!op.checkPerms(channel.guild, channel)) {
         return;
     }
@@ -20,7 +20,7 @@ op.setExecute(async (client, guildID, id, channel) => {
     if (id) {
         await client.data.db.query(`update guilds set muteRoleID='${id}' where guildID='${guildID}'`);
     } else {
-        const [{muteRoleID}] = await client.data.db.query(`select muteRoleID from guilds where guildID='${guildID}'`);
+        const [{ muteRoleID }] = await client.data.db.query(`select muteRoleID from guilds where guildID='${guildID}'`);
         id = muteRoleID;
     }
     let muteRole = await guild.roles.fetch(id || "stand-in");
@@ -36,14 +36,18 @@ op.setExecute(async (client, guildID, id, channel) => {
         });
         await client.data.db.query(`update guilds set muteRoleID='${muteRole.id}' where guildID='${guildID}'`);
     }
-    await guild.channels.cache.forEach(async (channel, channelID) => {
-        await channel.updateOverwrite(muteRole, {
-            SEND_MESSAGES: false,
-            // MANAGE_MESSAGES: false,
-            // READ_MESSAGES: false,
-            ADD_REACTIONS: false,
-            SPEAK: false
-        });
+    await guild.channels.cache.forEach(async(channel, channelID) => {
+        try {
+            await channel.updateOverwrite(muteRole, {
+                SEND_MESSAGES: false,
+                // MANAGE_MESSAGES: false,
+                // READ_MESSAGES: false,
+                ADD_REACTIONS: false,
+                SPEAK: false
+            });
+        } catch(err) {
+            client.logger.debug(`updateMuteRole: Failed to change channel overrides for ${channel.name} (${channel.id}), ${err}`);
+        }
     });
 
     return muteRole

@@ -23,9 +23,10 @@ command.setPerms({
 command.registerSubCommand(`${__dirname}/livemanage/command`);
 command.registerSubCommand(`${__dirname}/livemanage/event`);
 command.registerSubCommand(`${__dirname}/livemanage/operation`);
+command.registerSubCommand(`${__dirname}/livemanage/static`);
 
 command.setExecute(async (client, message, args, cmd) => {
-    return message.channel.send("Type should equal `command`, `event` or `operation`");
+    return message.channel.send("Type should equal `command`, `event`, `operation`, `static`");
 });
 
 module.exports = command;

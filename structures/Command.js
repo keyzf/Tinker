@@ -184,7 +184,7 @@ class Command {
 
 
         this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`);
-        // this.client.statcord.postCommand(this.info.name, message.author.id);
+        this.client.statcord.postCommand(this.info.name, message.author.id);
         return this.execute(this.client, message, args, cmd);
     }
 

@@ -24,7 +24,6 @@ const Discord = require("discord.js");
 const util = require("util");
 
 command.setExecute(async(client, message, args, cmd) => {
-    return message.channel.send("I re-wrote permissions and dont trust myself. If you see this I swear to god you better contact me IMMEDIATELY");
     const [{ prefix }] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
     const send = (data) => {
