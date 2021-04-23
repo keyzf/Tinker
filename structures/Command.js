@@ -148,20 +148,6 @@ class Command {
             }
         }
 
-        // check bot perms (Discord)
-        for (let i = 0; i < this.botPermissions.length; i++) {
-            const perm = this.botPermissions[i];
-            if (!message.guild.me.permissions.has(perm, { checkAdmin: false })) {
-                message.channel.send(this.client.operations.generateEmbed.run({
-                    title: "My Permissions Were Denied",
-                    description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`,
-                    ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
-                    colour: this.client.statics.colours.permissions.denied
-                }));
-                return this.client.logger.debug(`Bot Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
-            }
-        }
-
         // check userPerms (Discord)
         if (this.userPermissions) {
             for (let i = 0; i < this.userPermissions.length; i++) {
@@ -182,6 +168,19 @@ class Command {
             }
         }
 
+        // check bot perms (Discord)
+        for (let i = 0; i < this.botPermissions.length; i++) {
+            const perm = this.botPermissions[i];
+            if (!message.guild.me.permissions.has(perm, { checkAdmin: false })) {
+                message.channel.send(this.client.operations.generateEmbed.run({
+                    title: "My Permissions Were Denied",
+                    description: `I need to have ${this.client.data.permissionsNames[perm] || perm} permission to run this command.\nIf you are unsure then give me administrator, it allows me to do everything I need`,
+                    ...this.client.statics.defaultEmbed.footerUser("", message.author, " • If you believe this is a mistake then please contact one of the server admins"),
+                    colour: this.client.statics.colours.permissions.denied
+                }));
+                return this.client.logger.debug(`Bot Missing Permission - ${perm} - Command: ${this.info.name}, Server: ${message.guild.name} (${message.guild.id}), User: ${message.author.tag} (${message.author.id})`)
+            }
+        }
 
         this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`);
         this.client.statcord.postCommand(this.info.name, message.author.id);

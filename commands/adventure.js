@@ -3,7 +3,7 @@ const command = new Command();
 
 command.setInfo({
     name: "adventure",
-    aliases: [],
+    aliases: ["advance", "adv"],
     category: "Adventuring",
     description: "",
     usage: ""
@@ -20,7 +20,40 @@ command.setPerms({
     memberPermissions: ["command.adventuring.adventure"]
 });
 
-const Adventure = require("../structures/games/Adventure");
+
+/**
+ * @typedef {Object} AdventureEvent
+ * @property {String} name
+ * @property {Number} chance
+ */
+
+/**
+ * @enum {AdventureEvent} AdventureEvents
+ * @readonly
+ */
+const AdventureEvents = {
+    travel: { name: "travel", chance: 4 },
+    rest: { name: "rest", chance: 4 },
+    ambush: { name: "ambush", chance: 2 },
+    monster: { name: "monster", chance: 7 },
+    trader: { name: "trader", chance: 1 }
+}
+
+getRandomEvent = () => {
+    const evs = Object.keys(AdventureEvents).map(key => {
+        return AdventureEvents[key];
+    });
+    const totalChance = evs.reduce((acc, curr) => acc + curr.chance, 0);
+    const rand = Math.floor(Math.random() * totalChance);
+    let amt = 0;
+    for (const ev of evs) {
+        amt += ev.chance;
+        if (amt > rand) {
+            return ev;
+        }
+    }
+};
+
 
 command.setExecute(async(client, message, args, cmd) => {
 
@@ -61,39 +94,59 @@ command.setExecute(async(client, message, args, cmd) => {
     // Get active character object
     const [character] = await client.data.db.query(`Select * from characters where id=?`, [activeCharacter]);
 
-    const adventure = new Adventure(client, message.channel, message.author, character);
-    // set active adventuring game (prevent multiple games running)
-    client.activeAdventures.set(message.author.id, adventure);
-    adventure.on("start", () => {
-        client.operations.deleteCatch.run(m);
-    }).on("end", async (stats) => {
-        // TODO: stats.premature returns true if a full game was not made therefore reduced stats and no change to the DB required, false if all ran as expected
+    const ev = getRandomEvent();
 
-        // Finished message (with saving to DB part)
-        const msg = await message.channel.send(client.operations.generateEmbed.run({
-            title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.custom.loading)} Saving to DB`,
-            description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
-            thumbnailUrl: "./res/TinkerAdventure.png",
-            colour: client.statics.colours.tinker,
-            ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
+    if (ev.name == AdventureEvents.travel.name) {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "You travel for a day.... yes that means you go further"
         }));
-        
-        // make changes to DB
-
-        // update message
-        msg.edit(client.operations.generateEmbed.run({
-            title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.ticks.greenTick)} Saved to DB`,
-            description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
-            thumbnailUrl: "./res/TinkerAdventure.png",
-            colour: client.statics.colours.tinker,
-            ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
+    } else if (AdventureEvents.rest.name) {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "You rest for a day.... yes that means you don't go further"
         }));
+    } else if (AdventureEvents.ambush.name) {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "You get ambushed"
+        }));
+    } else if (AdventureEvents.monster.name) {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "monster"
+        }));
+    } else if (AdventureEvents.trader.name) {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "trader"
+        }));
+    } else {
+        await m.edit(client.operations.generateEmbed.run({
+            description: "something went wrong"
+        }));
+    }
 
-        // remove active adventuring game
-        client.activeAdventures.delete(message.author.id);
-    });
 
-    adventure.run();
+
+    // Finished message (with saving to DB part)
+    const msg = await message.channel.send(client.operations.generateEmbed.run({
+        title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.custom.loading)} Saving to DB`,
+        description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
+        thumbnailUrl: "./res/TinkerAdventure.png",
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
+    }));
+
+    // make changes to DB
+
+
+    // update message
+    msg.edit(client.operations.generateEmbed.run({
+        title: `Adventure ended - ${client.emojiHelper.sendWith(client.data.emojis.ticks.greenTick)} Saved to DB`,
+        description: "This part as well as some fields gets filled with stats about the adventure but I haven't got this far yet :)",
+        thumbnailUrl: "./res/TinkerAdventure.png",
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Adventured by", message.author, "")
+    }));
+
+    // remove active adventuring game
+    client.activeAdventures.delete(message.author.id);
 
 });
 

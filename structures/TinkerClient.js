@@ -29,14 +29,6 @@ const setup = async() => {
         }
     });
 
-    client.statcord = new Statcord.Client({
-        client,
-        key: process.env.STATCORD_KEY,
-        postCpuStatistics: true,
-        postMemStatistics: true,
-        postNetworkStatistics: true,
-    });
-
     client.cleanExit = async(exitCode) => {
         if (client.user) {
             await client.user.setStatus("invisible");
@@ -46,18 +38,6 @@ const setup = async() => {
     }
 
     client.logger = logger.setup(client);
-
-    client.statcord.on("autopost-start", () => {
-        // Emitted when statcord autopost starts
-        client.logger.debug("Started autopost");
-    });
-
-    client.statcord.on("post", status => {
-        // status = false if the post was successful
-        // status = "Error message" or status = Error if there was an error
-        if (!status) client.logger.debug("Successful statcord post");
-        else client.logger.error(status);
-    });
 
     client.config = require("../utility/dirTrawlPackageObj").setup("config", ".json");
     client.statics = require("../utility/dirTrawlPackageObj").setup("statics", ".js");
@@ -125,6 +105,31 @@ const setup = async() => {
     });
 
     client.permissionsManager = PermissionsManager.setup(client);
+
+
+    client.statcord = new Statcord.Client({
+        client,
+        key: process.env.STATCORD_KEY,
+        postCpuStatistics: true,
+        postMemStatistics: true,
+        postNetworkStatistics: true,
+    });
+
+    client.statcord.registerCustomFieldHandler(1, () => {
+        return client.audioQueue.size.toString();
+    });
+
+    client.statcord.on("autopost-start", () => {
+        // Emitted when statcord autopost starts
+        client.logger.debug("Started autopost");
+    });
+
+    client.statcord.on("post", status => {
+        // status = false if the post was successful
+        // status = "Error message" or status = Error if there was an error
+        if (!status) client.logger.debug("Successful statcord post");
+        else client.logger.error(status);
+    });
 
     /**
      *

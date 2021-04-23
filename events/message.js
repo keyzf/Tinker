@@ -13,7 +13,7 @@ event.setExecute(async(client, message) => {
     }
 
     // TODO: blacklisting or something idk
-    // const globalUserPermissions = await client.permissionsManager.getGlobalBotUserPerms(message.author);
+    const globalUserPermissions = await client.permissionsManager.getGlobalBotUserPerms(message.author);
     // if (!globalUserPermissions.has("event.message")) {
     //     return client.logger.debug(`Global User is blacklisted from message event, User: ${message.author.tag} (${message.author.id})`)
     // }

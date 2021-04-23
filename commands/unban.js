@@ -23,8 +23,17 @@ command.setPerms({
 const {MessageEmbed} = require("discord.js");
 
 command.setExecute(async (client, message, args, cmd) => {
-    let target = await client.users.fetch(args[0]);
-    if (!target) return message.reply('please specify a valid member to unban!');
+    let target;
+    try {
+        if (!args[0]) throw Error()
+        target = message.guild.member(message.mentions.users.first())
+        if (!target) {
+            target = await message.guild.members.fetch(args[0]);
+        };
+    } catch {}
+    if (!target) { return message.reply('please specify a member to unban!') };
+    if (target.user.bot) { return message.channel.send("You cannot perform moderation actions on bots") }
+    if (target.id === message.author.id) { return message.channel.send("You cannot unban yourself"); }
 
     const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;

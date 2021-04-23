@@ -23,20 +23,28 @@ command.setPerms({
 const { MessageEmbed } = require("discord.js");
 
 command.setExecute(async(client, message, args, cmd) => {
-    let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
-    if (!target) return message.reply('please specify a member to mute!');
+    let target;
+    try {
+        if (!args[0]) throw Error()
+        target = message.guild.member(message.mentions.users.first())
+        if (!target) {
+            target = await message.guild.members.fetch(args[0]);
+        };
+    } catch {}
+    if (!target) { return message.reply('please specify a member to mute!') };
+    if (target.user.bot) { return message.channel.send("You cannot perform moderation actions on bots") }
     if (target.id === message.author.id) { return message.channel.send("You cannot mute yourself"); }
 
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";
 
-    const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
+    const [{ logsChannel }] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
     let muteRole = await client.operations.updateMuteRole.run(message.guild.id, null, message.channel);
 
     try {
         target.roles.add(muteRole);
-    } catch ({stack}) {
+    } catch ({ stack }) {
         client.logger.error(stack, { channel: message.channel, content: message.content, origin: __filename })
         const e = await client.operations.generateError.run(stack, "Failed to apply the mute", { channel: message.channel, content: message.content, origin: __filename });
         message.channel.send(e);
@@ -45,8 +53,8 @@ command.setExecute(async(client, message, args, cmd) => {
 
     client.operations.generateInfraction.run(target.user.id, message.guild.id, "MUTE", reason, message.author.id, message.channel.id)
 
-    await target.send(`You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
-    message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason}`);
+    const dmSent = await client.operations.dmCatch.run(target, `You have been muted in ${message.guild.name} by ${message.author.tag} for: ${reason}`);
+    message.channel.send(`${target.user.username} was muted by ${message.author} for ${reason} ${dmSent ? "" : `| Failed to send DM to ${target.displayName}` } `);
 
     if (!logs) return message.channel.send(`Please set a logging channel to log the mutes`).then((msg) => client.operations.deleteCatch.run(msg, 5000));
     let embed = new MessageEmbed()

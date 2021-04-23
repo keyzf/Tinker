@@ -23,8 +23,16 @@ command.setPerms({
 const { MessageEmbed } = require("discord.js");
 
 command.setExecute(async(client, message, args, cmd) => {
-    let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
-    if (!target) return message.channel.send('please specify a member to ban!');
+    let target;
+    try {
+        if (!args[0]) throw Error()
+        target = message.guild.member(message.mentions.users.first())
+        if (!target) {
+            target = await message.guild.members.fetch(args[0]);
+        };
+    } catch {}
+    if (!target) { return message.reply('please specify a member to ban!') };
+    if (target.user.bot) { return message.channel.send("You cannot perform moderation actions on bots") }
     if (target.id === message.author.id) { return message.channel.send("You cannot ban yourself"); }
 
     let reason = client.utility.arrEndJoin(args, " ", 1) || "No reason specified";

@@ -22,21 +22,34 @@ command.setPerms({
 
 const { MessageEmbed } = require("discord.js");
 
-command.setExecute(async (client, message, args, cmd) => {
-    let target = message.guild.member(message.mentions.users.first() || await message.guild.members.fetch(args[0]));
-    if (!target) return message.reply('please specify a member to mute!');
+command.setExecute(async(client, message, args, cmd) => {
+    let target;
+    try {
+        if (!args[0]) throw Error()
+        target = message.guild.member(message.mentions.users.first())
+        if (!target) {
+            target = await message.guild.members.fetch(args[0]);
+        };
+    } catch {}
+    if (!target) { return message.reply('please specify a member to unmute!') };
+    if (target.user.bot) { return message.channel.send("You cannot perform moderation actions on bots") }
+    if (target.id === message.author.id) { return message.channel.send("You cannot unmute yourself"); }
 
-    const [{logsChannel, muteRoleID}] = await client.data.db.query(`select logsChannel, muteRoleID from guilds where guildID='${message.guild.id}'`);
+    const [{ logsChannel, muteRoleID }] = await client.data.db.query(`select logsChannel, muteRoleID from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
-    let muteRole = await message.guild.roles.fetch(muteRoleID);
+    let muteRole = muteRoleID ? await message.guild.roles.fetch(muteRoleID) : null;
 
-    console.log(typeof muteRole)
-    // if(typeof muteRole != "")
+    if (!muteRole) {
+        client.logger.debug(`Failed to get muteRole for ${message.guild.id}`);
+        const e = await client.operations.generateError.run(stack, "Failed to find role by that ID, please update your mute role using the config command", { channel: message.channel, content: message.content });
+        message.channel.send(e);
+        return;
+    }
 
     try {
         await target.roles.remove(muteRole);
-    } catch ({stack}) {
+    } catch ({ stack }) {
         client.logger.error(stack, { channel: message.channel, content: message.content })
         const e = await client.operations.generateError.run(stack, "Failed to revoke the mute", { channel: message.channel, content: message.content });
         message.channel.send(e);
