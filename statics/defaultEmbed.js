@@ -4,6 +4,7 @@ module.exports.setup = (client) => {
         authorImage: "./res/TinkerHappy.png",
         authorText: "Tinker",
         footerText: "See you around!",
+        footerSeparator: "•",
         footerUser(preText, author, postText) {
             return {
                 footerText: `${preText} ${author.tag} ${postText || ""}`,

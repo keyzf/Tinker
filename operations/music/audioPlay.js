@@ -66,30 +66,32 @@ op.setExecute(async(client, guildID, song) => {
         dispatcher = serverQueue.connection.play(song.url);
     }
     
-    dispatcher.on("finish", async () => {
-            if(song.audioType == "tts") {
-                await fs.unlink(song.url);
-            }
-            serverQueue.songs.shift();
-            op.run(guildID, serverQueue.songs[0]);
-        })
-        dispatcher.on("error", async(error) => {
-            client.logger.error(error.stack);
-            client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
-            if(song.audioType == "tts") {
-                await fs.unlink(song.url);
-            }
-            serverQueue.textChannel.send(client.operations.generateEmbed.run({
-                title: "Error Occurred",
-                description: error,
-                author: "Tinker's Tunes",
-                authorUrl: "./res/TinkerMusic-purple.png",
-                colour: client.statics.colours.tinker
-            }));
-            serverQueue.playing = false;
-            serverQueue.voiceChannel.leave();
-            return client.audioQueue.delete(guildID);
-        });
+    dispatcher.once("finish", async () => {
+        if(song.audioType == "tts") {
+            await fs.unlink(song.url);
+        }
+        serverQueue.songs.shift();
+        op.run(guildID, serverQueue.songs[0]);
+    })
+    serverQueue.connection.removeAllListeners("error");
+    dispatcher.on("error", async(error) => {
+        client.logger.error(error.stack);
+        client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
+        if(song.audioType == "tts") {
+            await fs.unlink(song.url);
+        }
+        serverQueue.textChannel.send(client.operations.generateEmbed.run({
+            title: "Error Occurred",
+            description: error,
+            author: "Tinker's Tunes",
+            authorUrl: "./res/TinkerMusic-purple.png",
+            colour: client.statics.colours.tinker
+        }));
+        serverQueue.playing = false;
+        serverQueue.voiceChannel.leave();
+        return client.audioQueue.delete(guildID);
+    });
+    serverQueue.connection.removeAllListeners("disconnect");
     serverQueue.connection.on("disconnect", async() => {
         client.logger.debug(`[Audio]: Guild: ${guildID} disconnected`);
         if (serverQueue.timeoutUid) {
@@ -105,8 +107,6 @@ op.setExecute(async(client, guildID, song) => {
         if (!serverQueue.playing) {
             return client.audioQueue.delete(guildID);
         }
-
-        
 
         serverQueue.textChannel.send(await client.operations.generateEmbed.run({
             title: "Forcefully Disconnected by user",

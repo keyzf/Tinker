@@ -23,7 +23,7 @@ command.setPerms({
 command.setExecute(async (client, message, args, cmd) => {
     const serverQueue = client.audioQueue.get(message.guild.id);
     if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
-    if (!serverQueue) {
+    if (!serverQueue || !serverQueue.playing) {
         return message.channel.send("There is nothing to stop playing")
     }
     message.channel.send(client.operations.generateEmbed.run({

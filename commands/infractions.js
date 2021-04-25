@@ -52,8 +52,7 @@ command.setExecute(async(client, message, args, cmd) => {
         }));
     }
     allInfractionIDs = allInfractionIDs.split(",")
-    console.log(allInfractionIDs)
-    console.log(allInfractionIDs.map((id) => `'${id}'`).join(","))
+    
     const allInfractions = await client.data.db.query(`select * from infractions where infractionID in (${allInfractionIDs.map((id) => `'${id}'`).join(",")})`);
 
     const noPerPage = 2;

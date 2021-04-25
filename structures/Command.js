@@ -1,5 +1,4 @@
 const { Collection } = require("discord.js");
-const client = require("./TinkerClient");
 
 /**
  * <required args> [optional args], use / to show options
@@ -41,7 +40,6 @@ const client = require("./TinkerClient");
  */
 class Command {
 
-
     constructor() {
         this.client;
 
@@ -49,6 +47,8 @@ class Command {
         this.limits; // cooldowns, developers only
         this.userPermissions = []; // permissions the user must have to perform this command
         this.botPermissions = []; // permissions the bot must have to perform this command
+        this.parent; // the parent of this if its a subcommand else undefined
+        this.source = this; // the original stem (the top parent) of a subcommand tree or itself
         this.subcommands = []; // fixed command arguments for a specific sub command
         this.execute; // the actual code that runs
     }
@@ -256,10 +256,20 @@ class Command {
         this.execute = func;
     }
 
+    setSource(cmd) {
+        this.source = cmd;
+    }
+
+    setParent(cmd) {
+        this.parent = cmd;
+    }
 
     registerSubCommand(cmd) {
         delete require.cache[require.resolve(cmd)];
-        this.subcommands.push(require(cmd));
+        const command = require(cmd);
+        command.setParent(this);
+        command.setSource(this.source)
+        this.subcommands.push(command);
     }
 
 }

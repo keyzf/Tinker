@@ -5,7 +5,7 @@ command.setInfo({
     name: "all",
     aliases: [],
     category: "Bot",
-    description: "Shows all commands",
+    description: "Shows you this page",
     usage: ""
 });
 
@@ -20,34 +20,17 @@ command.setPerms({
     memberPermissions: ["command.bot.help.all"]
 });
 
-const {MessageEmbed} = require("discord.js");
-
 command.setExecute(async (client, message, args, cmd) => {
-    const {commands} = client;
     const [{prefix}] = await client.data.db.query(`select prefix from guilds where guildID='${message.guild.id}'`);
 
-    const e = new MessageEmbed();
-    e.setTimestamp();
-    e.setTitle("All my commands!");
-    e.setDescription(`Use \`${prefix}help command [Command Name]\` to get help with a specific command,
-    or \`${prefix}help category [Category Name]\` to only see commands from a specified category.`)
-    let outCommands = {};
-    commands.array().forEach((item) => {
-        if (!item.limits.limited || client.config.devs.includes(message.author.id)) {
-            let category = item.info.category;
-            if (!outCommands[category]) {
-                outCommands[category] = [];
-            }
-            outCommands[category].push(item.info.name);
-        }
+    let all = [];
+    client.utility.recursive.loopObjArr(command.parent, "subcommands", (elts) => {
+        all = all.concat(elts);
     });
-    let keys = Object.keys(outCommands);
-    let values = Object.values(outCommands)
-    for (let key in keys) {
-        e.addField(keys[key] || "No category", values[key].join(", "));
-    }
-    message.channel.send(client.operations.generateEmbed.run({
-        ...e,
+
+    return message.channel.send(client.operations.generateEmbed.run({
+        title: "Here to help!",
+        description: all.map((elt) => `\`-\` ${elt.info.description || "I don't know what this does..."} \`${prefix}help ${elt.info.name}\``).join("\n"),
         colour: client.statics.colours.tinker,
         ...client.statics.defaultEmbed.footerUser("Requested by", message.author)
     }));

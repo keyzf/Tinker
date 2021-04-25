@@ -20,7 +20,6 @@ class DotPerm {
         // store offset of removed perms so that elts aren't remove from the wrong index
         let relevantPermsOffset = 0;
 
-
         // loop over all the perms the obj has
         for (let cpi = 0; cpi < currentPerms.length; cpi++) {
             // get the current perm
@@ -83,9 +82,8 @@ class DotPerm {
     }
 
     give(perm) {
-        if (this.has(perm)) { return; }
         this.perms.push(...this.constructor.deserialize(perm));
-        return perm
+        return perm;
     }
 
     revoke(perm) {

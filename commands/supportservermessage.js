@@ -26,17 +26,13 @@ command.registerSubCommand(`${__dirname}/supportservermessage/error.js`);
 command.registerSubCommand(`${__dirname}/supportservermessage/deadchat.js`);
 
 command.setExecute(async (client, message, args, cmd) => {
+    let all = [];
+    client.utility.recursive.loopObjArr(command, "subcommands", (elts) => {
+        all = all.concat(elts);
+    });
+
     message.channel.send(client.operations.generateEmbed.run({
-        description: `Use these to shout at our members!
-
-        \`-\` supportchannel: This isn't a support channel, here is where you get support
-
-        \`-\` perms: Which perms the bot needs and how to manage them
-
-        \`-\` errors: How errors work
-
-        \`-\` deadchat: Explain why the chat is dead
-        `,
+        description: all.map((elt) => `\`-\` ${elt.info.description || "I don't know what this does..."} \`${elt.info.name}\``).join("\n"),
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",
         colour: client.statics.colours.tinker,

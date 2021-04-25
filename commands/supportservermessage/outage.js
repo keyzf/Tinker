@@ -22,14 +22,7 @@ command.setPerms({
 
 command.setExecute(async (client, message, args, cmd) => {
     message.channel.send(args.length ? args[0] : "", client.operations.generateEmbed.run({
-        description: `We are aware of some issues with the bot currently and are looking into getting it functioning again soon
-        
-        \`-\` Keep an eye on <#716609954290729062> for any updates about the bots status
-
-        \`-\` Maybe the issue is currently with discord itself <#816731010547843102>
-
-        \`-\` Otherwise, the best thing to do is wait
-        `,
+        description: `We are aware of some issues with the bot currently and are looking into getting it functioning again soon\n\n\`-\` Keep an eye on <#716609954290729062> for any updates about the bots status\n\n\`-\` Maybe the issue is currently with discord itself <#816731010547843102>\n\n\`-\` Otherwise, the best thing to do is wait`,
         author: "Tinker Support",
         authorUrl: "./res/TinkerQuestion-yellow.png",
         colour: client.statics.colours.tinker,

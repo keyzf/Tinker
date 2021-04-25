@@ -54,7 +54,6 @@ getRandomEvent = () => {
     }
 };
 
-
 command.setExecute(async(client, message, args, cmd) => {
 
     // If they are already playing in another channel, stop them starting another (could cause conflicting hp, inventories, etc)
@@ -92,7 +91,7 @@ command.setExecute(async(client, message, args, cmd) => {
         }));
     }
     // Get active character object
-    const [character] = await client.data.db.query(`Select * from characters where id=?`, [activeCharacter]);
+    const [{name, ownerID, tilesTravelled, health, xp, level, inventory}] = await client.data.db.query(`Select * from characters where id=?`, [activeCharacter]);
 
     const ev = getRandomEvent();
 
