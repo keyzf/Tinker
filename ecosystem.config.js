@@ -1,6 +1,8 @@
 module.exports = {
     apps: [{
         name: "tinker",
+        interpreter: "node@16.0.0", // ~/.nvm/versions/node/v16.0.0/bin/node
+        exec_interpreter: "node@16.0.0",
         script: 'index.js',
         kill_timeout: 3000,
         env: {
