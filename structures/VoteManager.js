@@ -74,7 +74,7 @@ class VoteManager {
             return result;
         } catch ({ stack }) {
             this.client.logger.error(stack, { origin: __filename });
-            await this.client.operations.generateError.run(stack, "Error getting/parsing vote vote", { origin: __filename });
+            await this.client.operations.generateError.run(stack, `Error getting/parsing vote vote ${this.baseUrl}${id}${this.endUrl}`, { origin: __filename });
             return null;
         }
     }

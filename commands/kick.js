@@ -38,7 +38,7 @@ command.setExecute(async (client, message, args, cmd) => {
     const [{logsChannel}] = await client.data.db.query(`select logsChannel from guilds where guildID='${message.guild.id}'`);
     let logs = logsChannel ? await client.channels.fetch(logsChannel) : null;
 
-    client.generateInfraction.run(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
+    client.operations.generateInfraction.run(target.user.id, message.guild.id, "KICK", reason, message.author.id, message.channel.id);
 
     await target.send(`You have been kicked from ${message.guild.name} by ${message.author.tag} for: ${reason}`);
 

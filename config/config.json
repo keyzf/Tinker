@@ -12,5 +12,5 @@
 
   "boatLink": "https://discord.boats/bot/710141775808954389",
   "boatVoteLink": "https://discord.boats/bot/710141775808954389/vote",
-  "boatVoteLinkCheck": "https://discord.boats/api/bot/710141775808954389/voted?userId=:id:"
+  "boatVoteLinkCheck": "https://discord.boats/api/v2/bot/710141775808954389/voted?userId=:id:"
 }
