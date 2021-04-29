@@ -20,6 +20,8 @@ command.setPerms({
     memberPermissions: ["command.moderation.kick"]
 });
 
+const {MessageEmbed} = require("discord.js");
+
 command.setExecute(async (client, message, args, cmd) => {
     let target;
     try {
@@ -53,7 +55,7 @@ command.setExecute(async (client, message, args, cmd) => {
     message.channel.send(`${target.user.username} was kicked by ${message.author} for ${reason}`);
 
     if (!logs) return message.reply(`please set a logging channel to log the kicks`).then((msg) => client.deleteCatch.run(msg, 5000));
-    let embed = new discord.MessageEmbed()
+    let embed = new MessageEmbed()
         .setColor('#FF0000')
         .setThumbnail(target.user.displayAvatarURL())
         .addField('Kicked Member', `${target.user.username} with an ID: ${target.user.id}`)
