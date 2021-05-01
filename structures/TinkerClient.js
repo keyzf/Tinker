@@ -31,10 +31,12 @@ const setup = async() => {
 
     client.cleanExit = async(exitCode) => {
         if (client.user) {
+            try {
             const [{totalUptime}] = await client.data.db.query(`select totalUptime from bot where env='${process.env.NODE_ENV}'`)
             await client.data.db.query(`update bot set totalUptime=? where env='${process.env.NODE_ENV}'`, [totalUptime + client.uptime])
             await client.user.setStatus("invisible");
             client.destroy();
+            } catch {}
         }
         process.exit(exitCode);
     }
