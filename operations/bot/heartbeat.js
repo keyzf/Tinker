@@ -6,12 +6,8 @@ op.setInfo({
 });
 
 op.setExecute(async (client, count) => {
-    const [{lastHeartbeat}] = await client.data.db.query(`select lastHeartbeat from bot where env='${process.env.NODE_ENV}'`)
     await client.data.db.query(`update bot set lastHeartbeat=? where env='${process.env.NODE_ENV}'`, [client.timeManager.timeToSqlDateTime(Date.now())]);
     client.logger.debug("[HEARTBEAT] Set");
-
-    const [{totalUptime}] = await client.data.db.query(`select totalUptime from bot where env='${process.env.NODE_ENV}'`)
-    await client.data.db.query(`update bot set totalUptime=? where env='${process.env.NODE_ENV}'`, [totalUptime + (Date.now() - new Date(lastHeartbeat).getTime())])
 
     client.operations.checkAnnouncement.run();
 
