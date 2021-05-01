@@ -10,7 +10,7 @@ command.setInfo({
 });
 
 command.setLimits({
-    cooldown: 0
+    cooldown: 5
 });
 
 command.setPerms({
