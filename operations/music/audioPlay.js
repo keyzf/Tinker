@@ -64,10 +64,12 @@ op.setExecute(async(client, guildID, song) => {
     } else if(song.audioType == "tts") {
         client.logger.debug(`[Audio]: Guild: ${guildID} playing tts`);
         dispatcher = serverQueue.connection.play(song.url);
+		dispatcher.setVolumeLogarithmic(1);
     }
     
     dispatcher.once("finish", async () => {
         if(song.audioType == "tts") {
+			dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
             await fs.unlink(song.url);
         }
         serverQueue.songs.shift();
