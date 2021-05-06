@@ -47,7 +47,7 @@ command.setExecute(async(client, message, args, cmd) => {
         vids.push({ views, title: v.title, timestamp: v.timestamp, author: v.author.name });
     });
 
-    desc = vids.reduce((accumulator, v) => {
+    let desc = vids.reduce((accumulator, v) => {
         return accumulator += `**${vids.indexOf(v) + 1}** ${ v.title } (${ v.timestamp }) | ${ v.author }\n`; // | ${ v.views } views
     }, "");
 
