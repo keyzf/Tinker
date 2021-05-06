@@ -1,3 +1,5 @@
+'use strict'
+
 $(async() => {
     const guildId = $("#guildId").text().replace(/\s/g, '');
 

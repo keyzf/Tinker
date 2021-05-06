@@ -1,3 +1,5 @@
+'use strict';
+
 const EventEmitter = require('events').EventEmitter
 
 class UpdateTimer extends EventEmitter {
@@ -7,7 +9,7 @@ class UpdateTimer extends EventEmitter {
         this.uid = uid;
         this.waitTime = time;
         this.createdAt = Date.now();
-        this.timeout = setTimeout(() => {this.emit("fire")}, this.waitTime);
+        this.timeout = setTimeout(() => { this.emit("fire") }, this.waitTime);
     }
 
     cancel() {

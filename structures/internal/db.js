@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports.setup = async(client) => {
 
     const localDB = require("node-localdb");

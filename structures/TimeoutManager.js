@@ -1,3 +1,5 @@
+'use strict';
+
 const UpdateTimer = require("./UpdateTimer");
 
 class TimeoutManager {

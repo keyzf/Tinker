@@ -1,3 +1,5 @@
+'use strict'
+
 const DiscordEvent = require("../structures/DiscordEvent");
 
 const event = new DiscordEvent();

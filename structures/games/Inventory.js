@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * @typedef {String} InventoryItemId All inventory item IDs follow format "inv-" "itemtype-" "ID9charsBase62"
  */

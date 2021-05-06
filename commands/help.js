@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require("../structures/Command");
 const command = new Command();
 
@@ -25,6 +27,7 @@ command.registerSubCommand(`${__dirname}/help/command`);
 command.registerSubCommand(`${__dirname}/help/category`);
 command.registerSubCommand(`${__dirname}/help/usage`);
 command.registerSubCommand(`${__dirname}/help/devs`);
+command.registerSubCommand(`${__dirname}/help/time`);
 command.registerSubCommand(`${__dirname}/help/badges`);
 
 const {MessageEmbed} = require("discord.js");

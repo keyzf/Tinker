@@ -1,3 +1,5 @@
+'use strict'
+
 class NoughtsAndCrosses {
     constructor(client, message, gameMessage, player1) {
         this.board = [

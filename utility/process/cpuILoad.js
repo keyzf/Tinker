@@ -1,6 +1,8 @@
+'use strict';
+
 const os = require("os");
 
-cpuIAverage = function(i) {
+let cpuIAverage = function(i) {
     var cpu, cpus, idle, total, totalIdle, totalTick, type;
     totalIdle = 0;
     totalTick = 0;
@@ -19,7 +21,7 @@ cpuIAverage = function(i) {
     };
 };
 
-cpuILoadInit = function() {
+let cpuILoadInit = function() {
     var index = arguments[0];
     return function() {
         var start;
@@ -40,7 +42,7 @@ cpuILoadInit = function() {
 module.exports = (function() {
     var info = [],
         cpus = os.cpus();
-    for (i = 0, len = cpus.length; i < len; i++) {
+    for (let i = 0, len = cpus.length; i < len; i++) {
         var a = cpuILoadInit(i)();
         info.push(a);
     }

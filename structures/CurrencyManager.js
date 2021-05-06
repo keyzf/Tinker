@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @typedef {Object} CurrencyTyping
  * @property {String} name - the name of the currency element

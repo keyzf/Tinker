@@ -1,3 +1,5 @@
+'use strict';
+
 const find_nested = require("./fs/findNested");
 
 module.exports.setup = (dir, pattern) => {

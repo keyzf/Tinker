@@ -1,3 +1,5 @@
+'use strict';
+
 const Discord = require("discord.js");
 
 /**
@@ -72,10 +74,11 @@ module.exports.setup = (client) => {
          */
         async userHasPremium(userID) {
             const tokens = await client.data.db.query(`select * from premiumTokens where context='${context.user}' and referenceID='${userID}'`);
-            const validTokens = validateTokens(tokens);
+            const validTokens = await validateTokens(tokens);
             if (validTokens.length) {
                 return true
             }
+            return false;
         },
 
         /**

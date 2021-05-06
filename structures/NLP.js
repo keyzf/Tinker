@@ -1,3 +1,5 @@
+'use strict';
+
 const { dockStart } = require("@nlpjs/basic");
 const posTagger = require( 'wink-pos-tagger' );
 

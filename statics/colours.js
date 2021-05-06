@@ -1,5 +1,8 @@
+'use strict';
+
 module.exports = {
     tinker: "#a700bd",
+    tinkerPremium: "#8100bd",
 
     red: "#d6260b",
     orange: "#f58718",

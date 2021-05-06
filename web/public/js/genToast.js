@@ -1,3 +1,5 @@
+'use strict'
+
 const toastContainer = $("#toastContainer");
 let idCount = 0;
 const makeToast = (imageUrl, title, message) => {

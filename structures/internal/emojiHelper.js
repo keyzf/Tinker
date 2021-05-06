@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports.setup = (client) => {
 
     const getUnicodeEmoji = (emString) => {

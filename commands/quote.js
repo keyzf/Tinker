@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require("../structures/Command");
 const command = new Command();
 
@@ -16,7 +18,7 @@ command.setLimits({
 command.setPerms({
     botPermissions: [],
     userPermissions: [],
-    globalUserPermissions: ["indev.command.fun.quote"],
+    globalUserPermissions: ["user.command.fun.quote"],
     memberPermissions: ["command.fun.quote"]
 });
 

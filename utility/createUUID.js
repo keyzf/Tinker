@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (structure) => {
     let dt = new Date().getTime();
     let uuid = structure.replace(/\*x/g, function(char) {

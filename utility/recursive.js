@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports.loopObjArr = (obj, property, proc, ...prev) => {
     obj[property].forEach(elt => {
         prev.push(elt);

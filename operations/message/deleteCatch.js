@@ -1,3 +1,5 @@
+'use strict';
+
 const Operation = require("../..//structures/Operation");
 const op = new Operation();
 

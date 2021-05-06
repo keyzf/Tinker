@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports.setup = (client) => {
     const DiscordStrategy = require("passport-discord").Strategy;
     const passport = require("passport");

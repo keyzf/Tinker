@@ -1,0 +1,19 @@
+{
+    "limit": 2,
+
+    "maxLength": 1800,
+    "minLength": 10,
+
+    "minTime": 3600000,
+    "maxTime": 172800000,
+
+    "premium": {
+        "limit": 8,
+
+        "maxLength": 1800,
+        "minLength": 3,
+    
+        "minTime": 1800000,
+        "maxTime": 432000000
+    }
+}

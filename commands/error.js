@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require(`../structures/Command`);
 const command = new Command();
 
@@ -33,7 +35,8 @@ command.setExecute(async(client, message, args, cmd) => {
         if (!found) {
             e.description = "No error with that code could be found"
         } else {
-            if (client.config.devs.includes(message.author.id)) {
+            const globalUserPerms = await client.permissionsManager.getGlobalBotUserPerms(message.author);
+            if (globalUserPerms.has("error.view")) {
                 e.description = `\`\`\`js\n${found.error} \`\`\``
                 e.fields = [
                     { name: "Timestamp", value: new Date(found.timestamp).toLocaleString() },
@@ -41,7 +44,7 @@ command.setExecute(async(client, message, args, cmd) => {
                 ];
                 if (found.data) {
                     if (found.data.content) { e.fields.push({ name: "Content", value: `\`\`\`${found.data.content}\`\`\`` }) }
-                    if (found.data.channel) { e.fields.push({ name: "channel", value: `<#${found.data.channel.id}>` }) }
+                    if (found.data.messageSource) { e.fields.push({ name: "source", value: found.data.messageSource }) }
                     if (found.data.origin) { e.fields.push({ name: "origin", value: `\`\`\`${found.data.origin}\`\`\`` }) }
                 }
             } else if (found.userMsg) {

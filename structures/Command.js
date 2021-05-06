@@ -1,3 +1,5 @@
+'use strict';
+
 const { Collection } = require("discord.js");
 
 /**
@@ -184,7 +186,14 @@ class Command {
 
         this.client.logger.debug(`${message.author.tag}(${message.author.id}) executes ${this.info.name} "${message.content}"`);
         this.client.statcord.postCommand(this.info.name, message.author.id);
-        return this.execute(this.client, message, args, cmd);
+
+        try {
+            await this.execute(this.client, message, args, cmd);
+        } catch (err) {
+            this.client.logger.error(err?.stack || err || "No error message", {origin: __filename, content: message.content, messageSource: message})
+            const e = await this.client.operations.generateError.run(err?.stack || err, "There was an unknown error running this command", {origin: __filename, content: message.content, messageSource: message});
+            message.channel.send(e);
+        }
     }
 
     /**

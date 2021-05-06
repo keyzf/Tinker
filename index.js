@@ -1,3 +1,5 @@
+'use strict';
+
 (async () => {
     require("dotenv").config()
     require("./structures/prototypeModification/process");

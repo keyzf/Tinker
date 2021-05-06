@@ -1,3 +1,5 @@
+'use strict'
+
 $(() => {
     const loadingChangelogContainer = $("#loadingChangelogContainer");
     const changelogContainer = $("#changelogContainer");

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports.promisifyLastCallback = (func, ...pass_args) => {
     return new Promise((resolve, reject) => {
         try {

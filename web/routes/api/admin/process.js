@@ -1,3 +1,5 @@
+'use strict'
+
 const ms = require("pretty-ms");
 
 module.exports.setup = (client) => {

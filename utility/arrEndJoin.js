@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 
  * @param {Array} arr the array to use

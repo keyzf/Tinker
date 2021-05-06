@@ -1,3 +1,5 @@
+'use strict';
+
 const DiscordEvent = require("../structures/DiscordEvent");
 
 const event = new DiscordEvent();
@@ -15,7 +17,7 @@ event.setExecute(async(client, message) => {
     // TODO: blacklisting or something idk
     const globalUserPermissions = await client.permissionsManager.getGlobalBotUserPerms(message.author);
     // if (!globalUserPermissions.has("event.message")) {
-    //     return client.logger.debug(`Global User is blacklisted from message event, User: ${message.author.tag} (${message.author.id})`)
+    //    // return client.logger.debug(`Global User is blacklisted from message event, User: ${message.author.tag} (${message.author.id})`)
     // }
 
     // if the message was sent to the client through a dm (direct message) send a response to head to the server
@@ -72,7 +74,7 @@ event.setExecute(async(client, message) => {
     }
 
     // if the message isn't a command then:
-    if (!message.content.startsWith(prefix)) {
+    if (!message.content.toLowerCase().startsWith(prefix)) {
 
         user.messagesSent += 1;
 
@@ -135,11 +137,11 @@ event.setExecute(async(client, message) => {
                 content: message.content,
                 origin: "events/message.js"
             })
-            const e = await client.operations.generateError.run(err.stack, "It was a biiiggg error, cause it got all the way here in the code", {
+            const e = await client.operations.generateError.run(err.stack, "So the handler broke.... this can't be good", {
                 channel: message.channel,
                 content: message.content
             });
-            message.channel.send(e)
+            message.channel.send(e);
         }
 
         // message.delete({ timeout: 8000 });

@@ -1,3 +1,5 @@
+'use strict';
+
 const { Client, Collection } = require("discord.js");
 const axios = require("axios");
 

@@ -1,3 +1,5 @@
+'use strict';
+
 class Enum {
     constructor(obj) {
         for (const key in obj) {

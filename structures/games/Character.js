@@ -1,3 +1,5 @@
+'use strict'
+
 const Discord = require("discord.js");
 const Inventory = require("./Inventory.js");
 

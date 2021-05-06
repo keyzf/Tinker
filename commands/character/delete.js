@@ -1,3 +1,5 @@
+'use strict';
+
 const Command = require("../../structures/Command");
 const cmd = new Command();
 
@@ -52,6 +54,7 @@ cmd.setExecute(async(client, message, args) => {
     await m.react(client.emojiHelper.reactWith(client.data.emojis.ticks.greenTick));
     await m.react(client.emojiHelper.reactWith(client.data.emojis.ticks.redCross));
 
+    let collection;
     try {
         collection = await m.awaitReactions((reaction, user) => {
             return [client.emojiHelper.getName(client.data.emojis.ticks.greenTick),
@@ -71,7 +74,7 @@ cmd.setExecute(async(client, message, args) => {
         return;
     }
 
-    reaction = collection.first();
+    let reaction = collection.first();
     await m.reactions.removeAll();
     if (reaction.emoji.name === client.emojiHelper.getName(client.data.emojis.ticks.redCross)) {
         m.edit(client.operations.generateEmbed.run({

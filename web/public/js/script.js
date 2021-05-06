@@ -1,3 +1,5 @@
+'use strict'
+
 $(() => {
 
     var cookieAlert = document.querySelector(".cookiealert");

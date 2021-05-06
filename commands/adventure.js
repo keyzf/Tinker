@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require("../structures/Command");
 const command = new Command();
 
@@ -39,7 +41,7 @@ const AdventureEvents = {
     trader: { name: "trader", chance: 1 }
 }
 
-getRandomEvent = () => {
+const getRandomEvent = () => {
     const evs = Object.keys(AdventureEvents).map(key => {
         return AdventureEvents[key];
     });

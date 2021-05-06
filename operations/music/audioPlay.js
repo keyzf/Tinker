@@ -1,3 +1,5 @@
+'use strict';
+
 const Operation = require("../../structures/Operation");
 const op = new Operation();
 
@@ -9,7 +11,7 @@ op.setPerms({
     botPermissions: ["CONNECT", "SPEAK"]
 });
 
-const ytdl = require("ytdl-core");
+// const ytdl = require("ytdl-core");
 const ytdlDiscord = require('ytdl-core-discord');
 const ms = require("pretty-ms");
 

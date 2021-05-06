@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require("../structures/Command");
 const command = new Command();
 
@@ -46,7 +48,12 @@ command.setExecute(async(client, message, args, cmd) => {
         const data = clean(await eval(code));
         const output = util.inspect(data, { showHidden: false, depth: null });
         if (output) {
-            message.channel.send(output, { code: "js", split: true });
+            if(output.length > 2000) {
+                message.chanel.send("too large, check console");
+                console.log(output);
+                return
+            }
+            message.channel.send(output, { code: "js" });
         }
     } catch (err) {
         console.log(err)

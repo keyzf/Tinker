@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require("../../structures/Command");
 const cmd = new Command();
 

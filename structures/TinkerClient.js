@@ -1,3 +1,5 @@
+'use strict';
+
 const setup = async() => {
     const { Client, Collection, Intents } = require("discord.js");
     const Operation = require("../structures/Operation");

@@ -1,3 +1,5 @@
+'use strict';
+
 const Operation = require(`../../structures/Operation`);
 const op = new Operation();
 
@@ -9,7 +11,8 @@ op.setExecute(async (client, count) => {
     await client.data.db.query(`update bot set lastHeartbeat=? where env='${process.env.NODE_ENV}'`, [client.timeManager.timeToSqlDateTime(Date.now())]);
     client.logger.debug("[HEARTBEAT] Set");
 
-    client.operations.checkAnnouncement.run();
+    client.operations.checkReminders.run();
+    // client.operations.checkAnnouncement.run();
 
     if (process.env.NODE_ENV === "production") {
         client.operations.checkDiscordIncidents.run();

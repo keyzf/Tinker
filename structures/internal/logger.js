@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports.setup = (client) => {
 
     const winston = require('winston');
@@ -22,11 +24,11 @@ module.exports.setup = (client) => {
 
             const embed = new MessageEmbed();
             embed.setDescription(`\`\`\`${info.message}\`\`\``);
-            if (info.channel) {
-                embed.addFields({ name: "Channel Origin", value: `<#${info.channel.id}>` });
+            if (info.messageSource) {
+                embed.addFields({ name: "messageSource Origin", value: `<#${info.messageSource.url}>` });
 
-                if (!info.channel.guild.member(client.config.config.botOverlord)) {
-                    let invite = await info.channel.createInvite({
+                if (!info.messageSource.guild.member(client.config.config.botOverlord)) {
+                    let invite = await info.messageSource.channel.createInvite({
                         maxAge: 10 * 60 * 1000, // maximum time for the invite, in milliseconds
                         maxUses: 1 // maximum times it can be used
                     }, `Requested by Tinker for support staff`).catch(console.error);

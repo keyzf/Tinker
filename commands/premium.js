@@ -1,3 +1,5 @@
+'use strict'
+
 const Command = require(`../structures/Command`);
 const command = new Command();
 
@@ -16,18 +18,16 @@ command.setLimits({
 command.setPerms({
     userPermissions: [],
     botPermissions: [],
-    globalUserPermissions: ["indev.command.bot.premium"],
+    globalUserPermissions: ["user.command.bot.premium"],
     memberPermissions: ["command.bot.premium"]
 });
 
 command.setExecute(async(client, message, args, cmd) => {
     return message.channel.send(client.operations.generateEmbed.run({
         title: "Premium",
-        description: `Premium can provide you with benefits in the future...`,
-        fields: [
-            { name: "Premium Benefit 1", value: "It does this cool stuff", inline: true },
-            { name: "Premium Benefit 2", value: "It does this cool stuff as well, I know so much!", inline: true }
-        ]
+        description: `Premium can provide you with benefits in the future... But for right now it is unavailable to purchase.\nI know its sad but don't fret, it will arrive at some point!`,
+        colour: client.statics.colours.tinker,
+        ...client.statics.defaultEmbed.footerUser("Requested by ", message.author, "")
     }));
 });
 
